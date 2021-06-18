@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionGroup="true"
+        android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/layout_app_bar"
+            android:background="?attr/colorBackground"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+                android:background="?attr/colorBackground"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:titleTextAppearance="@style/TextAppearance.Custom.Title"
+                app:contentInsetStartWithNavigation="0dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_gravity="start"
+                    android:id="@+id/notebook_view"
+                    android:text="@string/notebooks_unassigned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Custom.Title"
+                    android:textSize="17sp"
+                    android:drawablePadding="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/NotebookChip"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:fillViewport="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+                android:id="@+id/linear_layout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusableInTouchMode="true"
+                android:focusable="true">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_attachments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <org.qosp.notes.ui.utils.views.ExtendedEditText
+                    android:id="@+id/edit_text_title"
+                    android:textAppearance="@style/TextAppearance.Custom.Title"
+                    android:hint="@string/editor_hint_title"
+                    android:scrollHorizontally="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="16dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_view_title_preview"
+                    android:textAppearance="@style/TextAppearance.Custom.Title"
+                    android:textIsSelectable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:gravity="top|start"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="16dp"/>
+
+            <org.qosp.notes.ui.utils.views.ExtendedEditText
+                    android:id="@+id/edit_text_content"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:hint="@string/editor_hint_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:gravity="top|start"
+                    android:background="@null"
+                    android:padding="16dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_view_content_preview"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textIsSelectable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:gravity="top|start"
+                    android:layout_margin="16dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_tasks"
+                    android:visibility="gone"
+                    android:overScrollMode="never"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/action_add_task"
+                    android:background="?attr/selectableItemBackground"
+                    android:text="@string/action_add_task"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="22dp"
+                    android:drawablePadding="20dp"
+                    android:gravity="start|center"
+                    app:drawableStartCompat="@drawable/ic_add"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_view_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textStyle="italic"/>
+
+            <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/container_tags"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:singleLine="false"
+                    app:chipSpacingHorizontal="4dp"
+                    app:chipSpacingVertical="8dp"/>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_change_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_pencil"
+            app:layout_constraintBottom_toTopOf="@id/container_bottom_toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/Widget.Custom.FloatingActionButton"/>
+
+    <LinearLayout
+            android:id="@+id/container_bottom_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:elevation="8dp"
+            android:background="?attr/colorBottomAppBarBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/colorOutline"/>
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/bottom_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                app:contentInsetStart="0dp"
+                app:menu="@menu/editor_bottom"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

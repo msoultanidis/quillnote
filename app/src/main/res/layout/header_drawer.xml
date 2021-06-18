@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/layout_drawer_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorDrawerHeaderBackground"
+        android:fitsSystemWindows="true">
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_view_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_sync_settings"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_view_provider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_sync_settings"
+            app:layout_constraintTop_toBottomOf="@id/text_view_username"
+            app:layout_constraintBottom_toTopOf="@id/test"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_sync_settings"
+            android:layout_marginEnd="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_imagebutton"
+            android:src="@drawable/ic_sync_settings"
+            app:layout_constraintBottom_toTopOf="@id/test"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Custom.Title"
+            android:gravity="start|center"
+            android:textColor="?attr/colorPrimary"
+            android:text="@string/app_name"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="@dimen/design_navigation_separator_vertical_padding"
+            android:background="@drawable/background_drawer_header_rounded"
+            app:fontFamily="@font/inter_font_family"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

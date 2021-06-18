@@ -1,0 +1,125 @@
+<resources>
+    <!-- General -->
+    <style name="Widget.Custom.NavigationView" parent="Widget.Design.NavigationView">
+        <item name="itemTextColor">?attr/colorDrawerItemTextSelected</item>
+        <item name="itemIconTint">?attr/colorDrawerItemIconSelected</item>
+        <item name="itemBackground">?attr/drawableDrawerItemBackground</item>
+        <item name="itemTextAppearance">@style/TextAppearance.Custom.DrawerItem</item>
+        <item name="android:background">?attr/colorDrawerBackground</item>
+    </style>
+
+    <style name="NavigationView">
+        <item name="colorControlHighlight">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.Custom.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="tint">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="Widget.Custom.BottomAppBar" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="backgroundTint">?attr/colorBottomAppBarBackground</item>
+    </style>
+
+    <style name="TextAppearance.Custom.DrawerItem" parent="android:Widget.TextView">
+        <item name="fontFamily">@font/inter_font_family</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Custom.Title" parent="TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/inter_font_family</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Widget.Custom.PopupMenu" parent="Widget.MaterialComponents.PopupMenu.Overflow">
+        <item name="radioButtonStyle">@style/Widget.Custom.RadioButton.ZeroMinWidth</item>
+        <item name="checkboxStyle">@style/Widget.Custom.CheckBox.ZeroMinWidth</item>
+    </style>
+
+    <style name="Widget.Custom.RadioButton.ZeroMinWidth" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="minWidth">0dp</item>
+    </style>
+
+    <style name="Widget.Custom.CheckBox.ZeroMinWidth" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="minWidth">0dp</item>
+    </style>
+
+    <!-- Note card & Editor -->
+    <style name="TextAppearance.Custom.NoteTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:fontFamily">@font/inter_font_family</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorNoteText</item>
+    </style>
+
+    <style name="TextAppearance.Custom.NoteBody" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/colorNoteText</item>
+    </style>
+
+    <style name="NoteIcon">
+        <item name="android:tint">?attr/colorNoteIndicator</item>
+    </style>
+
+    <style name="TagChip">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">?attr/colorNoteText</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:background">@drawable/background_note_tag</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
+
+    <style name="NotebookChip">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">?attr/colorNoteText</item>
+        <item name="android:background">@drawable/background_notebook_chip</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
+
+    <style name="DialogTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">@style/DialogTitle</item>
+        <item name="alertDialogStyle">@style/MaterialAlertDialogRounded</item>
+    </style>
+
+    <style name="MaterialAlertDialogRounded" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearanceOverlay">@style/DialogRoundedShape</item>
+    </style>
+
+    <style name="DialogRoundedShape" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="DialogTitle">
+        <item name="fontFamily">@font/inter_font_family</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="BottomSheetHeader">
+        <item name="android:textColor">?attr/colorControlNormal</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="BottomSheetAction">
+        <item name="android:background">@drawable/state_drawer_item_background</item>
+        <item name="android:textViewStyle">@style/TextAppearance.MaterialComponents.Subtitle2</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:gravity">center|start</item>
+    </style>
+</resources>
+

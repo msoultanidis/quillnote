@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/action_insert_bold"
+            android:title="@string/action_insert_bold_text"
+            android:icon="@drawable/ic_bold"
+            app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_insert_italics"
+            android:title="@string/action_insert_italics"
+            android:icon="@drawable/ic_italics"
+            app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_insert_strikethrough"
+            android:title="@string/action_insert_strikethrough"
+            android:icon="@drawable/ic_strikethrough"
+            app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_insert_heading"
+            android:title="@string/action_insert_heading"
+            android:icon="@drawable/ic_header"
+            app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_insert_quote"
+            android:title="@string/action_insert_quote"
+            android:icon="@drawable/ic_quote"
+            app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_insert_code"
+            android:title="@string/action_insert_code"
+            android:icon="@drawable/ic_code"
+            app:showAsAction="always"/>
+
+</menu>

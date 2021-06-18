@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+            android:id="@+id/section_notes"
+            android:checkableBehavior="single">
+        <item
+                android:id="@+id/fragment_main"
+                android:icon="@drawable/ic_notes"
+                android:title="@string/nav_all_notes"
+                android:orderInCategory="0"/>
+        <item
+                android:id="@+id/fragment_archive"
+                android:icon="@drawable/ic_archive"
+                android:title="@string/nav_archive"
+                android:orderInCategory="0"/>
+        <item
+                android:id="@+id/fragment_deleted"
+                android:icon="@drawable/ic_bin"
+                android:title="@string/nav_deleted"
+                android:orderInCategory="0"/>
+    </group>
+
+    <item
+            android:id="@+id/menu_notebooks"
+            android:title="@string/nav_notebooks"
+            android:orderInCategory="1">
+        <menu>
+            <group
+                    android:id="@+id/section_notebooks"
+                    android:checkableBehavior="single">
+                <item
+                        android:id="@+id/fragment_manage_notebooks"
+                        android:icon="@drawable/ic_manage_notebooks"
+                        android:title="@string/nav_your_notebooks"/>
+            </group>
+        </menu>
+    </item>
+
+    <group
+            android:id="@+id/section_tags"
+            android:checkableBehavior="single">
+        <item
+                android:icon="@drawable/ic_tag"
+                android:id="@+id/fragment_tags"
+                android:title="@string/nav_tags"
+                android:orderInCategory="2"/>
+    </group>
+
+    <group
+            android:id="@+id/section_settings"
+            android:checkableBehavior="single">
+        <item
+                android:id="@+id/fragment_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/nav_settings"
+                android:orderInCategory="3"/>
+        <item
+                android:id="@+id/fragment_about"
+                android:icon="@drawable/ic_about"
+                android:title="@string/nav_about"
+                android:orderInCategory="3"/>
+    </group>
+</menu>

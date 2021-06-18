@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorBackground" format="color"/>
+    <attr name="colorBottomAppBarBackground" format="color"/>
+    <attr name="colorOutline" format="color"/>
+    <attr name="colorShadow" format="color"/>
+    <attr name="colorTextOverlay" format="color"/>
+    <attr name="colorHighlightMask" format="color"/>
+
+    <!-- Navigation drawer -->
+    <attr name="colorDrawerBackground" format="color"/>
+    <attr name="colorDrawerHeaderBackground" format="color"/>
+    <attr name="colorPrimaryTranscluent" format="color"/>
+    <attr name="colorDrawerItemRipple" format="color"/>
+
+    <attr name="colorDrawerItemTextSelected" format="color"/>
+    <attr name="colorDrawerItemIconSelected" format="color"/>
+    <attr name="drawableDrawerItemBackground" format="reference"/>
+
+    <!-- Notes -->
+    <attr name="colorNoteText" format="color"/>
+    <attr name="colorNoteIndicator" format="color"/>
+    <attr name="colorAttachmentIndicator" format="color"/>
+
+    <attr name="colorNoteDefault" format="color"/>
+    <attr name="colorNoteGreen" format="color"/>
+    <attr name="colorNotePink" format="color"/>
+    <attr name="colorNoteBlue" format="color"/>
+    <attr name="colorNoteRed" format="color"/>
+    <attr name="colorNoteOrange" format="color"/>
+    <attr name="colorNoteYellow" format="color"/>
+
+    <attr name="colorTaskDone" format="color"/>
+    <attr name="colorTaskSwipe" format="color"/>
+
+    <!-- Media -->
+    <attr name="colorMediaControlsBackground" format="color"/>
+
+    <declare-styleable name="PreferenceView">
+        <attr name="iconSrc" format="reference"/>
+        <attr name="text" format="string"/>
+        <attr name="subText" format="string"/>
+    </declare-styleable>
+</resources>

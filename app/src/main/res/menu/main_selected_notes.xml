@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/action_pin_selected"
+            android:title="@string/action_pin_unpin"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/action_archive_selected"
+            android:title="@string/action_archive"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/action_delete_selected"
+            android:title="@string/action_delete"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/action_hide_selected"
+            android:title="@string/action_hide"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/action_move_selected"
+            android:title="@string/action_move_to"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/action_duplicate_selected"
+            android:title="@string/action_duplicate"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/action_export_selected"
+            android:title="@string/action_export"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/action_select_all"
+            android:title="@string/action_select_all"
+            app:showAsAction="never"/>
+</menu>

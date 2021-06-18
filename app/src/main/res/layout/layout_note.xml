@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.qosp.notes.ui.utils.views.NoteCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:checkable="true"
+        app:checkedIcon="@null"
+        app:cardBackgroundColor="?attr/colorNoteDefault"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/state_selected_note"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="6dp">
+
+    <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="vertical"
+            android:background="?attr/colorNoteDefault">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_attachments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/card_note_padding"
+                android:layout_marginTop="@dimen/card_note_padding"
+                android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_view_title"
+                    android:textAppearance="@style/TextAppearance.Custom.NoteTitle"
+                    android:layout_marginEnd="4dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/indicator_note_hidden"
+                    android:layout_width="@dimen/card_note_icon_size"
+                    android:layout_height="@dimen/card_note_icon_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_hidden"
+                    android:visibility="gone"
+                    style="@style/NoteIcon"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/indicator_has_reminder"
+                    android:layout_width="@dimen/card_note_icon_size"
+                    android:layout_height="@dimen/card_note_icon_size"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_bell"
+                    android:visibility="gone"
+                    style="@style/NoteIcon"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/indicator_pinned"
+                    android:layout_width="@dimen/card_note_icon_size"
+                    android:layout_height="@dimen/card_note_icon_size"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_pin"
+                    android:visibility="gone"
+                    style="@style/NoteIcon"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/indicator_deleted"
+                    android:layout_width="@dimen/card_note_icon_size"
+                    android:layout_height="@dimen/card_note_icon_size"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_bin"
+                    android:visibility="gone"
+                    style="@style/NoteIcon"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/indicator_archived"
+                    android:layout_width="@dimen/card_note_icon_size"
+                    android:layout_height="@dimen/card_note_icon_size"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_archive"
+                    android:visibility="gone"
+                    style="@style/NoteIcon"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_view_content"
+                android:textAppearance="@style/TextAppearance.Custom.NoteBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/card_note_padding"
+                android:layout_marginTop="6dp"
+                android:visibility="gone"
+                android:maxLines="12"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/card_note_padding"
+                android:layout_marginTop="6dp"
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/indicator_more_tasks"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textStyle="italic"
+                android:gravity="center|start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/card_note_padding"
+                android:layout_marginTop="6dp"
+                android:visibility="gone"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+        <com.google.android.material.chip.ChipGroup
+                android:id="@+id/container_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/card_note_padding"
+                android:layout_marginTop="8dp"
+                app:singleLine="true"
+                app:chipSpacingHorizontal="4dp"
+                app:chipSpacingVertical="8dp"/>
+
+    </LinearLayout>
+
+</org.qosp.notes.ui.utils.views.NoteCardView>

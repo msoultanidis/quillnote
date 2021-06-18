@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:animateLayoutChanges="true">
+
+    <org.qosp.notes.ui.utils.views.ExtendedEditText
+            android:id="@+id/edit_text_reminder_name"
+            android:hint="@string/reminders_hint_name"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:background="@drawable/background_edit_text"
+            android:inputType="textMultiLine|textCapSentences"
+            android:scrollHorizontally="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="6dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"/>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_set_date"
+            android:text="@string/action_set_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|end"
+            android:layout_marginHorizontal="16dp"
+            app:icon="@drawable/ic_date"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_set_time"
+            android:text="@string/action_set_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center|end"
+            app:icon="@drawable/ic_time"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+</LinearLayout>

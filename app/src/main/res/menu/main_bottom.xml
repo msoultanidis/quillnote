@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/action_create_list"
+            android:title="@string/action_create_list"
+            android:icon="@drawable/ic_box_checked_outline"
+            app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_attach_file"
+            android:title="@string/action_attach_files"
+            android:icon="@drawable/ic_file"
+            app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_take_photo"
+            android:title="@string/action_take_photo"
+            android:icon="@drawable/ic_camera"
+            app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_record_audio"
+            android:title="@string/action_record_audio"
+            android:icon="@drawable/ic_microphone"
+            app:showAsAction="always"/>
+</menu>

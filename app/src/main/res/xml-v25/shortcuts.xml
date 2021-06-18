@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+            android:shortcutId="takeNote"
+            android:enabled="true"
+            android:icon="@drawable/ic_shortcut_take_note"
+            android:shortcutShortLabel="@string/shortcut_take_note">
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="org.qosp.notes"
+                android:targetClass="org.qosp.notes.ui.MainActivity"
+                android:data="quillnote://notes/editor_create?newNoteIsList=false"/>
+    </shortcut>
+    <shortcut
+            android:shortcutId="makeList"
+            android:enabled="true"
+            android:icon="@drawable/ic_shortcut_make_list"
+            android:shortcutShortLabel="@string/shortcut_make_list">
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="org.qosp.notes"
+                android:targetClass="org.qosp.notes.ui.MainActivity"
+                android:data="quillnote://notes/editor_create?newNoteIsList=true"/>
+    </shortcut>
+</shortcuts>

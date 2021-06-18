@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="BaseAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- General -->
+        <item name="colorBackground">#121212</item>
+        <item name="colorShadow">#24000000</item>
+        <item name="colorOutline">#1EFFFFFF</item>
+        <item name="colorTextOverlay">#99000000</item>
+
+        <item name="android:navigationBarColor">#121212</item>
+
+        <!-- App bars -->
+        <item name="colorBottomAppBarBackground">#202020</item>
+
+        <!-- Navigation -->
+        <item name="colorDrawerBackground">#202020</item>
+        <item name="colorDrawerItemRipple">#59FFFFFF</item>
+        <item name="colorDrawerItemIconSelected">@color/state_drawer_selected_item_icon_color</item>
+        <item name="colorDrawerItemTextSelected">@color/state_drawer_selected_item_color</item>
+        <item name="drawableDrawerItemBackground">@drawable/state_drawer_item_background</item>
+
+        <item name="colorNoteText">#FFFFFF</item>
+        <item name="colorNoteIndicator">#B3FFFFFF</item>
+        <item name="colorAttachmentIndicator">#89000000</item>
+        <item name="colorTaskDone">#80FFFFFF</item>
+
+        <item name="colorMediaControlsBackground">#CC000000</item>
+
+        <item name="colorTaskSwipe">#CCF44336</item>
+        <item name="colorHighlightMask">#1FFFFFFF</item>
+
+        <item name="colorNoteDefault">#1C1C1C</item>
+        <item name="colorNoteGreen">#38573A</item>
+        <item name="colorNotePink">#5C2940</item>
+        <item name="colorNoteBlue">#273749</item>
+        <item name="colorNoteRed">#6A3333</item>
+        <item name="colorNoteOrange">#65452A</item>
+        <item name="colorNoteYellow">#68643A</item>
+
+        <item name="popupTheme">@style/Widget.Custom.PopupMenu</item>
+        <item name="materialAlertDialogTheme">@style/DialogTheme</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseAppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="Blue">
+        <item name="colorPrimary">#90CAF9</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorSecondary">#90CAF9</item>>
+
+        <item name="colorDrawerHeaderBackground">#3390CAF9</item>
+        <item name="colorPrimaryTranscluent">#2690CAF9</item>
+
+    </style>
+
+    <style name="Green">
+        <item name="colorPrimary">#C5E1A5</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorSecondary">#C5E1A5</item>
+
+        <item name="colorDrawerHeaderBackground">#33C5E1A5</item>
+        <item name="colorPrimaryTranscluent">#26C5E1A5</item>
+
+    </style>
+
+    <style name="Pink">
+        <item name="colorPrimary">#F48FB1</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorSecondary">#F48FB1</item>
+
+        <item name="colorDrawerHeaderBackground">#33F48FB1</item>
+        <item name="colorPrimaryTranscluent">#26F48FB1</item>
+
+    </style>
+
+    <style name="Orange">
+        <item name="colorPrimary">#FFCC80</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorSecondary">#FFCC80</item>
+
+        <item name="colorDrawerHeaderBackground">#33FFCC80</item>
+        <item name="colorPrimaryTranscluent">#26FFCC80</item>
+
+    </style>
+
+    <style name="Purple">
+        <item name="colorPrimary">#B39DDB</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorSecondary">#B39DDB</item>
+
+        <item name="colorDrawerHeaderBackground">#33B39DDB</item>
+        <item name="colorPrimaryTranscluent">#26B39DDB</item>
+
+    </style>
+</resources>
