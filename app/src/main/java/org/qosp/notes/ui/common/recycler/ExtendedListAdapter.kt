@@ -1,4 +1,4 @@
-package org.qosp.notes.ui.common
+package org.qosp.notes.ui.common.recycler
 
 import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryOwner
+import org.qosp.notes.ui.common.BaseFragment
 
 private const val STATE_SELECTED_IDS = "STATE_SELECTED_IDS"
 

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import org.qosp.notes.data.model.Notebook
 import org.qosp.notes.databinding.LayoutNotebookBinding
-import org.qosp.notes.ui.common.ExtendedListAdapter
+import org.qosp.notes.ui.common.recycler.ExtendedListAdapter
 
 class NotebooksRecyclerAdapter(
     var listener: NotebooksRecyclerListener?,

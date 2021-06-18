@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import io.noties.markwon.Markwon
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.databinding.LayoutNoteBinding
-import org.qosp.notes.ui.common.ExtendedListAdapter
 
 class NoteRecyclerAdapter(
     var listener: NoteRecyclerListener?,

@@ -15,7 +15,6 @@ import org.qosp.notes.databinding.LayoutNoteBinding
 import org.qosp.notes.ui.attachments.recycler.AttachmentViewHolder
 import org.qosp.notes.ui.attachments.recycler.AttachmentsAdapter
 import org.qosp.notes.ui.attachments.recycler.AttachmentsPreviewGridManager
-import org.qosp.notes.ui.common.SelectableViewHolder
 import org.qosp.notes.ui.tasks.TasksAdapter
 import org.qosp.notes.ui.utils.ellipsize
 import org.qosp.notes.ui.utils.resId

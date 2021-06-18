@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
 import org.qosp.notes.components.workers.BinCleaningWorker
-import org.qosp.notes.ui.sync.SyncWorker
+import org.qosp.notes.components.workers.SyncWorker
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

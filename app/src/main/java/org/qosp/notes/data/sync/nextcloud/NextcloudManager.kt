@@ -1,6 +1,5 @@
 package org.qosp.notes.data.sync.nextcloud
 
-import android.util.Log
 import kotlinx.coroutines.flow.first
 import org.qosp.notes.data.model.IdMapping
 import org.qosp.notes.data.model.Note

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import org.qosp.notes.data.model.Notebook
 import org.qosp.notes.databinding.LayoutNotebookBinding
-import org.qosp.notes.ui.common.SelectableViewHolder
+import org.qosp.notes.ui.common.recycler.SelectableViewHolder
 
 class NotebooksViewHolder(
     val context: Context,

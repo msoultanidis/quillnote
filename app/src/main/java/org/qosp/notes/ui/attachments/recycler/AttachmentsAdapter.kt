@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import org.qosp.notes.data.model.Attachment
 import org.qosp.notes.databinding.LayoutAttachmentBinding
-import org.qosp.notes.ui.common.ExtendedListAdapter
+import org.qosp.notes.ui.common.recycler.ExtendedListAdapter
 
 class AttachmentsAdapter(
     var listener: AttachmentRecyclerListener? = null,

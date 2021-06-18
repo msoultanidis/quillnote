@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import org.qosp.notes.databinding.LayoutTagBinding
-import org.qosp.notes.ui.common.ExtendedListAdapter
+import org.qosp.notes.ui.common.recycler.ExtendedListAdapter
 import org.qosp.notes.ui.tags.TagData
 
 class TagsRecyclerAdapter(

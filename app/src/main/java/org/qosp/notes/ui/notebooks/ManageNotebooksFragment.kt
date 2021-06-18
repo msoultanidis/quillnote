@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.qosp.notes.R
 import org.qosp.notes.databinding.FragmentManageNotebooksBinding
 import org.qosp.notes.ui.common.BaseFragment
-import org.qosp.notes.ui.common.onBackPressedHandler
+import org.qosp.notes.ui.common.recycler.onBackPressedHandler
 import org.qosp.notes.ui.notebooks.dialog.EditNotebookDialog
 import org.qosp.notes.ui.notebooks.recycler.NotebooksRecyclerAdapter
 import org.qosp.notes.ui.notebooks.recycler.NotebooksRecyclerListener

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import org.qosp.notes.databinding.LayoutTagBinding
-import org.qosp.notes.ui.common.SelectableViewHolder
+import org.qosp.notes.ui.common.recycler.SelectableViewHolder
 import org.qosp.notes.ui.tags.TagData
 
 class TagsViewHolder(

@@ -1,4 +1,4 @@
-package org.qosp.notes.ui.sync
+package org.qosp.notes.components.workers
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker

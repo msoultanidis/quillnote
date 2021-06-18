@@ -40,6 +40,7 @@ import org.qosp.notes.preferences.NoteDeletionTime
 import org.qosp.notes.preferences.SortMethod
 import org.qosp.notes.ui.common.recycler.NoteRecyclerAdapter
 import org.qosp.notes.ui.common.recycler.NoteRecyclerListener
+import org.qosp.notes.ui.common.recycler.onBackPressedHandler
 import org.qosp.notes.ui.utils.*
 import org.qosp.notes.ui.utils.views.BottomSheet
 import java.util.concurrent.TimeUnit

@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.qosp.notes.R
 import org.qosp.notes.databinding.FragmentTagsBinding
 import org.qosp.notes.ui.common.BaseFragment
-import org.qosp.notes.ui.common.onBackPressedHandler
+import org.qosp.notes.ui.common.recycler.onBackPressedHandler
 import org.qosp.notes.ui.tags.dialog.EditTagDialog
 import org.qosp.notes.ui.tags.recycler.TagsRecyclerAdapter
 import org.qosp.notes.ui.tags.recycler.TagsRecyclerListener
