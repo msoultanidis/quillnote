@@ -98,6 +98,7 @@
     <!-- General -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="ok">Okay</string>
     <string name="indicator_notes_empty">Your notes will appear here.</string>
     <string name="indicator_untitled">Untitled</string>
     <string name="hint_username">Username</string>
