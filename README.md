@@ -1,7 +1,14 @@
+# Quillnote
+
+
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="256"/><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="256"/><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="256"/><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="256"/>
+
+
 Take beautiful markdown notes whenever you feel inspired. Place them in notebooks and tag them accordingly. Stay organized by making task lists, set reminders and keep everything in one place by attaching related files.
 
 Quillnote is fully free and open-source. It will never show you ads, ask you for unnecessary permissions or upload your notes anywhere without you knowing.
 
+## Features
 With Quillnote, you can:
 
 - Take notes with Markdown support
@@ -16,5 +23,6 @@ With Quillnote, you can:
 - Search through notes
 - Sync with Nextcloud (experimental)
 - Backup your notes in a zip file which you can restore at a later time
-- Toggle between light and dark mode
+- Toggle between Light and Dark mode
 - Choose between multiple color schemes
+
