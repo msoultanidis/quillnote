@@ -15,6 +15,6 @@ With Quillnote, you can:
 - Archive notes you want out of your way
 - Search through notes
 - Sync with Nextcloud (experimental)
-- Backup your notes in a zip file which you can restore at a later time
+- Backup your notes to a zip file which you can restore at a later time
 - Toggle between light and dark mode
 - Choose between multiple color schemes
