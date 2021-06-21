@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import org.qosp.notes.components.StorageCleaner
+import org.qosp.notes.components.MediaStorageManager
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.model.Notebook
 import org.qosp.notes.data.repo.NoteRepository
@@ -29,7 +29,7 @@ class ActivityViewModel @Inject constructor(
     private val reminderRepository: ReminderRepository,
     private val reminderManager: ReminderManager,
     private val tagRepository: TagRepository,
-    private val storageCleaner: StorageCleaner,
+    private val mediaStorageManager: MediaStorageManager,
     private val syncManager: SyncManager,
 ) : ViewModel() {
 
@@ -67,7 +67,7 @@ class ActivityViewModel @Inject constructor(
             when (preferenceRepository.get<NoteDeletionTime>().first()) {
                 NoteDeletionTime.INSTANTLY -> {
                     noteRepository.deleteNotes(*notes)
-                    storageCleaner.clean()
+                    mediaStorageManager.cleanUpStorage()
                 }
                 else -> {
                     noteRepository.moveNotesToBin(*notes)
@@ -162,6 +162,12 @@ class ActivityViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             preferenceRepository.set(method)
         }
+    }
+
+    suspend fun createImageFile(): Uri? {
+        val (uri, _) = mediaStorageManager.createMediaFile(type = MediaStorageManager.MediaType.IMAGE) ?: return null
+        tempPhotoUri = uri
+        return uri
     }
 
     private inline fun update(

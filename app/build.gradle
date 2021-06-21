@@ -26,9 +26,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile(
-                    'proguard-android-optimize.txt'),
-                    'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -37,14 +35,18 @@ android {
     }
 
     compileOptions {
-        coreLibraryDesugaringEnabled = true
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -135,7 +137,4 @@ dependencies {
 
      // LeakCanary
      debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
-}
-repositories {
-    mavenCentral()
 }

@@ -8,6 +8,7 @@ import com.github.michaelbull.result.runCatching
 import com.github.michaelbull.result.toResultOr
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
+import org.qosp.notes.App
 import org.qosp.notes.data.Backup
 import org.qosp.notes.data.model.*
 import org.qosp.notes.data.repo.*
@@ -175,14 +176,14 @@ class BackupManager(
                         backup = Backup.fromString(deserialized)
                     }
 
-                    "media/" -> {
+                    "${App.MEDIA_FOLDER}/" -> {
                         // Ignore directory
                         continue
                     }
 
                     // Copy media files to local storage
                     else -> {
-                        val dir = File(context.filesDir, "media").also { it.mkdirs() }
+                        val dir = File(context.filesDir, App.MEDIA_FOLDER).also { it.mkdirs() }
 
                         var fileId = 1
                         val originalName = entry.name.split("/").last()
@@ -245,11 +246,11 @@ class BackupManager(
                     val attachments = handler.attachmentsMap
                     max = attachments.size + 1
 
-                    if (attachments.isNotEmpty()) out.putNextEntry(ZipEntry("media/"))
+                    if (attachments.isNotEmpty()) out.putNextEntry(ZipEntry("${App.MEDIA_FOLDER}/"))
                     for ((fileName, inputUri) in attachments) {
                         progressHandler.onProgressChanged(++current, max)
 
-                        out.putNextEntry(ZipEntry("media/$fileName"))
+                        out.putNextEntry(ZipEntry("${App.MEDIA_FOLDER}/$fileName"))
                         context.contentResolver.openInputStream(inputUri)?.use { input ->
                             input.copyTo(out, BUFFER)
                         }

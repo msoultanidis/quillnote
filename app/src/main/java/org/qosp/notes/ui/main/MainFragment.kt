@@ -28,7 +28,6 @@ import org.qosp.notes.databinding.FragmentMainBinding
 import org.qosp.notes.databinding.LayoutNoteBinding
 import org.qosp.notes.preferences.LayoutMode
 import org.qosp.notes.preferences.SortMethod
-import org.qosp.notes.ui.attachments.createPhotoUri
 import org.qosp.notes.ui.attachments.fromUri
 import org.qosp.notes.ui.common.AbstractNotesFragment
 import org.qosp.notes.ui.recorder.RECORDED_ATTACHMENT
@@ -260,7 +259,7 @@ open class MainFragment : AbstractNotesFragment(R.layout.fragment_main) {
                 }
                 R.id.action_take_photo -> {
                     lifecycleScope.launch {
-                        takePhotoLauncher.launch(createPhotoUri(requireContext()).also { activityModel.tempPhotoUri = it })
+                        takePhotoLauncher.launch(activityModel.createImageFile())
                     }
                     true
                 }

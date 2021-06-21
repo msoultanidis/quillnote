@@ -48,7 +48,6 @@ import org.qosp.notes.databinding.FragmentEditorBinding
 import org.qosp.notes.databinding.LayoutAttachmentBinding
 import org.qosp.notes.di.MarkwonModule.SUPPORTS_IMAGES
 import org.qosp.notes.preferences.OpenMediaIn
-import org.qosp.notes.ui.attachments.createPhotoUri
 import org.qosp.notes.ui.attachments.dialog.EditAttachmentDialog
 import org.qosp.notes.ui.attachments.fromUri
 import org.qosp.notes.ui.attachments.recycler.AttachmentRecyclerListener
@@ -365,7 +364,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 }
                 R.id.action_take_photo -> {
                     lifecycleScope.launch {
-                        takePhotoLauncher.launch(createPhotoUri(requireContext()).also { activityModel.tempPhotoUri = it })
+                        takePhotoLauncher.launch(activityModel.createImageFile())
                     }
                 }
                 R.id.action_record_audio -> {

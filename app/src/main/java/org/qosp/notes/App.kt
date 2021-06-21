@@ -118,6 +118,7 @@ class App : Application(), ImageLoaderFactory, Configuration.Provider {
     }
 
     companion object {
+        const val MEDIA_FOLDER = "media"
         const val REMINDERS_CHANNEL_ID = "REMINDERS_CHANNEL"
         const val BACKUPS_CHANNEL_ID = "BACKUPS_CHANNEL"
         const val PLAYBACK_CHANNEL_ID = "PLAYBACK_CHANNEL"

@@ -10,6 +10,7 @@ import androidx.core.content.FileProvider
 import com.github.michaelbull.result.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.qosp.notes.App
 import org.qosp.notes.BuildConfig
 import org.qosp.notes.data.model.Attachment
 import java.io.File
@@ -42,7 +43,7 @@ fun getAttachmentUri(context: Context, path: String): Uri? {
         path.startsWith("content://") -> Uri.parse(path)
         path.startsWith("file://") -> Uri.parse(path)
         else -> {
-            runCatching { File(context.filesDir, "media").also { it.mkdir() } }
+            runCatching { File(context.filesDir, App.MEDIA_FOLDER).also { it.mkdir() } }
                 .flatMap { dir ->
                     runCatching {
                         FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", File(dir, path))
@@ -73,14 +74,3 @@ fun getAlbumArtBitmap(context: Context, uri: Uri): Result<Bitmap, Throwable> {
     return result
 }
 
-suspend fun createPhotoUri(context: Context): Uri? = withContext(Dispatchers.IO) {
-    val dir = File(context.filesDir, "media").also { it.mkdirs() }
-    val file = File.createTempFile("img_", ".jpg", dir)
-    FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", file)
-}
-
-suspend fun createSoundFile(context: Context, extension: String) = withContext(Dispatchers.IO) {
-    val dir = File(context.filesDir, "media").also { it.mkdirs() }
-    val file = File.createTempFile("audio_", ".$extension", dir)
-    FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", file) to file
-}

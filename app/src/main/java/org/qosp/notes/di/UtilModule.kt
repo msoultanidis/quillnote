@@ -9,7 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.qosp.notes.App
 import org.qosp.notes.BuildConfig
-import org.qosp.notes.components.StorageCleaner
+import org.qosp.notes.components.MediaStorageManager
 import org.qosp.notes.components.backup.BackupManager
 import org.qosp.notes.data.repo.*
 import org.qosp.notes.data.sync.core.SyncManager
@@ -28,7 +28,7 @@ object UtilModule {
     fun provideStorageCleaningService(
         @ApplicationContext context: Context,
         noteRepository: NoteRepository,
-    ) = StorageCleaner(context, noteRepository)
+    ) = MediaStorageManager(context, noteRepository)
 
     @Provides
     @Singleton
