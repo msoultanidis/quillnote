@@ -13,6 +13,7 @@ import org.qosp.notes.preferences.PreferenceRepository
 import javax.inject.Named
 import javax.inject.Singleton
 
+const val NO_SYNC = "NO_SYNC"
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
@@ -25,11 +26,11 @@ object RepositoryModule {
     ) = NotebookRepository(appDatabase.notebookDao, noteRepository, syncManager)
 
     @Provides
-    @Named("NO_SYNC")
+    @Named(NO_SYNC)
     @Singleton
     fun provideNotebookRepositoryWithNullSyncManager(
         appDatabase: AppDatabase,
-        @Named("NO_SYNC") noteRepository: NoteRepository,
+        @Named(NO_SYNC) noteRepository: NoteRepository,
     ) = NotebookRepository(appDatabase.notebookDao, noteRepository, null)
 
     @Provides
@@ -37,14 +38,14 @@ object RepositoryModule {
     fun provideNoteRepository(
         appDatabase: AppDatabase,
         syncManager: SyncManager,
-    ) = NoteRepository(appDatabase.noteDao, appDatabase.idMappingDao, syncManager)
+    ) = NoteRepository(appDatabase.noteDao, appDatabase.idMappingDao, appDatabase.reminderDao, syncManager)
 
     @Provides
-    @Named("NO_SYNC")
+    @Named(NO_SYNC)
     @Singleton
     fun provideNoteRepositoryWithNullSyncManager(
         appDatabase: AppDatabase,
-    ) = NoteRepository(appDatabase.noteDao, appDatabase.idMappingDao, null)
+    ) = NoteRepository(appDatabase.noteDao, appDatabase.idMappingDao, appDatabase.reminderDao, null)
 
     @Provides
     @Singleton

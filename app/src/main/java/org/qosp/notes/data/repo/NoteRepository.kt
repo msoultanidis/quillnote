@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.qosp.notes.data.dao.IdMappingDao
 import org.qosp.notes.data.dao.NoteDao
+import org.qosp.notes.data.dao.ReminderDao
 import org.qosp.notes.data.model.IdMapping
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.sync.core.SyncManager
@@ -15,6 +16,7 @@ import java.time.Instant
 class NoteRepository(
     private val noteDao: NoteDao,
     private val idMappingDao: IdMappingDao,
+    private val reminderDao: ReminderDao,
     private val syncManager: SyncManager?,
 ) {
 
@@ -78,6 +80,7 @@ class NoteRepository(
             .toTypedArray()
         noteDao.update(*array)
 
+        reminderDao.deleteIfNoteIdIn(notes.map { it.id })
         cleanMappingsForLocalNotes(*notes)
 
         if (shouldSync && syncManager != null) {
