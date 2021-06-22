@@ -21,7 +21,7 @@ class ReminderManager(
     private val context: Context,
     private val reminderRepository: ReminderRepository,
 ) {
-    private fun requestBroadcast(reminderId: Long, noteId: Long): PendingIntent {
+    private fun requestBroadcast(reminderId: Long, noteId: Long, flag: Int = PendingIntent.FLAG_UPDATE_CURRENT): PendingIntent? {
         val notificationIntent = Intent(context, ReminderReceiver::class.java).apply {
             putExtras(
                 bundleOf(
@@ -35,14 +35,19 @@ class ReminderManager(
             context,
             reminderId.toInt(),
             notificationIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            flag
         )
+    }
+
+    fun isReminderSet(reminderId: Long, noteId: Long): Boolean {
+        return requestBroadcast(reminderId, noteId, PendingIntent.FLAG_NO_CREATE) != null
     }
 
     fun schedule(reminderId: Long, dateTime: Long, noteId: Long) {
         val alarmManager = ContextCompat.getSystemService(context, AlarmManager::class.java) ?: return
-        val broadcast = requestBroadcast(reminderId, noteId)
-        alarmManager.cancel(broadcast)
+        val broadcast = requestBroadcast(reminderId, noteId) ?: return
+
+        cancel(reminderId, noteId, keepIntent = true)
         AlarmManagerCompat.setExactAndAllowWhileIdle(
             alarmManager,
             AlarmManager.RTC_WAKEUP,
@@ -51,9 +56,11 @@ class ReminderManager(
         )
     }
 
-    fun cancel(reminderId: Long, noteId: Long) {
+    fun cancel(reminderId: Long, noteId: Long, keepIntent: Boolean = false) {
         val alarmManager = ContextCompat.getSystemService(context, AlarmManager::class.java) ?: return
-        alarmManager.cancel(requestBroadcast(reminderId, noteId))
+        val broadcast = requestBroadcast(reminderId, noteId, PendingIntent.FLAG_NO_CREATE) ?: return
+        alarmManager.cancel(broadcast)
+        if (!keepIntent) broadcast.cancel()
     }
 
     suspend fun cancelAllRemindersForNote(noteId: Long) {
@@ -66,11 +73,11 @@ class ReminderManager(
             .getAll()
             .first()
             .forEach { reminder ->
-                val reminderDate = Instant.ofEpochSecond(reminder.date)
-                when {
-                    reminderDate.isBefore(ZonedDateTime.now().toInstant()) -> reminderRepository.deleteById(reminder.id)
-                    else -> schedule(reminder.id, reminder.date, reminder.noteId)
+                if (reminder.hasExpired()) {
+                    reminderRepository.deleteById(reminder.id)
+                    return@forEach
                 }
+                schedule(reminder.id, reminder.date, reminder.noteId)
             }
     }
 
