@@ -334,7 +334,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 }
                 R.id.action_view_tags -> {
                     findNavController().navigateSafely(
-                        EditorFragmentDirections.actionEditorToTags().setNoteId(args.noteId)
+                        EditorFragmentDirections.actionEditorToTags().setNoteId(data?.note?.id ?: args.noteId)
                     )
                 }
                 R.id.action_view_reminders -> {
