@@ -452,7 +452,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             }
 
             override fun onLongClick(position: Int, viewBinding: LayoutAttachmentBinding): Boolean {
-                if (!model.inEditMode) return false
+                if (data?.note?.isDeleted == true) return false
+
                 data?.note?.id?.let { noteId ->
                     val attachment = attachmentsAdapter.getItemAtPosition(position)
 
