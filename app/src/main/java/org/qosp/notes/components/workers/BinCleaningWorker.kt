@@ -16,7 +16,6 @@ import org.qosp.notes.preferences.PreferenceRepository
 import org.qosp.notes.preferences.SortMethod
 import org.qosp.notes.preferences.get
 import java.time.Instant
-import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class BinCleaningWorker @AssistedInject constructor(
@@ -28,13 +27,7 @@ class BinCleaningWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        val deletionTime = when (preferenceRepository.get<NoteDeletionTime>().first()) {
-            NoteDeletionTime.INSTANTLY -> 0L
-            NoteDeletionTime.WEEK -> TimeUnit.DAYS.toSeconds(7)
-            NoteDeletionTime.TWO_WEEKS -> TimeUnit.DAYS.toSeconds(14)
-            NoteDeletionTime.MONTH -> TimeUnit.DAYS.toSeconds(30)
-        }
-
+        val deletionTime = preferenceRepository.get<NoteDeletionTime>().first().interval
         val now = Instant.now()
         val toBeDeleted = noteRepository.getDeleted(SortMethod.default()).first()
             .filter { note ->

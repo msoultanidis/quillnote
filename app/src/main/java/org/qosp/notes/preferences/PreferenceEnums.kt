@@ -2,6 +2,7 @@ package org.qosp.notes.preferences
 
 import androidx.appcompat.app.AppCompatDelegate
 import org.qosp.notes.R
+import java.util.concurrent.TimeUnit
 
 enum class LayoutMode(override val nameResource: Int) : Preference<LayoutMode> by key("layout_mode") {
     GRID(R.string.preferences_layout_mode_grid),
@@ -58,12 +59,15 @@ enum class BackupStrategy(override val nameResource: Int) : Preference<BackupStr
     }
 }
 
-enum class NoteDeletionTime(override val nameResource: Int) :
-    Preference<NoteDeletionTime> by key("note_deletion_time") {
-    WEEK(R.string.preferences_note_deletion_time_week),
-    TWO_WEEKS(R.string.preferences_note_deletion_time_two_weeks),
-    MONTH(R.string.preferences_note_deletion_time_month),
-    INSTANTLY(R.string.preferences_note_deletion_time_instantly);
+enum class NoteDeletionTime(
+    override val nameResource: Int,
+    val interval: Long,
+) : Preference<NoteDeletionTime> by key("note_deletion_time") {
+
+    WEEK(R.string.preferences_note_deletion_time_week, TimeUnit.DAYS.toSeconds(7)),
+    TWO_WEEKS(R.string.preferences_note_deletion_time_two_weeks, TimeUnit.DAYS.toSeconds(14)),
+    MONTH(R.string.preferences_note_deletion_time_month, TimeUnit.DAYS.toSeconds(30)),
+    INSTANTLY(R.string.preferences_note_deletion_time_instantly, 0L);
 
     companion object {
         fun default() = WEEK
