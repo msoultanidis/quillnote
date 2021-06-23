@@ -14,8 +14,6 @@ import kotlinx.coroutines.flow.first
 import org.qosp.notes.App
 import org.qosp.notes.R
 import org.qosp.notes.data.repo.ReminderRepository
-import java.time.Instant
-import java.time.ZonedDateTime
 
 class ReminderManager(
     private val context: Context,

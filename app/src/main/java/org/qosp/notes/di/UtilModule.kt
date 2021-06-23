@@ -25,7 +25,7 @@ object UtilModule {
 
     @Provides
     @Singleton
-    fun provideStorageCleaningService(
+    fun provideMediaStorageManager(
         @ApplicationContext context: Context,
         noteRepository: NoteRepository,
     ) = MediaStorageManager(context, noteRepository)

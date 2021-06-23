@@ -2,4 +2,7 @@
     <files-path
             name="media_files"
             path="media/"/>
+    <files-path
+            name="test_media_files"
+            path="test_media/"/>
 </paths>

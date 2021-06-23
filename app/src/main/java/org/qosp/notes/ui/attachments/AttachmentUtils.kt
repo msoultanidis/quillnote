@@ -8,8 +8,6 @@ import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.core.content.FileProvider
 import com.github.michaelbull.result.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.qosp.notes.App
 import org.qosp.notes.BuildConfig
 import org.qosp.notes.data.model.Attachment
@@ -38,18 +36,14 @@ fun Attachment.Companion.fromUri(context: Context, uri: Uri): Attachment {
     return Attachment(type, uri.toString(), description)
 }
 
-fun getAttachmentUri(context: Context, path: String): Uri? {
+fun getAttachmentUri(context: Context, path: String, mediaFolder: String = App.MEDIA_FOLDER): Uri? {
     return when {
-        path.startsWith("content://") -> Uri.parse(path)
-        path.startsWith("file://") -> Uri.parse(path)
+        path.startsWith("content://") || path.startsWith("file://") -> Uri.parse(path)
         else -> {
-            runCatching { File(context.filesDir, App.MEDIA_FOLDER).also { it.mkdir() } }
-                .flatMap { dir ->
-                    runCatching {
-                        FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", File(dir, path))
-                    }
-                }
-                .get()
+            runCatching {
+                val dir = File(context.filesDir, mediaFolder).also { it.mkdir() }
+                FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", File(dir, path))
+            }.get()
         }
     }
 }
@@ -73,4 +67,3 @@ fun getAlbumArtBitmap(context: Context, uri: Uri): Result<Bitmap, Throwable> {
 
     return result
 }
-

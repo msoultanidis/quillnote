@@ -40,8 +40,8 @@ object NextcloudModule {
     @Singleton
     fun provideNextcloudManager(
         nextcloudAPI: NextcloudAPI,
-        @Named("NO_SYNC") noteRepository: NoteRepository,
-        @Named("NO_SYNC") notebookRepository: NotebookRepository,
+        @Named(NO_SYNC) noteRepository: NoteRepository,
+        @Named(NO_SYNC) notebookRepository: NotebookRepository,
         idMappingRepository: IdMappingRepository,
     ) = NextcloudManager(nextcloudAPI, noteRepository, notebookRepository, idMappingRepository)
 }

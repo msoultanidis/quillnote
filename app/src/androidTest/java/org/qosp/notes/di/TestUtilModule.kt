@@ -1,14 +1,12 @@
 package org.qosp.notes.di
 
-import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import org.qosp.notes.App
+import kotlinx.coroutines.GlobalScope
 import org.qosp.notes.BuildConfig
 import org.qosp.notes.components.MediaStorageManager
 import org.qosp.notes.components.backup.BackupManager
@@ -50,13 +48,12 @@ object TestUtilModule {
         preferenceRepository: PreferenceRepository,
         idMappingRepository: IdMappingRepository,
         nextcloudManager: NextcloudManager,
-        app: Application,
     ) = SyncManager(
         preferenceRepository,
         idMappingRepository,
         ConnectionManager(context),
         nextcloudManager,
-        (app as App).syncingScope
+        GlobalScope,
     )
 
     @Provides

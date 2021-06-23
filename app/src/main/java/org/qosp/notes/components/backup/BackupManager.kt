@@ -19,7 +19,6 @@ import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.time.Instant
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
@@ -139,8 +138,7 @@ class BackupManager(
         }
 
         backup.reminders.forEach { reminder ->
-            val date = Instant.ofEpochSecond(reminder.date)
-            if (date.isBefore(Instant.now())) return@forEach
+            if (reminder.hasExpired()) return@forEach
 
             val noteId = notesMap[reminder.noteId] ?: return@forEach
             val reminderId = reminderRepository.insert(reminder.copy(id = 0L, noteId = noteId))
