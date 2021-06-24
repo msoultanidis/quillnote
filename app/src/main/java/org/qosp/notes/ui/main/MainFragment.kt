@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.clearFragmentResult
@@ -34,6 +33,7 @@ import org.qosp.notes.ui.recorder.RECORDED_ATTACHMENT
 import org.qosp.notes.ui.recorder.RECORD_CODE
 import org.qosp.notes.ui.recorder.RecordAudioDialog
 import org.qosp.notes.ui.utils.ChooseFilesContract
+import org.qosp.notes.ui.utils.TakePictureContract
 import org.qosp.notes.ui.utils.launch
 import org.qosp.notes.ui.utils.navigateSafely
 import org.qosp.notes.ui.utils.viewBinding
@@ -62,7 +62,7 @@ open class MainFragment : AbstractNotesFragment(R.layout.fragment_main) {
         )
     }
 
-    private val takePhotoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { saved ->
+    private val takePhotoLauncher = registerForActivityResult(TakePictureContract) { saved ->
         if (!saved) return@registerForActivityResult
 
         activityModel.tempPhotoUri?.toString()?.let { path ->

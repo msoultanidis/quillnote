@@ -12,7 +12,6 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.activity.addCallback
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -126,7 +125,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         model.insertAttachments(*attachments.toTypedArray())
     }
 
-    private val takePhotoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { saved ->
+    private val takePhotoLauncher = registerForActivityResult(TakePictureContract) { saved ->
         if (!saved) return@registerForActivityResult
         val uri = activityModel.tempPhotoUri ?: return@registerForActivityResult
 
