@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import me.msoul.datastore.defaultOf
 import org.qosp.notes.R
 import org.qosp.notes.databinding.FragmentSettingsBinding
 import org.qosp.notes.preferences.*
@@ -24,16 +25,16 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
     private val binding by viewBinding(FragmentSettingsBinding::bind)
     private val model: SettingsViewModel by viewModels()
 
-    private var colorScheme = ColorScheme.default()
-    private var themeMode = ThemeMode.default()
-    private var layoutMode = LayoutMode.default()
-    private var sortMethod = SortMethod.default()
-    private var backupStrategy = BackupStrategy.default()
-    private var openMediaIn = OpenMediaIn.default()
-    private var noteDeletionTime = NoteDeletionTime.default()
-    private var dateFormat = DateFormat.default()
-    private var timeFormat = TimeFormat.default()
-    private var cloudService = CloudService.default()
+    private var colorScheme = defaultOf<ColorScheme>()
+    private var themeMode = defaultOf<ThemeMode>()
+    private var layoutMode = defaultOf<LayoutMode>()
+    private var sortMethod = defaultOf<SortMethod>()
+    private var backupStrategy = defaultOf<BackupStrategy>()
+    private var openMediaIn = defaultOf<OpenMediaIn>()
+    private var noteDeletionTime = defaultOf<NoteDeletionTime>()
+    private var dateFormat = defaultOf<DateFormat>()
+    private var timeFormat = defaultOf<TimeFormat>()
+    private var cloudService = defaultOf<CloudService>()
 
     override val hasMenu = false
     override val toolbar: Toolbar

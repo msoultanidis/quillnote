@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 import org.qosp.notes.data.dao.NotebookDao
 import org.qosp.notes.data.model.Notebook
 import org.qosp.notes.data.sync.core.SyncManager
-import org.qosp.notes.preferences.SortMethod
 
 class NotebookRepository(
     private val notebookDao: NotebookDao,
@@ -20,7 +19,7 @@ class NotebookRepository(
 
     suspend fun delete(vararg notebooks: Notebook, shouldSync: Boolean = true) {
         val affectedNotes = notebooks
-            .map { noteRepository.getByNotebook(it.id, SortMethod.default()).first() }
+            .map { noteRepository.getByNotebook(it.id).first() }
             .flatten()
             .filterNot { it.isLocalOnly }
 
@@ -39,7 +38,7 @@ class NotebookRepository(
         if (shouldSync && syncManager != null) {
             syncManager.syncingScope.launch {
                 notebooks
-                    .map { noteRepository.getByNotebook(it.id, SortMethod.default()).first() }
+                    .map { noteRepository.getByNotebook(it.id).first() }
                     .flatten()
                     .filterNot { it.isLocalOnly }
                     .forEach { syncManager.updateNote(it) }

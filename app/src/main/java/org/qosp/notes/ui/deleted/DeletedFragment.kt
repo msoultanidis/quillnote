@@ -49,7 +49,7 @@ class DeletedFragment : AbstractNotesFragment(R.layout.fragment_deleted) {
         super.onViewCreated(view, savedInstanceState)
         model.noteDeletionTimeInDays.collect(viewLifecycleOwner) { days ->
             binding.indicatorDeletedEmptyText.text =
-                if (days != 0) getString(R.string.indicator_deleted_empty, days) else getString(R.string.indicator_bin_disabled)
+                if (days != 0L) getString(R.string.indicator_deleted_empty, days) else getString(R.string.indicator_bin_disabled)
         }
     }
 

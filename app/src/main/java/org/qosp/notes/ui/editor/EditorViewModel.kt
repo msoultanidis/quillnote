@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import me.msoul.datastore.defaultOf
 import org.qosp.notes.data.model.*
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.data.repo.NotebookRepository
@@ -52,7 +53,7 @@ class EditorViewModel @Inject constructor(
             initialValue = Data(
                 note = null,
                 notebook = null,
-                formats = DateFormat.default() to TimeFormat.default(),
+                formats = defaultOf<DateFormat>() to defaultOf<TimeFormat>(),
                 isInitialized = false,
             ),
         )

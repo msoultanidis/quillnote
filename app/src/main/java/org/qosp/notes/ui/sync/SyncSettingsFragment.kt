@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
+import me.msoul.datastore.defaultOf
 import org.qosp.notes.R
 import org.qosp.notes.databinding.FragmentSyncSettingsBinding
 import org.qosp.notes.preferences.*
@@ -29,10 +30,10 @@ class SyncSettingsFragment : BaseFragment(R.layout.fragment_sync_settings) {
     override val toolbarTitle: String
         get() = getString(R.string.preferences_header_syncing)
 
-    private var syncService = CloudService.default()
-    private var syncMode = SyncMode.default()
-    private var backgroundSync = BackgroundSync.default()
-    private var newNotesSyncable = NewNotesSyncable.default()
+    private var syncService = defaultOf<CloudService>()
+    private var syncMode = defaultOf<SyncMode>()
+    private var backgroundSync = defaultOf<BackgroundSync>()
+    private var newNotesSyncable = defaultOf<NewNotesSyncable>()
 
     private var nextcloudUrl = ""
 

@@ -2,23 +2,19 @@ package org.qosp.notes.components.backup
 
 import android.content.Context
 import android.net.Uri
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.mapBoth
-import com.github.michaelbull.result.runCatching
-import com.github.michaelbull.result.toResultOr
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import org.qosp.notes.App
 import org.qosp.notes.data.Backup
 import org.qosp.notes.data.model.*
 import org.qosp.notes.data.repo.*
-import org.qosp.notes.preferences.SortMethod
 import org.qosp.notes.ui.attachments.getAttachmentUri
 import org.qosp.notes.ui.reminders.ReminderManager
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
@@ -43,7 +39,7 @@ class BackupManager(
         attachmentHandler: AttachmentHandler,
     ): Backup {
         val notes = notes ?: noteRepository
-            .getAll(SortMethod.default())
+            .getAll()
             .first()
             .toSet()
 
@@ -153,11 +149,11 @@ class BackupManager(
     fun backupFromZipFile(
         uri: Uri,
         migrationHandler: MigrationHandler,
-    ): Result<Backup, Throwable> = runCatching {
-        ZipInputStream(BufferedInputStream(context.contentResolver.openInputStream(uri))).use { input ->
-            var backup: Backup? = null
-            val nameMap = mutableMapOf<String, String>()
+    ): Result<Backup> = runCatching {
+        var backup: Backup? = null
+        val nameMap = mutableMapOf<String, String>()
 
+        ZipInputStream(BufferedInputStream(context.contentResolver.openInputStream(uri))).use { input ->
             while (true) {
                 val entry = input.nextEntry ?: break
                 when (entry.name) {
@@ -210,23 +206,21 @@ class BackupManager(
                     }
                 }
             }
-
-            return backup
-                .run {
-                    if (this == null || nameMap.isEmpty()) return@run this
-                    val newNotes = notes
-                        .map { note ->
-                            val newAttachments = note.attachments.map { attachment ->
-                                attachment.copy(fileName = nameMap[attachment.fileName] ?: attachment.fileName)
-                            }
-                            note.copy(attachments = newAttachments)
-                        }
-                        .toSet()
-
-                    copy(notes = newNotes)
-                }
-                .toResultOr { Throwable("Could not process backup file.") }
         }
+
+        backup.run {
+            if (this == null || nameMap.isEmpty()) return@run this
+            val newNotes = notes
+                .map { note ->
+                    val newAttachments = note.attachments.map { attachment ->
+                        attachment.copy(fileName = nameMap[attachment.fileName] ?: attachment.fileName)
+                    }
+                    note.copy(attachments = newAttachments)
+                }
+                .toSet()
+
+            copy(notes = newNotes)
+        } ?: throw IOException()
     }
 
     fun createBackupZipFile(
@@ -260,9 +254,9 @@ class BackupManager(
                 out.write(noteJson.toByteArray())
                 out.finish()
             }
-        }.mapBoth(
-            success = { progressHandler.onCompletion() },
-            failure = { progressHandler.onFailure(it) }
+        }.fold(
+            onSuccess = { progressHandler.onCompletion() },
+            onFailure = { progressHandler.onFailure(it) }
         )
     }
 }

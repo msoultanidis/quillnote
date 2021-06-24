@@ -3,6 +3,7 @@ package org.qosp.notes.data.repo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import me.msoul.datastore.defaultOf
 import org.qosp.notes.data.dao.IdMappingDao
 import org.qosp.notes.data.dao.NoteDao
 import org.qosp.notes.data.dao.ReminderDao
@@ -129,7 +130,7 @@ class NoteRepository(
     }
 
     suspend fun discardEmptyNotes(): Boolean {
-        val notes = noteDao.getAll(SortMethod.default())
+        val notes = noteDao.getAll(defaultOf())
             .first()
             .filter { it.isEmpty() }
             .toTypedArray()
@@ -140,7 +141,7 @@ class NoteRepository(
     }
 
     suspend fun permanentlyDeleteNotesInBin() {
-        val noteIds = noteDao.getDeleted(SortMethod.default())
+        val noteIds = noteDao.getDeleted(defaultOf())
             .first()
             .map { it.id }
             .toLongArray()
@@ -153,31 +154,31 @@ class NoteRepository(
         return noteDao.getById(noteId)
     }
 
-    fun getDeleted(sortMethod: SortMethod): Flow<List<Note>> {
+    fun getDeleted(sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
         return noteDao.getDeleted(sortMethod)
     }
 
-    fun getArchived(sortMethod: SortMethod): Flow<List<Note>> {
+    fun getArchived(sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
         return noteDao.getArchived(sortMethod)
     }
 
-    fun getNonDeleted(sortMethod: SortMethod): Flow<List<Note>> {
+    fun getNonDeleted(sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
         return noteDao.getNonDeleted(sortMethod)
     }
 
-    fun getNonDeletedOrArchived(sortMethod: SortMethod): Flow<List<Note>> {
+    fun getNonDeletedOrArchived(sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
         return noteDao.getNonDeletedOrArchived(sortMethod)
     }
 
-    fun getAll(sortMethod: SortMethod): Flow<List<Note>> {
+    fun getAll(sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
         return noteDao.getAll(sortMethod)
     }
 
-    fun getByNotebook(notebookId: Long, sortMethod: SortMethod): Flow<List<Note>> {
+    fun getByNotebook(notebookId: Long, sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
         return noteDao.getByNotebook(notebookId, sortMethod)
     }
 
-    fun getNonRemoteNotes(sortMethod: SortMethod, provider: CloudService): Flow<List<Note>> {
+    fun getNonRemoteNotes(provider: CloudService, sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
         return noteDao.getNonRemoteNotes(sortMethod, provider)
     }
 

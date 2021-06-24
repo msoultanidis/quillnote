@@ -12,7 +12,6 @@ import org.qosp.notes.data.sync.nextcloud.model.NextcloudNote
 import org.qosp.notes.data.sync.nextcloud.model.asNewLocalNote
 import org.qosp.notes.data.sync.nextcloud.model.asNextcloudNote
 import org.qosp.notes.preferences.CloudService
-import org.qosp.notes.preferences.SortMethod
 import retrofit2.HttpException
 import java.lang.Exception
 
@@ -139,12 +138,12 @@ class NextcloudManager(
             val nextcloudNotes = nextcloudAPI.getNotes(config)
 
             val localNoteIds = noteRepository
-                .getAll(SortMethod.default())
+                .getAll()
                 .first()
                 .map { it.id }
 
             val localNotes = noteRepository
-                .getNonDeleted(SortMethod.default())
+                .getNonDeleted()
                 .first()
                 .filterNot { it.isLocalOnly }
 
@@ -195,7 +194,7 @@ class NextcloudManager(
             idMappingRepository.unassignProviderFromRemotelyDeletedNotes(idsInUse, CloudService.NEXTCLOUD)
 
             // Finally, upload any new local notes that are not mapped to any remote id
-            val newLocalNotes = noteRepository.getNonRemoteNotes(SortMethod.default(), CloudService.NEXTCLOUD).first()
+            val newLocalNotes = noteRepository.getNonRemoteNotes(CloudService.NEXTCLOUD).first()
             newLocalNotes.forEach {
                 val newRemoteNote = nextcloudAPI.createNote(it.asNextcloudNote(), config)
                 idMappingRepository.assignProviderToNote(

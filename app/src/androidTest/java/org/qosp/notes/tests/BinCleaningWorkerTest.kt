@@ -17,7 +17,6 @@ import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.preferences.NoteDeletionTime
 import org.qosp.notes.preferences.PreferenceRepository
-import org.qosp.notes.preferences.SortMethod
 import org.qosp.notes.preferences.set
 import java.time.Instant
 import javax.inject.Inject
@@ -64,11 +63,11 @@ class BinCleaningWorkerTest {
                 note.copy(id = id)
             }
 
-        val allNotes = noteRepository.getAll(SortMethod.default()).first()
+        val allNotes = noteRepository.getAll().first()
 
         worker.doWork()
 
-        val actual = noteRepository.getAll(SortMethod.default()).first()
+        val actual = noteRepository.getAll().first()
         val expected = allNotes.filterNot { it.id == notes[2].id }
 
         assertTrue("Notes were not deleted properly", actual == expected)

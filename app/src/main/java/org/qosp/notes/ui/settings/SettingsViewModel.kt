@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import me.msoul.datastore.EnumPreference
 import org.qosp.notes.data.sync.core.SyncManager
 import org.qosp.notes.preferences.*
 import javax.inject.Inject
@@ -32,13 +33,13 @@ class SettingsViewModel @Inject constructor(
     val newNotesSyncable = preferenceRepository.get<NewNotesSyncable>()
     val loggedInUsername = syncManager.config.map { it?.username }
 
-    fun <T> setPreference(pref: T) where T : Enum<T>, T : Preference<T> {
+    fun <T> setPreference(pref: T) where T : Enum<T>, T : EnumPreference {
         viewModelScope.launch(Dispatchers.IO) {
             preferenceRepository.set(pref)
         }
     }
 
-    suspend fun <T> setPreferenceSuspending(pref: T) where T : Enum<T>, T : Preference<T> {
+    suspend fun <T> setPreferenceSuspending(pref: T) where T : Enum<T>, T : EnumPreference {
         preferenceRepository.set(pref)
     }
 

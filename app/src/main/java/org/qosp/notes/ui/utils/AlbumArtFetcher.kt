@@ -20,7 +20,6 @@ import coil.fetch.Fetcher
 import coil.size.OriginalSize
 import coil.size.PixelSize
 import coil.size.Size
-import com.github.michaelbull.result.mapOr
 import org.qosp.notes.R
 import org.qosp.notes.ui.attachments.getAlbumArtBitmap
 import kotlin.math.roundToInt
@@ -44,48 +43,47 @@ class AlbumArtFetcher(private val context: Context) : Fetcher<Uri> {
             DataSource.DISK,
         )
 
-        return getAlbumArtBitmap(context, data)
-            .mapOr(defaultResult) { rawBitmap ->
-                val srcWidth = rawBitmap.width
-                val srcHeight = rawBitmap.height
+        val rawBitmap = getAlbumArtBitmap(context, data) ?: return defaultResult
 
-                val destSize = when (size) {
-                    is PixelSize -> {
-                        if (srcWidth > 0 && srcHeight > 0) {
-                            val rawScale = DecodeUtils.computeSizeMultiplier(
-                                srcWidth = srcWidth,
-                                srcHeight = srcHeight,
-                                dstWidth = size.width,
-                                dstHeight = size.height,
-                                scale = options.scale
-                            )
-                            val scale = if (options.allowInexactSize) rawScale.coerceAtMost(1.0) else rawScale
-                            val width = (scale * srcWidth).roundToInt()
-                            val height = (scale * srcHeight).roundToInt()
-                            PixelSize(width, height)
-                        } else {
-                            OriginalSize
-                        }
-                    }
-                    is OriginalSize -> OriginalSize
-                }
+        val srcWidth = rawBitmap.width
+        val srcHeight = rawBitmap.height
 
-                val bitmap = normalizeBitmap(pool, rawBitmap, destSize, options)
-
-                val isSampled = if (srcWidth > 0 && srcHeight > 0) {
-                    DecodeUtils.computeSizeMultiplier(
-                        srcWidth,
-                        srcHeight,
-                        bitmap.width,
-                        bitmap.height,
-                        options.scale
-                    ) < 1.0
+        val destSize = when (size) {
+            is PixelSize -> {
+                if (srcWidth > 0 && srcHeight > 0) {
+                    val rawScale = DecodeUtils.computeSizeMultiplier(
+                        srcWidth = srcWidth,
+                        srcHeight = srcHeight,
+                        dstWidth = size.width,
+                        dstHeight = size.height,
+                        scale = options.scale
+                    )
+                    val scale = if (options.allowInexactSize) rawScale.coerceAtMost(1.0) else rawScale
+                    val width = (scale * srcWidth).roundToInt()
+                    val height = (scale * srcHeight).roundToInt()
+                    PixelSize(width, height)
                 } else {
-                    true
+                    OriginalSize
                 }
-
-                DrawableResult(bitmap.toDrawable(context.resources), isSampled, DataSource.DISK)
             }
+            is OriginalSize -> OriginalSize
+        }
+
+        val bitmap = normalizeBitmap(pool, rawBitmap, destSize, options)
+
+        val isSampled = if (srcWidth > 0 && srcHeight > 0) {
+            DecodeUtils.computeSizeMultiplier(
+                srcWidth,
+                srcHeight,
+                bitmap.width,
+                bitmap.height,
+                options.scale
+            ) < 1.0
+        } else {
+            true
+        }
+
+        return DrawableResult(bitmap.toDrawable(context.resources), isSampled, DataSource.DISK)
     }
 
     override fun key(data: Uri) = data.toString()

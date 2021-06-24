@@ -11,9 +11,9 @@ import org.qosp.notes.components.MediaStorageManager
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.data.sync.core.SyncManager
-import org.qosp.notes.preferences.NoteDeletionTime
 import org.qosp.notes.preferences.PreferenceRepository
 import org.qosp.notes.ui.common.AbstractNotesViewModel
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,14 +28,7 @@ class DeletedViewModel @Inject constructor(
             notesRepository.getDeleted(it)
         }
 
-    val noteDeletionTimeInDays = noteDeletionTime.map {
-        when (it) {
-            NoteDeletionTime.WEEK -> 7
-            NoteDeletionTime.TWO_WEEKS -> 14
-            NoteDeletionTime.MONTH -> 30
-            else -> 0
-        }
-    }
+    val noteDeletionTimeInDays = noteDeletionTime.map { TimeUnit.SECONDS.toDays(it.interval) }
 
     fun permanentlyDeleteNotesInBin() {
         viewModelScope.launch(Dispatchers.IO) {

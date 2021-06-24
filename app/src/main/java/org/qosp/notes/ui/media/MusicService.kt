@@ -20,7 +20,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
-import com.github.michaelbull.result.map
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -244,9 +243,7 @@ class MusicServiceBinder(
             }
 
             // Fetch album art and set is as the large icon, if it exists
-            getAlbumArtBitmap(applicationContext, uri).map {
-                setLargeIcon(it)
-            }
+            getAlbumArtBitmap(applicationContext, uri)?.let { setLargeIcon(it) }
         }
     }
 

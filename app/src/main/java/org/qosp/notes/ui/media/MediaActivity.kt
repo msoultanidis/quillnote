@@ -18,7 +18,6 @@ import androidx.core.view.*
 import androidx.lifecycle.lifecycleScope
 import androidx.palette.graphics.Palette
 import coil.load
-import com.github.michaelbull.result.mapBoth
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -210,22 +209,19 @@ class MediaActivity : BaseActivity() {
         seekBar.trackInactiveTintList = ColorStateList.valueOf(ColorUtils.setAlphaComponent(Color.WHITE, 38))
 
         val attachmentUri = attachment.uri(this@MediaActivity) ?: return@with
+        val bitmap = getAlbumArtBitmap(this@MediaActivity, attachmentUri)
 
-        getAlbumArtBitmap(this@MediaActivity, attachmentUri)
-            .mapBoth(
-                success = {
-                    val palette = Palette.from(it)
-                        .generate()
-                    val dominant = palette.getDominantColor(backgroundColor)
+        if (bitmap != null) {
+            val palette = Palette.from(bitmap)
+                .generate()
+            val dominant = palette.getDominantColor(backgroundColor)
 
-                    imageView.load(it)
-                    root.background = ColorDrawable(dominant)
-                },
-                failure = {
-                    imageView.setColorFilter(Color.WHITE)
-                    imageView.load(R.drawable.ic_music)
-                }
-            )
+            imageView.load(bitmap)
+            root.background = ColorDrawable(dominant)
+        } else {
+            imageView.setColorFilter(Color.WHITE)
+            imageView.load(R.drawable.ic_music)
+        }
     }
 
     private fun handleImageAttachment() = with(binding) {

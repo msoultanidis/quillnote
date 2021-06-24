@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
-import com.github.michaelbull.result.mapBoth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
@@ -157,9 +156,9 @@ class BackupService : LifecycleService() {
 
         startForeground(notificationId, notification)
 
-        val backup = backupManager.backupFromZipFile(backupUri, DefaultMigrationHandler()).mapBoth(
-            success = { it },
-            failure = {
+        val backup = backupManager.backupFromZipFile(backupUri, DefaultMigrationHandler()).fold(
+            onSuccess = { it },
+            onFailure = {
                 val notification = notificationBuilder
                     .setContentTitle(getString(R.string.notification_restore_failed))
                     .setContentText(it.message)

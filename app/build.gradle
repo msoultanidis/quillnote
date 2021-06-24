@@ -68,9 +68,6 @@ dependencies {
     implementation "androidx.media:media:1.3.1"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    // Kotlin Result
-    implementation "com.michael-bull.kotlin-result:kotlin-result:1.1.11"
-
     // Navigation Component
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
@@ -99,6 +96,7 @@ dependencies {
 
     // DataStore Preferences
     implementation "androidx.datastore:datastore-preferences:$datastore_version"
+    implementation "me.msoul:datastoreext:1.0.0"
 
     // Markwon
     implementation "io.noties.markwon:core:$markwon_version"

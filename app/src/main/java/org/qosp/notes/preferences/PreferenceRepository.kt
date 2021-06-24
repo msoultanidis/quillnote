@@ -1,18 +1,15 @@
 package org.qosp.notes.preferences
 
 import android.content.Context
-import androidx.core.content.edit
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.github.michaelbull.result.mapBoth
-import com.github.michaelbull.result.runCatching
 import com.tfcporciuncula.flow.FlowSharedPreferences
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
-import java.io.IOException
+import me.msoul.datastore.EnumPreference
+import me.msoul.datastore.getEnum
+import me.msoul.datastore.setEnum
 
 val Context.dataStore by preferencesDataStore("preferences")
 
@@ -53,28 +50,10 @@ class PreferenceRepository(context: Context) {
     }
 }
 
-inline fun <reified T> PreferenceRepository.get(): Flow<T> where T : Enum<T>, T : Preference<T> {
-    val first = runCatching { enumValues<T>().first() }
-    return first.mapBoth(
-        success = { first ->
-            dataStore.data
-                .catch {
-                    if (it is IOException) {
-                        emit(emptyPreferences())
-                    } else {
-                        throw it
-                    }
-                }
-                .map { pref ->
-                    preferenceOf<T>(pref[first.getPreferenceKey()]) ?: first
-                }
-        },
-        failure = { flow {} },
-    )
+inline fun <reified T> PreferenceRepository.get(): Flow<T> where T : Enum<T>, T : EnumPreference {
+    return dataStore.getEnum()
 }
 
-suspend fun <T> PreferenceRepository.set(preference: T) where T : Enum<T>, T : Preference<T> {
-    dataStore.edit { preferences ->
-        preferences[preference.getPreferenceKey()] = preference.name
-    }
+suspend fun <T> PreferenceRepository.set(preference: T) where T : Enum<T>, T : EnumPreference {
+    dataStore.setEnum(preference)
 }

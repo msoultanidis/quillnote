@@ -3,16 +3,12 @@ package org.qosp.notes.components
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.get
-import com.github.michaelbull.result.runCatching
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import org.qosp.notes.App
 import org.qosp.notes.BuildConfig
 import org.qosp.notes.data.repo.NoteRepository
-import org.qosp.notes.preferences.SortMethod
 import org.qosp.notes.ui.attachments.getAttachmentUri
 import java.io.File
 
@@ -35,9 +31,9 @@ class MediaStorageManager(
         directory.deleteRecursively()
     }
 
-    suspend fun cleanUpStorage(): Result<Unit, Throwable> = runCatching {
+    suspend fun cleanUpStorage() = runCatching {
         val filesUsed = noteRepository
-            .getAll(SortMethod.default())
+            .getAll()
             .first()
             .flatMap { it.attachments }
             .map { it.path }
@@ -68,7 +64,7 @@ class MediaStorageManager(
 
                 val file = File.createTempFile(prefix, extension, directory)
                 FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", file) to file
-            }.get()
+            }.getOrNull()
         }
     }
 

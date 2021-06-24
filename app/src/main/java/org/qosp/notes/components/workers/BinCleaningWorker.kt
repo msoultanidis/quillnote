@@ -13,7 +13,6 @@ import org.qosp.notes.components.MediaStorageManager
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.preferences.NoteDeletionTime
 import org.qosp.notes.preferences.PreferenceRepository
-import org.qosp.notes.preferences.SortMethod
 import org.qosp.notes.preferences.get
 import java.time.Instant
 
@@ -29,7 +28,7 @@ class BinCleaningWorker @AssistedInject constructor(
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         val deletionTime = preferenceRepository.get<NoteDeletionTime>().first().interval
         val now = Instant.now()
-        val toBeDeleted = noteRepository.getDeleted(SortMethod.default()).first()
+        val toBeDeleted = noteRepository.getDeleted().first()
             .filter { note ->
                 val deletionDate = note.deletionDate?.let { Instant.ofEpochSecond(it) } ?: return@filter false
                 now.isAfter(deletionDate.plusSeconds(deletionTime))

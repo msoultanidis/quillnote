@@ -7,7 +7,6 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.core.content.FileProvider
-import com.github.michaelbull.result.*
 import org.qosp.notes.App
 import org.qosp.notes.BuildConfig
 import org.qosp.notes.data.model.Attachment
@@ -43,12 +42,12 @@ fun getAttachmentUri(context: Context, path: String, mediaFolder: String = App.M
             runCatching {
                 val dir = File(context.filesDir, mediaFolder).also { it.mkdir() }
                 FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", File(dir, path))
-            }.get()
+            }.getOrNull()
         }
     }
 }
 
-fun getAlbumArtBitmap(context: Context, uri: Uri): Result<Bitmap, Throwable> {
+fun getAlbumArtBitmap(context: Context, uri: Uri): Bitmap? {
     val retriever = MediaMetadataRetriever()
     val result = runCatching {
         retriever
@@ -59,9 +58,7 @@ fun getAlbumArtBitmap(context: Context, uri: Uri): Result<Bitmap, Throwable> {
             ?.let {
                 BitmapFactory.decodeByteArray(it, 0, it.size)
             }
-    }.flatMap {
-        it.toResultOr { Throwable("Could not fetch image.") }
-    }
+    }.getOrNull()
 
     retriever.release()
 

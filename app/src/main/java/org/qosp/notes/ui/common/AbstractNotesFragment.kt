@@ -31,6 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import me.msoul.datastore.defaultOf
 import org.qosp.notes.R
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.sync.core.*
@@ -63,8 +64,8 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
 
     protected lateinit var recyclerAdapter: NoteRecyclerAdapter
     protected val inSelectionMode get() = recyclerAdapter.selectedItemIds.isNotEmpty()
-    protected var layoutMode = LayoutMode.default()
-    protected var sortMethod = SortMethod.default()
+    protected var layoutMode = defaultOf<LayoutMode>()
+    protected var sortMethod = defaultOf<SortMethod>()
     protected var mainMenu: Menu? = null
 
     private var snackbar: Snackbar? = null
