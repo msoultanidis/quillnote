@@ -15,22 +15,10 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val preferenceRepository: PreferenceRepository,
-    private val syncManager: SyncManager,
+    syncManager: SyncManager,
 ) : ViewModel() {
 
-    val colorScheme = preferenceRepository.get<ColorScheme>()
-    val themeMode = preferenceRepository.get<ThemeMode>()
-    val layoutMode = preferenceRepository.get<LayoutMode>()
-    val sortMethod = preferenceRepository.get<SortMethod>()
-    val backupStrategy = preferenceRepository.get<BackupStrategy>()
-    val openMediaIn = preferenceRepository.get<OpenMediaIn>()
-    val noteDeletionTime = preferenceRepository.get<NoteDeletionTime>()
-    val dateFormat = preferenceRepository.get<DateFormat>()
-    val timeFormat = preferenceRepository.get<TimeFormat>()
-    val cloudService = preferenceRepository.get<CloudService>()
-    val syncMode = preferenceRepository.get<SyncMode>()
-    val backgroundSync = preferenceRepository.get<BackgroundSync>()
-    val newNotesSyncable = preferenceRepository.get<NewNotesSyncable>()
+    val appPreferences = preferenceRepository.getAll()
     val loggedInUsername = syncManager.config.map { it?.username }
 
     fun <T> setPreference(pref: T) where T : Enum<T>, T : EnumPreference {

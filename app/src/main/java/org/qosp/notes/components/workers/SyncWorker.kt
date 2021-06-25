@@ -12,7 +12,6 @@ import kotlinx.coroutines.withContext
 import org.qosp.notes.data.sync.core.*
 import org.qosp.notes.preferences.BackgroundSync
 import org.qosp.notes.preferences.PreferenceRepository
-import org.qosp.notes.preferences.get
 
 @HiltWorker
 class SyncWorker @AssistedInject constructor(

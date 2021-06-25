@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
-import me.msoul.datastore.defaultOf
 import org.qosp.notes.R
 import org.qosp.notes.databinding.FragmentSyncSettingsBinding
 import org.qosp.notes.preferences.*
@@ -30,10 +29,7 @@ class SyncSettingsFragment : BaseFragment(R.layout.fragment_sync_settings) {
     override val toolbarTitle: String
         get() = getString(R.string.preferences_header_syncing)
 
-    private var syncService = defaultOf<CloudService>()
-    private var syncMode = defaultOf<SyncMode>()
-    private var backgroundSync = defaultOf<BackgroundSync>()
-    private var newNotesSyncable = defaultOf<NewNotesSyncable>()
+    private var appPreferences = AppPreferences()
 
     private var nextcloudUrl = ""
 
@@ -45,7 +41,7 @@ class SyncSettingsFragment : BaseFragment(R.layout.fragment_sync_settings) {
             requireContext().resources.getDimension(R.dimen.app_bar_elevation)
         )
 
-        setProviderSettingsVisibility(syncService)
+        setProviderSettingsVisibility(appPreferences.cloudService)
 
         setupPreferenceObservers()
         setupSyncServiceListener()
@@ -59,25 +55,16 @@ class SyncSettingsFragment : BaseFragment(R.layout.fragment_sync_settings) {
     }
 
     private fun setupPreferenceObservers() {
-        model.cloudService.collect(viewLifecycleOwner) {
-            syncService = it
-            binding.settingSyncProvider.subText = getString(syncService.nameResource)
-            setProviderSettingsVisibility(syncService)
-        }
+        model.appPreferences.collect(viewLifecycleOwner) {
+            appPreferences = it
 
-        model.syncMode.collect(viewLifecycleOwner) {
-            syncMode = it
-            binding.settingSyncMode.subText = getString(syncMode.nameResource)
-        }
-
-        model.backgroundSync.collect(viewLifecycleOwner) {
-            backgroundSync = it
-            binding.settingBackgroundSync.subText = getString(backgroundSync.nameResource)
-        }
-
-        model.newNotesSyncable.collect(viewLifecycleOwner) {
-            newNotesSyncable = it
-            binding.settingNotesSyncableByDefault.subText = getString(newNotesSyncable.nameResource)
+            with(appPreferences) {
+                binding.settingSyncProvider.subText = getString(cloudService.nameResource)
+                setProviderSettingsVisibility(cloudService)
+                binding.settingSyncMode.subText = getString(syncMode.nameResource)
+                binding.settingBackgroundSync.subText = getString(backgroundSync.nameResource)
+                binding.settingNotesSyncableByDefault.subText = getString(newNotesSyncable.nameResource)
+            }
         }
 
         // ENCRYPTED
@@ -104,26 +91,26 @@ class SyncSettingsFragment : BaseFragment(R.layout.fragment_sync_settings) {
     }
 
     private fun setupSyncServiceListener() = binding.settingSyncProvider.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_cloud_service, syncService) { which ->
-            model.setPreference(CloudService.values()[which])
+        showPreferenceDialog(R.string.preferences_cloud_service, appPreferences.cloudService) { selected ->
+            model.setPreference(selected)
         }
     }
 
     private fun setupSyncModeListener() = binding.settingSyncMode.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_sync_when_on, syncMode) { which ->
-            model.setPreference(SyncMode.values()[which])
+        showPreferenceDialog(R.string.preferences_sync_when_on, appPreferences.syncMode) { selected ->
+            model.setPreference(selected)
         }
     }
 
     private fun setupBackgroundSyncListener() = binding.settingBackgroundSync.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_background_sync, backgroundSync) { which ->
-            model.setPreference(BackgroundSync.values()[which])
+        showPreferenceDialog(R.string.preferences_background_sync, appPreferences.backgroundSync) { selected ->
+            model.setPreference(selected)
         }
     }
 
     private fun setupNewNotesSyncableListener() = binding.settingNotesSyncableByDefault.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_new_notes_synchronizable, newNotesSyncable) { which ->
-            model.setPreference(NewNotesSyncable.values()[which])
+        showPreferenceDialog(R.string.preferences_new_notes_synchronizable, appPreferences.newNotesSyncable) { selected ->
+            model.setPreference(selected)
         }
     }
 

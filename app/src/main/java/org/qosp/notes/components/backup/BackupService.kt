@@ -18,7 +18,6 @@ import org.qosp.notes.R
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.preferences.BackupStrategy
 import org.qosp.notes.preferences.PreferenceRepository
-import org.qosp.notes.preferences.get
 import javax.inject.Inject
 
 @AndroidEntryPoint

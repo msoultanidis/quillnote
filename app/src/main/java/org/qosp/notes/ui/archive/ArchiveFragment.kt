@@ -44,19 +44,6 @@ class ArchiveFragment : AbstractNotesFragment(R.layout.fragment_archive) {
         get() = binding.layoutAppBar.toolbarSelection
     override val secondaryToolbarMenuRes: Int = R.menu.archive_selected_notes
 
-    override fun onNoteClick(noteId: Long, position: Int, viewBinding: LayoutNoteBinding) {
-        applyNavToEditorAnimation(position)
-        findNavController().navigateSafely(
-            ArchiveFragmentDirections.actionArchiveToEditor("editor_$noteId").setNoteId(noteId),
-            FragmentNavigatorExtras(viewBinding.root to "editor_$noteId")
-        )
-    }
-
-    override fun onNoteLongClick(noteId: Long, position: Int, viewBinding: LayoutNoteBinding): Boolean {
-        showMenuForNote(position)
-        return true
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.archive, menu)
@@ -71,5 +58,18 @@ class ArchiveFragment : AbstractNotesFragment(R.layout.fragment_archive) {
             R.id.action_select_all -> selectAllNotes()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onNoteClick(noteId: Long, position: Int, viewBinding: LayoutNoteBinding) {
+        applyNavToEditorAnimation(position)
+        findNavController().navigateSafely(
+            ArchiveFragmentDirections.actionArchiveToEditor("editor_$noteId").setNoteId(noteId),
+            FragmentNavigatorExtras(viewBinding.root to "editor_$noteId")
+        )
+    }
+
+    override fun onNoteLongClick(noteId: Long, position: Int, viewBinding: LayoutNoteBinding): Boolean {
+        showMenuForNote(position)
+        return true
     }
 }

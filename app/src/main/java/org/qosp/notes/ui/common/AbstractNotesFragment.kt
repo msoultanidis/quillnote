@@ -29,16 +29,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import me.msoul.datastore.defaultOf
 import org.qosp.notes.R
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.sync.core.*
 import org.qosp.notes.databinding.LayoutNoteBinding
 import org.qosp.notes.preferences.LayoutMode
-import org.qosp.notes.preferences.NoteDeletionTime
-import org.qosp.notes.preferences.SortMethod
 import org.qosp.notes.ui.common.recycler.NoteRecyclerAdapter
 import org.qosp.notes.ui.common.recycler.NoteRecyclerListener
 import org.qosp.notes.ui.common.recycler.onBackPressedHandler
@@ -46,6 +42,8 @@ import org.qosp.notes.ui.utils.*
 import org.qosp.notes.ui.utils.views.BottomSheet
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
+private typealias Data = AbstractNotesViewModel.Data
 
 @AndroidEntryPoint
 abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId) {
@@ -55,6 +53,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
     abstract val emptyIndicator: View
     abstract val swipeRefreshLayout: SwipeRefreshLayout
 
+    open val isSelectionEnabled = true
     open val appBarLayout: AppBarLayout? = null
     open val secondaryToolbar: Toolbar? = null
     open val secondaryToolbarMenuRes: Int = 0
@@ -64,9 +63,9 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
 
     protected lateinit var recyclerAdapter: NoteRecyclerAdapter
     protected val inSelectionMode get() = recyclerAdapter.selectedItemIds.isNotEmpty()
-    protected var layoutMode = defaultOf<LayoutMode>()
-    protected var sortMethod = defaultOf<SortMethod>()
     protected var mainMenu: Menu? = null
+
+    protected var data = Data()
 
     private var snackbar: Snackbar? = null
     private var showHiddenNotes: Boolean
@@ -132,7 +131,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
             override fun onItemClick(position: Int, viewBinding: LayoutNoteBinding) {
                 val noteId = recyclerAdapter.getItemAtPosition(position).id
 
-                if (isSelectionEnabled() && inSelectionMode) {
+                if (isSelectionEnabled && inSelectionMode) {
                     toggleNoteSelected(noteId)
                 } else {
                     this@AbstractNotesFragment.onNoteClick(noteId, position, viewBinding)
@@ -142,7 +141,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
             override fun onLongClick(position: Int, viewBinding: LayoutNoteBinding): Boolean {
                 val noteId = recyclerAdapter.getItemAtPosition(position).id
 
-                return if (isSelectionEnabled() && inSelectionMode) {
+                return if (isSelectionEnabled && inSelectionMode) {
                     false
                 } else this@AbstractNotesFragment.onNoteLongClick(noteId, position, viewBinding)
             }
@@ -173,7 +172,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
                 }
             }
 
-            if (isSelectionEnabled()) {
+            if (isSelectionEnabled) {
                 enableSelection(this@AbstractNotesFragment, ::onSelectionChanged)
             }
         }
@@ -214,7 +213,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
         }
 
         // Set up an observer to change the notes list whenever they update
-        model.notesData.collect(viewLifecycleOwner, ::onNotesChanged)
+        model.data.collect(viewLifecycleOwner, ::onDataChanged)
 
         // Sync on refresh
         swipeRefreshLayout.setOnRefreshListener {
@@ -250,9 +249,6 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
             swipeRefreshLayout.isRefreshing = false
         }
 
-        // Setup observers for preferences changes
-        setupPreferenceObservers()
-
         postponeEnterTransition(1500L, TimeUnit.MILLISECONDS)
     }
 
@@ -272,6 +268,22 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
         super.onDestroyView()
     }
 
+    @CallSuper
+    open fun onDataChanged(data: Data) {
+        this.data = data
+
+        // Submit the list to the adapter
+        onNotesChanged(data.notes)
+
+        // Update recycler layout and note order
+        recyclerView.layoutManager = when (data.layoutMode) {
+            LayoutMode.LIST -> LinearLayoutManager(requireContext())
+            LayoutMode.GRID -> StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        }
+        onLayoutModeChanged()
+        onSortMethodChanged()
+    }
+
     open fun onNotesChanged(notes: List<Note>) {
         recyclerAdapter.submitList(notes)
     }
@@ -283,8 +295,6 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
     open fun onNoteClick(noteId: Long, position: Int, viewBinding: LayoutNoteBinding) {}
 
     open fun onNoteLongClick(noteId: Long, position: Int, viewBinding: LayoutNoteBinding) = false
-
-    open fun isSelectionEnabled() = true
 
     @CallSuper
     open fun onSelectionChanged(selectedIds: List<Long>) {
@@ -307,22 +317,6 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
             })
         }
         snackbar?.show()
-    }
-
-    private fun setupPreferenceObservers() {
-        model.layoutMode.collect(viewLifecycleOwner) { mode ->
-            recyclerView.layoutManager = when (mode) {
-                LayoutMode.LIST -> LinearLayoutManager(requireContext())
-                LayoutMode.GRID -> StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            }
-            layoutMode = mode
-            onLayoutModeChanged()
-        }
-
-        model.sortMethod.collect(viewLifecycleOwner) { method ->
-            sortMethod = method
-            onSortMethodChanged()
-        }
     }
 
     private fun setupSecondaryToolbar() {
@@ -348,7 +342,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
                 R.id.action_delete_selected -> {
                     activityModel.deleteNotes(*selectedNotes)
                     lifecycleScope.launch {
-                        if (model.noteDeletionTime.first() == NoteDeletionTime.INSTANTLY) {
+                        if (data.noteDeletionTimeInDays == 0L) {
                             sendMessage(getString(R.string.indicator_deleted_notes_permanently))
                         } else {
                             sendMessage(getString(R.string.indicator_moved_notes_to_bin))
@@ -405,7 +399,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
     }
 
     protected fun toggleLayoutMode() {
-        when (layoutMode) {
+        when (data.layoutMode) {
             LayoutMode.LIST -> activityModel.setLayoutMode(LayoutMode.GRID)
             LayoutMode.GRID -> activityModel.setLayoutMode(LayoutMode.LIST)
         }
@@ -470,7 +464,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
             action(R.string.action_delete, R.drawable.ic_bin, condition = !note.isDeleted) {
                 activityModel.deleteNotes(note)
                 lifecycleScope.launch {
-                    if (model.noteDeletionTime.first() == NoteDeletionTime.INSTANTLY) {
+                    if (data.noteDeletionTimeInDays == 0L) {
                         sendMessage(getString(R.string.indicator_deleted_note_permanently))
                     } else {
                         sendMessage(getString(R.string.indicator_moved_note_to_bin))

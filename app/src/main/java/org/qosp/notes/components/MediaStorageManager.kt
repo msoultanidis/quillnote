@@ -6,7 +6,6 @@ import androidx.core.content.FileProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
-import org.qosp.notes.App
 import org.qosp.notes.BuildConfig
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.ui.attachments.getAttachmentUri
@@ -15,7 +14,7 @@ import java.io.File
 class MediaStorageManager(
     private val context: Context,
     private val noteRepository: NoteRepository,
-    private val mediaFolder: String = App.MEDIA_FOLDER,
+    private val mediaFolder: String,
 ) {
     private val directory get() = File(context.filesDir, mediaFolder)
         .also { it.mkdir() }

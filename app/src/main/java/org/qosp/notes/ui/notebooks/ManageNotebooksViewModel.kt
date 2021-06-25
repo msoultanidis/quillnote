@@ -11,8 +11,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ManageNotebooksViewModel @Inject constructor(private val notebookRepository: NotebookRepository) : ViewModel() {
-    val userNotebooks = notebookRepository.getAll()
-
     fun deleteNotebooks(vararg notebooks: Notebook) {
         viewModelScope.launch(Dispatchers.IO) {
             notebookRepository.delete(*notebooks)

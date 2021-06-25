@@ -27,7 +27,9 @@ class SearchFragment : AbstractNotesFragment(resId = R.layout.fragment_search) {
     override val currentDestinationId: Int = R.id.fragment_search
     override val model: SearchViewModel by viewModels()
 
+    override val isSelectionEnabled = false
     override val hasMenu: Boolean = false
+
     override val recyclerView: RecyclerView
         get() = binding.recyclerSearch
     override val swipeRefreshLayout: SwipeRefreshLayout
@@ -52,8 +54,6 @@ class SearchFragment : AbstractNotesFragment(resId = R.layout.fragment_search) {
         binding.editTextSearch.setText(args.searchQuery)
         binding.editTextSearch.hideKeyboard()
     }
-
-    override fun isSelectionEnabled() = false
 
     override fun onNoteClick(noteId: Long, position: Int, viewBinding: LayoutNoteBinding) {
         applyNavToEditorAnimation(position)

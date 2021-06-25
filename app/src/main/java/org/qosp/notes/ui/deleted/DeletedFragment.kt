@@ -1,6 +1,5 @@
 package org.qosp.notes.ui.deleted
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -16,8 +15,8 @@ import org.qosp.notes.R
 import org.qosp.notes.databinding.FragmentDeletedBinding
 import org.qosp.notes.databinding.LayoutNoteBinding
 import org.qosp.notes.ui.common.AbstractNotesFragment
+import org.qosp.notes.ui.common.AbstractNotesViewModel
 import org.qosp.notes.ui.common.BaseDialog
-import org.qosp.notes.ui.utils.collect
 import org.qosp.notes.ui.utils.navigateSafely
 import org.qosp.notes.ui.utils.viewBinding
 
@@ -45,14 +44,6 @@ class DeletedFragment : AbstractNotesFragment(R.layout.fragment_deleted) {
         get() = binding.layoutAppBar.toolbarSelection
     override val secondaryToolbarMenuRes = R.menu.deleted_selected_notes
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        model.noteDeletionTimeInDays.collect(viewLifecycleOwner) { days ->
-            binding.indicatorDeletedEmptyText.text =
-                if (days != 0L) getString(R.string.indicator_deleted_empty, days) else getString(R.string.indicator_bin_disabled)
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.deleted, menu)
@@ -68,6 +59,15 @@ class DeletedFragment : AbstractNotesFragment(R.layout.fragment_deleted) {
             R.id.action_search -> findNavController().navigateSafely(DeletedFragmentDirections.actionDeletedToSearch())
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDataChanged(data: AbstractNotesViewModel.Data) {
+        super.onDataChanged(data)
+
+        val days = data.noteDeletionTimeInDays
+
+        binding.indicatorDeletedEmptyText.text =
+            if (days != 0L) getString(R.string.indicator_deleted_empty, days) else getString(R.string.indicator_bin_disabled)
     }
 
     override fun onNoteClick(noteId: Long, position: Int, viewBinding: LayoutNoteBinding) {

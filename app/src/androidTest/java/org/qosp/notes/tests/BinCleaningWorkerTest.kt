@@ -17,7 +17,6 @@ import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.preferences.NoteDeletionTime
 import org.qosp.notes.preferences.PreferenceRepository
-import org.qosp.notes.preferences.set
 import java.time.Instant
 import javax.inject.Inject
 

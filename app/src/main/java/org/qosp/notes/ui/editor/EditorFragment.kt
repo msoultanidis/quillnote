@@ -46,7 +46,6 @@ import org.qosp.notes.data.model.NoteTask
 import org.qosp.notes.databinding.FragmentEditorBinding
 import org.qosp.notes.databinding.LayoutAttachmentBinding
 import org.qosp.notes.di.MarkwonModule.SUPPORTS_IMAGES
-import org.qosp.notes.preferences.OpenMediaIn
 import org.qosp.notes.ui.attachments.dialog.EditAttachmentDialog
 import org.qosp.notes.ui.attachments.fromUri
 import org.qosp.notes.ui.attachments.recycler.AttachmentRecyclerListener
@@ -77,6 +76,8 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 import javax.inject.Named
 
+private typealias Data = EditorViewModel.Data
+
 @AndroidEntryPoint
 class EditorFragment : BaseFragment(R.layout.fragment_editor) {
     private val binding by viewBinding(FragmentEditorBinding::bind)
@@ -93,7 +94,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
     @ColorInt
     private var backgroundColor: Int = Color.TRANSPARENT
-    private var data: EditorViewModel.Data? = null
+    private var data = Data()
 
     private var nextTaskId: Long = 0L
     private var isList: Boolean = false
@@ -257,7 +258,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        data = null
+        data = Data()
         isFirstLoad = true
         isMarkwonAttachedToEditText = false
 
@@ -307,7 +308,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        data?.note?.let { note ->
+        data.note?.let { note ->
             when (item.itemId) {
                 R.id.action_convert_note -> {
                     if (note.isList) model.toTextNote() else model.toList()
@@ -333,7 +334,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 }
                 R.id.action_view_tags -> {
                     findNavController().navigateSafely(
-                        EditorFragmentDirections.actionEditorToTags().setNoteId(data?.note?.id ?: args.noteId)
+                        EditorFragmentDirections.actionEditorToTags().setNoteId(note.id)
                     )
                 }
                 R.id.action_view_reminders -> {
@@ -434,26 +435,25 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             override fun onItemClick(position: Int, viewBinding: LayoutAttachmentBinding) {
                 val attachment = attachmentsAdapter.getItemAtPosition(position)
 
-                lifecycleScope.launch {
-                    when (model.openMediaIn.first()) {
-                        OpenMediaIn.INTERNAL -> startActivity(
-                            Intent(requireContext(), MediaActivity::class.java).apply {
-                                putExtra(MediaActivity.ATTACHMENT, attachment)
-                            }
-                        )
-                        OpenMediaIn.EXTERNAL -> Intent(Intent.ACTION_VIEW).apply {
-                            data = attachment.uri(requireContext()) ?: return@apply
-                            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                            startActivity(this)
+                if (data.openMediaInternally) {
+                    startActivity(
+                        Intent(requireContext(), MediaActivity::class.java).apply {
+                            putExtra(MediaActivity.ATTACHMENT, attachment)
                         }
+                    )
+                } else {
+                    Intent(Intent.ACTION_VIEW).apply {
+                        data = attachment.uri(requireContext()) ?: return@apply
+                        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        startActivity(this)
                     }
                 }
             }
 
             override fun onLongClick(position: Int, viewBinding: LayoutAttachmentBinding): Boolean {
-                if (data?.note?.isDeleted == true) return false
+                if (data.note?.isDeleted == true) return false
 
-                data?.note?.id?.let { noteId ->
+                data.note?.id?.let { noteId ->
                     val attachment = attachmentsAdapter.getItemAtPosition(position)
 
                     BottomSheet.show(attachment.description, parentFragmentManager) {
@@ -480,7 +480,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         }
     }
 
-    private fun setMarkdownToolbarVisibility(note: Note? = data?.note) = with(binding) {
+    private fun setMarkdownToolbarVisibility(note: Note? = data.note) = with(binding) {
         if (note == null) return@with
 
         containerBottomToolbar.isVisible = !isList && note.isMarkdownEnabled && model.inEditMode && contentHasFocus
@@ -501,7 +501,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
             setOnEditorActionListener { v, actionId, event ->
                 when {
-                    actionId == EditorInfo.IME_ACTION_NEXT && data?.note?.isList == true -> {
+                    actionId == EditorInfo.IME_ACTION_NEXT && data.note?.isList == true -> {
                         jumpToNextTaskOrAdd(-1)
                         true
                     }
@@ -511,7 +511,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
             doOnTextChanged { text, start, before, count ->
                 // Only listen for meaningful changes
-                if (data == null) {
+                if (data.note == null) {
                     return@doOnTextChanged
                 }
 
@@ -523,7 +523,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             setRawInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
             doOnTextChanged { text, start, before, count ->
                 // Only listen for meaningful changes, we do not care about empty text
-                if (data == null) {
+                if (data.note == null) {
                     return@doOnTextChanged
                 }
 
@@ -600,7 +600,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
             val isConverted = data.note.isList != isList
             val isMarkdownEnabled = data.note.isMarkdownEnabled
-            val (dateFormat, timeFormat) = data.formats
+            val (dateFormat, timeFormat) = data.dateTimeFormats
 
             isList = data.note.isList
             isNoteDeleted = data.note.isDeleted
@@ -737,7 +737,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         }
 
         notebookView.setOnClickListener {
-            data?.note?.let { showMoveToNotebookDialog(it) }
+            data.note?.let { showMoveToNotebookDialog(it) }
         }
 
         actionAddTask.setOnClickListener {
@@ -791,7 +791,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 // This is needed because the view jumps around
                 // during the shared element transition when returning.
                 // Todo: Needs a better fix
-                notebookView.visibility = View.GONE
+                notebookView.isVisible = false
             }
         }
 
@@ -836,7 +836,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
     }
 
     private fun showColorChangeDialog() {
-        val selected = NoteColor.values().indexOf(data?.note?.color).coerceAtLeast(0)
+        val selected = NoteColor.values().indexOf(data.note?.color).coerceAtLeast(0)
         val dialog = BaseDialog.build(requireContext()) {
             setTitle(getString(R.string.action_change_color))
             setSingleChoiceItems(NoteColor.values().map { it.name }.toTypedArray(), selected) { dialog, which ->
@@ -850,7 +850,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
     private fun showRemindersDialog(note: Note) {
         BottomSheet.show(getString(R.string.reminders), parentFragmentManager) {
-            data?.note?.reminders?.forEach { reminder ->
+            data.note?.reminders?.forEach { reminder ->
                 val offset = ZoneId.systemDefault().rules.getOffset(Instant.now())
                 val reminderDate = LocalDateTime.ofEpochSecond(reminder.date, 0, offset)
 
@@ -875,7 +875,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         }
     }
 
-    private fun updateEditMode(inEditMode: Boolean = model.inEditMode, note: Note? = data?.note) = with(binding) {
+    private fun updateEditMode(inEditMode: Boolean = model.inEditMode, note: Note? = data.note) = with(binding) {
         // If the note is empty the fragment should open in edit mode by default
         val noteHasEmptyContent = note?.title?.isBlank() == true || when (note?.isList) {
             true -> note.taskList.isEmpty()

@@ -10,7 +10,6 @@ import org.qosp.notes.data.sync.nextcloud.NextcloudManager
 import org.qosp.notes.preferences.CloudService
 import org.qosp.notes.preferences.PreferenceRepository
 import org.qosp.notes.preferences.SyncMode
-import org.qosp.notes.preferences.get
 import org.qosp.notes.ui.utils.ConnectionManager
 
 class SyncManager(
@@ -22,14 +21,12 @@ class SyncManager(
 ) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val prefs: Flow<SyncPrefs> = preferenceRepository.get<CloudService>().flatMapLatest { service ->
-        preferenceRepository.get<SyncMode>().flatMapLatest { mode ->
-            when (service) {
-                CloudService.DISABLED -> flowOf(SyncPrefs(false, null, mode, null))
-                CloudService.NEXTCLOUD -> {
-                    NextcloudConfig.fromPreferences(preferenceRepository).map { config ->
-                        SyncPrefs(true, nextcloudManager, mode, config)
-                    }
+    val prefs: Flow<SyncPrefs> = preferenceRepository.getAll().flatMapLatest { prefs ->
+        when (prefs.cloudService) {
+            CloudService.DISABLED -> flowOf(SyncPrefs(false, null, prefs.syncMode, null))
+            CloudService.NEXTCLOUD -> {
+                NextcloudConfig.fromPreferences(preferenceRepository).map { config ->
+                    SyncPrefs(true, nextcloudManager, prefs.syncMode, config)
                 }
             }
         }

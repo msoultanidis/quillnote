@@ -11,7 +11,7 @@ inline fun <reified T> Fragment.showPreferenceDialog(
     selected: T,
     dismiss: Boolean = true,
     items: Array<String>? = null,
-    crossinline onClick: (Int) -> Unit,
+    crossinline onClick: (T) -> Unit,
 ) where T : Enum<T>, T : EnumPreference {
     val enumValues = enumValues<T>()
     val selectedIndex = enumValues.indexOf(selected)
@@ -25,7 +25,7 @@ inline fun <reified T> Fragment.showPreferenceDialog(
         .setTitle(requireContext().getString(titleRes))
         .setSingleChoiceItems(items, selectedIndex) { dialogInterface, which ->
             if (dismiss) dialogInterface.dismiss()
-            onClick(which)
+            onClick(enumValues[which])
         }
         .setPositiveButton(getString(R.string.action_done)) { dialogInterface, i ->
             dialogInterface.dismiss()

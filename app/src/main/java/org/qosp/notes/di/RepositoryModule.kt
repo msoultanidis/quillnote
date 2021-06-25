@@ -1,15 +1,12 @@
 package org.qosp.notes.di
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.qosp.notes.data.AppDatabase
 import org.qosp.notes.data.repo.*
 import org.qosp.notes.data.sync.core.SyncManager
-import org.qosp.notes.preferences.PreferenceRepository
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -62,8 +59,4 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideCloudIdRepository(appDatabase: AppDatabase) = IdMappingRepository(appDatabase.idMappingDao)
-
-    @Provides
-    @Singleton
-    fun providePreferenceRepository(@ApplicationContext context: Context) = PreferenceRepository(context)
 }

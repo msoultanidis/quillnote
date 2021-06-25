@@ -11,6 +11,7 @@ import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.data.repo.NotebookRepository
 import org.qosp.notes.data.sync.core.SyncManager
 import org.qosp.notes.preferences.PreferenceRepository
+import org.qosp.notes.preferences.SortMethod
 import org.qosp.notes.ui.common.AbstractNotesViewModel
 import javax.inject.Inject
 
@@ -24,22 +25,21 @@ class SearchViewModel @Inject constructor(
     private val searchKeyData: MutableStateFlow<String> = MutableStateFlow("")
 
     @OptIn(ExperimentalCoroutinesApi::class, kotlinx.coroutines.FlowPreview::class)
-    override val notesData: Flow<List<Note>> =
+    override val provideNotes = { sortMethod: SortMethod ->
         notebookRepository.getAll().distinctUntilChanged().flatMapLatest { notebooks ->
-            sortMethod.distinctUntilChanged().flatMapLatest { sortMethod ->
-                searchKeyData.debounce(300).flatMapLatest { searchKey ->
-                    noteRepository
-                        .getAll(sortMethod)
-                        .map { notes ->
-                            getSearchResults(
-                                searchKey.trim(),
-                                notes,
-                                notebooks
-                            )
-                        }
-                }
+            searchKeyData.debounce(300).flatMapLatest { searchKey ->
+                noteRepository
+                    .getAll(sortMethod)
+                    .map { notes ->
+                        getSearchResults(
+                            searchKey.trim(),
+                            notes,
+                            notebooks
+                        )
+                    }
             }
         }
+    }
 
     private fun getSearchResults(
         searchKey: String,

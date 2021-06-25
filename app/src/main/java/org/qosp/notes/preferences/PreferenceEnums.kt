@@ -12,14 +12,15 @@ enum class LayoutMode(override val nameResource: Int) : HasNameResource, EnumPre
 }
 
 enum class ThemeMode(override val nameResource: Int, val mode: Int) : HasNameResource, EnumPreference by key("theme_mode") {
-    SYSTEM(R.string.preferences_theme_mode_system, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
-        override val isDefault = true
-    },
+    SYSTEM(R.string.preferences_theme_mode_system, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) { override val isDefault = true },
     DARK(R.string.preferences_theme_mode_dark, AppCompatDelegate.MODE_NIGHT_YES),
     LIGHT(R.string.preferences_theme_mode_light, AppCompatDelegate.MODE_NIGHT_NO),
 }
 
-enum class ColorScheme(override val nameResource: Int, val styleResource: Int) : HasNameResource, EnumPreference by key("color_scheme") {
+enum class ColorScheme(
+    override val nameResource: Int,
+    val styleResource: Int,
+) : HasNameResource, EnumPreference by key("color_scheme") {
     BLUE(R.string.preferences_color_scheme_blue, R.style.Blue) { override val isDefault = true },
     GREEN(R.string.preferences_color_scheme_green, R.style.Green),
     PINK(R.string.preferences_color_scheme_pink, R.style.Pink),
@@ -46,13 +47,12 @@ enum class NoteDeletionTime(
     override val nameResource: Int,
     val interval: Long,
 ) : HasNameResource, EnumPreference by key("note_deletion_time") {
-
-    WEEK(R.string.preferences_note_deletion_time_week, TimeUnit.DAYS.toSeconds(7)) {
-        override val isDefault = true
-    },
+    WEEK(R.string.preferences_note_deletion_time_week, TimeUnit.DAYS.toSeconds(7)) { override val isDefault = true },
     TWO_WEEKS(R.string.preferences_note_deletion_time_two_weeks, TimeUnit.DAYS.toSeconds(14)),
     MONTH(R.string.preferences_note_deletion_time_month, TimeUnit.DAYS.toSeconds(30)),
-    INSTANTLY(R.string.preferences_note_deletion_time_instantly, 0L),
+    INSTANTLY(R.string.preferences_note_deletion_time_instantly, 0L);
+
+    fun toDays() = TimeUnit.SECONDS.toDays(this.interval)
 }
 
 enum class DateFormat(val patternResource: Int) : EnumPreference by key("date_format") {

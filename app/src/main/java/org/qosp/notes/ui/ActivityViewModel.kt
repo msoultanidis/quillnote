@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import org.qosp.notes.components.MediaStorageManager
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.model.Notebook
@@ -33,7 +35,8 @@ class ActivityViewModel @Inject constructor(
     private val syncManager: SyncManager,
 ) : ViewModel() {
 
-    val notebooks: Flow<List<Notebook>> = notebookRepository.getAll()
+    val notebooks: StateFlow<List<Notebook>> = notebookRepository.getAll()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), listOf())
 
     var showHiddenNotes: Boolean = false
     var notesToBackup: Set<Note>? = null

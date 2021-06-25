@@ -4,13 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.qosp.notes.data.model.Reminder
 import org.qosp.notes.data.repo.ReminderRepository
-import org.qosp.notes.preferences.DateFormat
 import org.qosp.notes.preferences.PreferenceRepository
-import org.qosp.notes.preferences.TimeFormat
-import org.qosp.notes.preferences.get
 import java.time.ZonedDateTime
 import javax.inject.Inject
 
@@ -23,8 +21,7 @@ class EditReminderViewModel @Inject constructor(
 
     var date = ZonedDateTime.now()
 
-    val dateFormat = preferenceRepository.get<DateFormat>()
-    val timeFormat = preferenceRepository.get<TimeFormat>()
+    val dateTimeFormats = preferenceRepository.getAll().map { it.dateFormat to it.timeFormat }
 
     fun insertReminder(reminder: Reminder) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -2,7 +2,6 @@ package org.qosp.notes.ui.common
 
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.qosp.notes.R
 import org.qosp.notes.data.model.Note
@@ -10,7 +9,7 @@ import org.qosp.notes.ui.utils.navigateSafely
 
 fun BaseFragment.showMoveToNotebookDialog(vararg notes: Note) {
     lifecycleScope.launch {
-        val notebooks = activityModel.notebooks.first()
+        val notebooks = activityModel.notebooks.value
         var selected = 0
         val notebooksMap: MutableMap<Long?, String> =
             mutableMapOf(null to requireContext().getString(R.string.notebooks_unassigned))

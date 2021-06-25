@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import me.msoul.datastore.defaultOf
 import org.qosp.notes.R
 import org.qosp.notes.databinding.FragmentSettingsBinding
 import org.qosp.notes.preferences.*
@@ -25,16 +24,7 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
     private val binding by viewBinding(FragmentSettingsBinding::bind)
     private val model: SettingsViewModel by viewModels()
 
-    private var colorScheme = defaultOf<ColorScheme>()
-    private var themeMode = defaultOf<ThemeMode>()
-    private var layoutMode = defaultOf<LayoutMode>()
-    private var sortMethod = defaultOf<SortMethod>()
-    private var backupStrategy = defaultOf<BackupStrategy>()
-    private var openMediaIn = defaultOf<OpenMediaIn>()
-    private var noteDeletionTime = defaultOf<NoteDeletionTime>()
-    private var dateFormat = defaultOf<DateFormat>()
-    private var timeFormat = defaultOf<TimeFormat>()
-    private var cloudService = defaultOf<CloudService>()
+    private var appPreferences = AppPreferences()
 
     override val hasMenu = false
     override val toolbar: Toolbar
@@ -75,66 +65,34 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
     }
 
     private fun setupPreferenceObservers() {
-        model.cloudService.collect(viewLifecycleOwner) {
-            cloudService = it
-            binding.settingGoToSyncSettings.subText = when (cloudService) {
-                CloudService.DISABLED -> getString(R.string.preferences_currently_not_syncing)
-                else -> getString(R.string.preferences_currently_syncing_with, getString(cloudService.nameResource))
-            }
-        }
+        model.appPreferences.collect(viewLifecycleOwner) {
+            appPreferences = it
 
-        model.colorScheme.collect(viewLifecycleOwner) {
-            colorScheme = it
-            binding.settingColorScheme.subText = getString(colorScheme.nameResource)
-        }
-
-        model.themeMode.collect(viewLifecycleOwner) {
-            themeMode = it
-            binding.settingThemeMode.subText = getString(themeMode.nameResource)
-        }
-
-        model.layoutMode.collect(viewLifecycleOwner) {
-            layoutMode = it
-            binding.settingLayoutMode.subText = getString(layoutMode.nameResource)
-            binding.settingLayoutMode.setIcon(
-                when (layoutMode) {
-                    LayoutMode.GRID -> R.drawable.ic_grid
-                    LayoutMode.LIST -> R.drawable.ic_list
+            with(appPreferences) {
+                binding.settingGoToSyncSettings.subText = when (cloudService) {
+                    CloudService.DISABLED -> getString(R.string.preferences_currently_not_syncing)
+                    else -> getString(R.string.preferences_currently_syncing_with, getString(cloudService.nameResource))
                 }
-            )
-        }
-
-        model.sortMethod.collect(viewLifecycleOwner) {
-            sortMethod = it
-            binding.settingSortMethod.subText = getString(sortMethod.nameResource)
-        }
-
-        model.backupStrategy.collect(viewLifecycleOwner) {
-            backupStrategy = it
-            binding.settingBackupStrategy.subText = getString(backupStrategy.nameResource)
-        }
-
-        model.openMediaIn.collect(viewLifecycleOwner) {
-            openMediaIn = it
-            binding.settingOpenMedia.subText = getString(openMediaIn.nameResource)
-        }
-
-        model.noteDeletionTime.collect(viewLifecycleOwner) {
-            noteDeletionTime = it
-            binding.settingNoteDeletion.subText = getString(noteDeletionTime.nameResource)
-        }
-
-        model.dateFormat.collect(viewLifecycleOwner) {
-            dateFormat = it
-            with(DateTimeFormatter.ofPattern(getString(dateFormat.patternResource))) {
-                binding.settingDateFormat.subText = format(LocalDate.now())
-            }
-        }
-
-        model.timeFormat.collect(viewLifecycleOwner) {
-            timeFormat = it
-            with(DateTimeFormatter.ofPattern(getString(timeFormat.patternResource))) {
-                binding.settingTimeFormat.subText = format(LocalTime.now())
+                binding.settingColorScheme.subText = getString(colorScheme.nameResource)
+                binding.settingThemeMode.subText = getString(themeMode.nameResource)
+                binding.settingLayoutMode.subText = getString(layoutMode.nameResource)
+                binding.settingLayoutMode.setIcon(
+                    when (layoutMode) {
+                        LayoutMode.GRID -> R.drawable.ic_grid
+                        LayoutMode.LIST -> R.drawable.ic_list
+                    }
+                )
+                binding.settingSortMethod.subText = getString(sortMethod.nameResource)
+                binding.settingSortMethod.subText = getString(sortMethod.nameResource)
+                binding.settingBackupStrategy.subText = getString(backupStrategy.nameResource)
+                binding.settingOpenMedia.subText = getString(openMediaIn.nameResource)
+                binding.settingNoteDeletion.subText = getString(noteDeletionTime.nameResource)
+                with(DateTimeFormatter.ofPattern(getString(dateFormat.patternResource))) {
+                    binding.settingDateFormat.subText = format(LocalDate.now())
+                }
+                with(DateTimeFormatter.ofPattern(getString(timeFormat.patternResource))) {
+                    binding.settingTimeFormat.subText = format(LocalTime.now())
+                }
             }
         }
     }
@@ -144,55 +102,52 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
     }
 
     private fun setupColorSchemeListener() = binding.settingColorScheme.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_color_scheme, colorScheme) { which ->
+        showPreferenceDialog(R.string.preferences_color_scheme, appPreferences.colorScheme) { selected ->
             lifecycleScope.launch {
-                model.setPreferenceSuspending(ColorScheme.values()[which])
+                model.setPreferenceSuspending(selected)
                 activity?.recreate()
             }
         }
     }
 
     private fun setupThemeModeListener() = binding.settingThemeMode.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_theme_mode, themeMode) { which ->
+        showPreferenceDialog(R.string.preferences_theme_mode, appPreferences.themeMode) { selected ->
             lifecycleScope.launch {
-                model.setPreference(ThemeMode.values()[which])
-                val mode = when (ThemeMode.values()[which]) {
-                    ThemeMode.DARK -> AppCompatDelegate.MODE_NIGHT_YES
-                    ThemeMode.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
-                    ThemeMode.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                model.setPreference(selected)
+                if (selected.mode != AppCompatDelegate.getDefaultNightMode()) {
+                    AppCompatDelegate.setDefaultNightMode(selected.mode)
                 }
-                if (mode != AppCompatDelegate.getDefaultNightMode()) AppCompatDelegate.setDefaultNightMode(mode)
             }
         }
     }
 
     private fun setupLayoutModeListener() = binding.settingLayoutMode.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_layout_mode, layoutMode) { which ->
-            model.setPreference(LayoutMode.values()[which])
+        showPreferenceDialog(R.string.preferences_layout_mode, appPreferences.layoutMode) { selected ->
+            model.setPreference(selected)
         }
     }
 
     private fun setupSortMethodListener() = binding.settingSortMethod.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_sort_method, sortMethod) { which ->
-            model.setPreference(SortMethod.values()[which])
+        showPreferenceDialog(R.string.preferences_sort_method, appPreferences.sortMethod) { selected ->
+            model.setPreference(selected)
         }
     }
 
     private fun setupBackupStrategyListener() = binding.settingBackupStrategy.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_backup_strategy, backupStrategy) { which ->
-            model.setPreference(BackupStrategy.values()[which])
+        showPreferenceDialog(R.string.preferences_backup_strategy, appPreferences.backupStrategy) { selected ->
+            model.setPreference(selected)
         }
     }
 
     private fun setupOpenMediaInListener() = binding.settingOpenMedia.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_open_media_in, openMediaIn) { which ->
-            model.setPreference(OpenMediaIn.values()[which])
+        showPreferenceDialog(R.string.preferences_open_media_in, appPreferences.openMediaIn) { selected ->
+            model.setPreference(selected)
         }
     }
 
     private fun setupNoteDeletionTimeListener() = binding.settingNoteDeletion.setOnClickListener {
-        showPreferenceDialog(R.string.preferences_note_deletion_time, noteDeletionTime) { which ->
-            model.setPreference(NoteDeletionTime.values()[which])
+        showPreferenceDialog(R.string.preferences_note_deletion_time, appPreferences.noteDeletionTime) { selected ->
+            model.setPreference(selected)
         }
     }
 
@@ -204,8 +159,8 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
             }
             .toTypedArray()
 
-        showPreferenceDialog(R.string.preferences_time_format, timeFormat, items = items) { which ->
-            model.setPreference(TimeFormat.values()[which])
+        showPreferenceDialog(R.string.preferences_time_format, appPreferences.timeFormat, items = items) { selected ->
+            model.setPreference(selected)
         }
     }
 
@@ -217,8 +172,8 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
             }
             .toTypedArray()
 
-        showPreferenceDialog(R.string.preferences_date_format, dateFormat, items = items) { which ->
-            model.setPreference(DateFormat.values()[which])
+        showPreferenceDialog(R.string.preferences_date_format, appPreferences.dateFormat, items = items) { selected ->
+            model.setPreference(selected)
         }
     }
 }

@@ -93,7 +93,7 @@ class MediaActivity : BaseActivity() {
             Attachment.Type.VIDEO -> {
                 /* We initialize the video player in onStart() / onResume() */
                 savedInstanceState?.run {
-                    playbackPosition = getLong(VIDEO_POSITON)
+                    playbackPosition = getLong(VIDEO_POSITION)
                     playWhenReady = getBoolean(VIDEO_PLAY_WHEN_READY)
                 }
             }
@@ -140,7 +140,7 @@ class MediaActivity : BaseActivity() {
 
         if (attachment.type == Attachment.Type.VIDEO) {
             outState.putBoolean(VIDEO_PLAY_WHEN_READY, playWhenReady)
-            outState.putLong(VIDEO_POSITON, playbackPosition)
+            outState.putLong(VIDEO_POSITION, playbackPosition)
         }
     }
 
@@ -273,6 +273,6 @@ class MediaActivity : BaseActivity() {
     companion object {
         const val ATTACHMENT = "ATTACHMENT"
         private const val VIDEO_PLAY_WHEN_READY = "VIDEO_STATE"
-        private const val VIDEO_POSITON = "VIDEO_POS"
+        private const val VIDEO_POSITION = "VIDEO_POS"
     }
 }

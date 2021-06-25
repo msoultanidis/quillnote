@@ -67,13 +67,11 @@ class EditReminderDialog : BaseDialog<DialogEditReminderBinding>() {
             }
         }
 
-        model.dateFormat.collect(this) {
-            dateFormatter = DateTimeFormatter.ofPattern(getString(it.patternResource))
+        model.dateTimeFormats.collect(this) { (df, tf) ->
+            dateFormatter = DateTimeFormatter.ofPattern(getString(df.patternResource))
             binding.buttonSetDate.text = model.date.format(dateFormatter)
-        }
 
-        model.timeFormat.collect(this) {
-            timeFormatter = DateTimeFormatter.ofPattern(getString(it.patternResource))
+            timeFormatter = DateTimeFormatter.ofPattern(getString(tf.patternResource))
             binding.buttonSetTime.text = model.date.format(timeFormatter)
         }
     }

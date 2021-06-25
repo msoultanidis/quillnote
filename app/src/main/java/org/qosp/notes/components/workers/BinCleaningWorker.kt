@@ -13,7 +13,6 @@ import org.qosp.notes.components.MediaStorageManager
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.preferences.NoteDeletionTime
 import org.qosp.notes.preferences.PreferenceRepository
-import org.qosp.notes.preferences.get
 import java.time.Instant
 
 @HiltWorker

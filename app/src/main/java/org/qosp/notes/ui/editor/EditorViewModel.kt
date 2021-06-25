@@ -25,15 +25,8 @@ class EditorViewModel @Inject constructor(
     var inEditMode: Boolean = false
     var isNotInitialized = true
 
-    val openMediaIn = preferenceRepository.get<OpenMediaIn>()
     private var syncJob: Job? = null
-
     private val noteIdFlow: MutableStateFlow<Long?> = MutableStateFlow(null)
-
-    private val dateTimeFormats = preferenceRepository.get<DateFormat>()
-        .combine(preferenceRepository.get<TimeFormat>()) { df, tf ->
-            df to tf
-        }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val data = noteIdFlow
@@ -42,20 +35,21 @@ class EditorViewModel @Inject constructor(
         .filterNotNull()
         .flatMapLatest { note ->
             getNotebookData(note.notebookId).flatMapLatest { notebook ->
-                dateTimeFormats.map { formats ->
-                    Data(note, notebook, formats)
+                preferenceRepository.getAll().map { prefs ->
+                    Data(
+                        note = note,
+                        notebook = notebook,
+                        dateTimeFormats = prefs.dateFormat to prefs.timeFormat,
+                        openMediaInternally = prefs.openMediaIn == OpenMediaIn.INTERNAL,
+                        isInitialized = true,
+                    )
                 }
             }
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = Data(
-                note = null,
-                notebook = null,
-                formats = defaultOf<DateFormat>() to defaultOf<TimeFormat>(),
-                isInitialized = false,
-            ),
+            initialValue = Data(),
         )
 
     private fun getNotebookData(notebookId: Long?): Flow<Notebook?> {
@@ -185,9 +179,10 @@ class EditorViewModel @Inject constructor(
     }
 
     data class Data(
-        val note: Note?,
-        val notebook: Notebook?,
-        val formats: Pair<DateFormat, TimeFormat>,
-        val isInitialized: Boolean = true,
+        val note: Note? = null,
+        val notebook: Notebook? = null,
+        val dateTimeFormats: Pair<DateFormat, TimeFormat> = defaultOf<DateFormat>() to defaultOf<TimeFormat>(),
+        val openMediaInternally: Boolean = true,
+        val isInitialized: Boolean = false,
     )
 }

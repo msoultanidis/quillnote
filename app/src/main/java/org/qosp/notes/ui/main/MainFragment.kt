@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.clearFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -163,15 +164,10 @@ open class MainFragment : AbstractNotesFragment(R.layout.fragment_main) {
 
     override fun onSelectionChanged(selectedIds: List<Long>) {
         super.onSelectionChanged(selectedIds)
-        with(binding) {
-            if (selectedIds.isNotEmpty()) {
-                bottomAppBar.visibility = View.GONE
-                fabCreateNote.visibility = View.GONE
-            } else {
-                bottomAppBar.visibility = View.VISIBLE
-                fabCreateNote.visibility = View.VISIBLE
-            }
-        }
+
+        val inSelectionMode = selectedIds.isNotEmpty()
+        binding.bottomAppBar.isVisible = !inSelectionMode
+        binding.fabCreateNote.isVisible = !inSelectionMode
     }
 
     override fun onLayoutModeChanged() {
@@ -221,13 +217,13 @@ open class MainFragment : AbstractNotesFragment(R.layout.fragment_main) {
     private fun setLayoutChangeActionIcon() {
         mainMenu?.findItem(R.id.action_layout_mode)?.apply {
             isVisible = true
-            setIcon(if (layoutMode == LayoutMode.GRID) R.drawable.ic_list else R.drawable.ic_grid)
+            setIcon(if (data.layoutMode == LayoutMode.GRID) R.drawable.ic_list else R.drawable.ic_grid)
         }
     }
 
     private fun selectSortMethodItem() {
         mainMenu?.findItem(
-            when (sortMethod) {
+            when (data.sortMethod) {
                 SortMethod.TITLE_ASC -> R.id.action_sort_name_asc
                 SortMethod.TITLE_DESC -> R.id.action_sort_name_desc
                 SortMethod.CREATION_ASC -> R.id.action_sort_created_asc

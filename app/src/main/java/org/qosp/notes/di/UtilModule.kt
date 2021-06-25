@@ -28,7 +28,7 @@ object UtilModule {
     fun provideMediaStorageManager(
         @ApplicationContext context: Context,
         noteRepository: NoteRepository,
-    ) = MediaStorageManager(context, noteRepository)
+    ) = MediaStorageManager(context, noteRepository, App.MEDIA_FOLDER)
 
     @Provides
     @Singleton
