@@ -14,8 +14,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.clearFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.findNavController
@@ -227,26 +227,28 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
                 }
         }
 
-        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.RESUMED) {
-            swipeRefreshLayout.isRefreshing = false
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                swipeRefreshLayout.isRefreshing = false
 
-            val discardedNotes = activityModel
-                .discardEmptyNotesAsync()
-                .await()
-
-            if (discardedNotes) {
-                sendMessage(getString(R.string.indicator_empty_note_discarded))
-            }
-
-            if (model.isSyncingEnabled() && !recyclerAdapter.searchMode) {
-                swipeRefreshLayout.isRefreshing = true
-                activityModel
-                    .syncAsync()
+                val discardedNotes = activityModel
+                    .discardEmptyNotesAsync()
                     .await()
-                    .showToastOnCriticalError()
-            }
 
-            swipeRefreshLayout.isRefreshing = false
+                if (discardedNotes) {
+                    sendMessage(getString(R.string.indicator_empty_note_discarded))
+                }
+
+                if (model.isSyncingEnabled() && !recyclerAdapter.searchMode) {
+                    swipeRefreshLayout.isRefreshing = true
+                    activityModel
+                        .syncAsync()
+                        .await()
+                        .showToastOnCriticalError()
+                }
+
+                swipeRefreshLayout.isRefreshing = false
+            }
         }
 
         postponeEnterTransition(1500L, TimeUnit.MILLISECONDS)

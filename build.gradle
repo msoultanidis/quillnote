@@ -5,7 +5,7 @@ buildscript {
     ext.nav_version = "2.3.5"
     ext.material_version = "1.3.0"
     ext.room_version = "2.3.0"
-    ext.lifecycle_version = "2.4.0-alpha01"
+    ext.lifecycle_version = "2.4.0-alpha02"
     ext.datastore_version = "1.0.0-beta01"
     ext.markwon_version = "4.6.2"
     ext.work_version = "2.5.0"
