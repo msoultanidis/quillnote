@@ -839,7 +839,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         val selected = NoteColor.values().indexOf(data.note?.color).coerceAtLeast(0)
         val dialog = BaseDialog.build(requireContext()) {
             setTitle(getString(R.string.action_change_color))
-            setSingleChoiceItems(NoteColor.values().map { it.name }.toTypedArray(), selected) { dialog, which ->
+            setSingleChoiceItems(NoteColor.values().map { it.localizedName }.toTypedArray(), selected) { dialog, which ->
                 model.setColor(NoteColor.values()[which])
             }
             setPositiveButton(getString(R.string.action_done)) { dialog, which -> }
@@ -908,4 +908,16 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         fabChangeMode.setImageResource(if (model.inEditMode) R.drawable.ic_show else R.drawable.ic_pencil)
         setMarkdownToolbarVisibility(note)
     }
+
+    private val NoteColor.localizedName get() = getString(
+        when (this) {
+            NoteColor.Default -> R.string.default_string
+            NoteColor.Green -> R.string.preferences_color_scheme_green
+            NoteColor.Pink -> R.string.preferences_color_scheme_pink
+            NoteColor.Blue -> R.string.preferences_color_scheme_blue
+            NoteColor.Red -> R.string.preferences_color_scheme_red
+            NoteColor.Orange -> R.string.preferences_color_scheme_orange
+            NoteColor.Yellow -> R.string.preferences_color_scheme_yellow
+        }
+    )
 }

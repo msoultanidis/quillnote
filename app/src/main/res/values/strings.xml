@@ -28,14 +28,16 @@
     <string name="preferences_color_scheme_green">Green</string>
     <string name="preferences_color_scheme_orange">Orange</string>
     <string name="preferences_color_scheme_purple">Purple</string>
+    <string name="preferences_color_scheme_yellow">Yellow</string>
+    <string name="preferences_color_scheme_red">Red</string>
 
-    <string name="preferences_sort_method">Sort method</string>
-    <string name="preferences_sort_method_title_asc">Title ascending</string>
-    <string name="preferences_sort_method_title_desc">Title descending</string>
-    <string name="preferences_sort_method_created_asc">Date created ascending</string>
-    <string name="preferences_sort_method_created_desc">Date created descending</string>
-    <string name="preferences_sort_method_modified_asc">Date modified ascending</string>
-    <string name="preferences_sort_method_modified_desc">Date modified descending</string>
+    <string name="preferences_sort_method">Sort by</string>
+    <string name="preferences_sort_method_title_asc">Title (ascending)</string>
+    <string name="preferences_sort_method_title_desc">Title (descending)</string>
+    <string name="preferences_sort_method_created_asc">Date created (ascending)</string>
+    <string name="preferences_sort_method_created_desc">Date created (descending)</string>
+    <string name="preferences_sort_method_modified_asc">Date modified (ascending)</string>
+    <string name="preferences_sort_method_modified_desc">Date modified (descending)</string>
 
     <string name="preferences_date_format">Date format</string>
     <string name="preferences_time_format">Time format</string>
@@ -96,6 +98,7 @@
 
 
     <!-- General -->
+    <string name="default_string">Default</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">Okay</string>

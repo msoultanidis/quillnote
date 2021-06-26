@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Quillnote</string>
-    <string name="app_version">1.1.0</string>
-    <string name="app_website">https://qosp.org</string>
-    <string name="app_developer_name">Michael Soultanidis</string>
-    <string name="app_developer_repo">https://github.com/msoultanidis</string>
-    <string name="app_repo">https://github.com/msoultanidis/quillnote</string>
-    <string name="app_support_page">https://qosp.org/#/support</string>
-    <string name="hint_nextcloud_url">https://…</string>
+    <string name="app_version" translatable="false">1.1.0</string>
+    <string name="app_website" translatable="false">https://qosp.org</string>
+    <string name="app_developer_name" translatable="false">Michael Soultanidis</string>
+    <string name="app_developer_repo" translatable="false">https://github.com/msoultanidis</string>
+    <string name="app_repo" translatable="false">https://github.com/msoultanidis/quillnote</string>
+    <string name="app_support_page" translatable="false">https://qosp.org/#/support</string>
+    <string name="hint_nextcloud_url" translatable="false">https://…</string>
 
-    <string name="licenses_markdown_text">
+    <string name="licenses_markdown_text" translatable="false">
         **Markwon** by Dimitry Ivanov, licensed under Apache License 2.0\n\n
         ```\n  Copyright 2019 Dimitry Ivanov (legal@noties.io)
 

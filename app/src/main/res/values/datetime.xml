@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Date -->
-    <string name="MMMM_d_yyyy">MMMM d yyyy</string>
-    <string name="d_MMMM_yyyy">d MMMM yyyy</string>
-    <string name="MM_d_yyyy">MM/d/yyyy</string>
-    <string name="d_MM_yyyy">d/MM/yyyy</string>
+    <string name="MMMM_d_yyyy" translatable="false">MMMM d yyyy</string>
+    <string name="d_MMMM_yyyy" translatable="false">d MMMM yyyy</string>
+    <string name="MM_d_yyyy" translatable="false">MM/d/yyyy</string>
+    <string name="d_MM_yyyy" translatable="false">d/MM/yyyy</string>
 
     <!-- Time -->
-    <string name="HH_mm">HH:mm</string>
-    <string name="hh_mm">hh:mm a</string>
+    <string name="HH_mm" translatable="false">HH:mm</string>
+    <string name="hh_mm" translatable="false">hh:mm a</string>
 </resources>
