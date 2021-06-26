@@ -228,8 +228,6 @@ class MainActivity : BaseActivity() {
             currentFocus?.hideKeyboard()
             selectCurrentDestinationMenuItem(destination.id, arguments)
 
-            destination.label
-
             setDrawerEnabled(destination.id != R.id.fragment_editor)
         }
 
