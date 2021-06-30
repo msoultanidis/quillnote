@@ -235,7 +235,7 @@ open class MainFragment : AbstractNotesFragment(R.layout.fragment_main) {
     }
 
     private fun setupBottomAppBar() {
-        binding.bottomAppBar.setOnMenuItemClickListener { it ->
+        binding.bottomAppBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_create_list -> {
                     goToEditor(

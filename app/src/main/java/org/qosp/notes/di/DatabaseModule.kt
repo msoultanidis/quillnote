@@ -7,7 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import org.qosp.notes.data.AppDatabase
+import org.qosp.notes.data.database.AppDatabase
+import org.qosp.notes.data.database.MIGRATION_1_2
 import javax.inject.Singleton
 
 @Module
@@ -21,6 +22,7 @@ object DatabaseModule {
     ): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.DB_NAME)
             .fallbackToDestructiveMigration()
+            .addMigrations(MIGRATION_1_2)
             .build()
     }
 }

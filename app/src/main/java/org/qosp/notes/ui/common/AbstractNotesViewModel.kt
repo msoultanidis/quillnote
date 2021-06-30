@@ -30,7 +30,7 @@ abstract class AbstractNotesViewModel(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Data())
 
-    suspend fun isSyncingEnabled(): Boolean = syncManager.ifSyncing { _, _ -> Success } == Success
+    suspend fun isSyncingEnabled(): Boolean = syncManager.ifSyncing { _, _ -> Success<Any>() } is Success
 
     data class Data(
         val notes: List<Note> = listOf(),

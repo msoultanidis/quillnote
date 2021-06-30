@@ -1,6 +1,5 @@
 package org.qosp.notes.di
 
-import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
@@ -12,17 +11,12 @@ import org.qosp.notes.BuildConfig
 import org.qosp.notes.components.MediaStorageManager
 import org.qosp.notes.components.backup.BackupManager
 import org.qosp.notes.data.repo.*
-import org.qosp.notes.data.sync.core.SyncManager
-import org.qosp.notes.data.sync.nextcloud.NextcloudManager
-import org.qosp.notes.preferences.PreferenceRepository
 import org.qosp.notes.ui.reminders.ReminderManager
-import org.qosp.notes.ui.utils.ConnectionManager
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object UtilModule {
-
     @Provides
     @Singleton
     fun provideMediaStorageManager(
@@ -36,22 +30,6 @@ object UtilModule {
         @ApplicationContext context: Context,
         reminderRepository: ReminderRepository,
     ) = ReminderManager(context, reminderRepository)
-
-    @Provides
-    @Singleton
-    fun provideSyncManager(
-        @ApplicationContext context: Context,
-        preferenceRepository: PreferenceRepository,
-        idMappingRepository: IdMappingRepository,
-        nextcloudManager: NextcloudManager,
-        app: Application,
-    ) = SyncManager(
-        preferenceRepository,
-        idMappingRepository,
-        ConnectionManager(context),
-        nextcloudManager,
-        (app as App).syncingScope
-    )
 
     @Provides
     @Singleton

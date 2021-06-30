@@ -16,7 +16,7 @@ import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.data.repo.NotebookRepository
 import org.qosp.notes.data.repo.ReminderRepository
 import org.qosp.notes.data.repo.TagRepository
-import org.qosp.notes.data.sync.core.BaseResult
+import org.qosp.notes.data.sync.core.Response
 import org.qosp.notes.data.sync.core.SyncManager
 import org.qosp.notes.preferences.*
 import org.qosp.notes.ui.reminders.ReminderManager
@@ -42,7 +42,7 @@ class ActivityViewModel @Inject constructor(
     var notesToBackup: Set<Note>? = null
     var tempPhotoUri: Uri? = null
 
-    fun syncAsync(): Deferred<BaseResult> {
+    fun syncAsync(): Deferred<Response<Any>> {
         return syncManager.syncingScope.async {
             syncManager.sync()
         }

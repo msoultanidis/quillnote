@@ -1,4 +1,4 @@
-package org.qosp.notes.data
+package org.qosp.notes.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -15,7 +15,7 @@ import org.qosp.notes.data.model.*
         Reminder::class,
         IdMapping::class,
     ],
-    version = 1,
+    version = 2,
 )
 @TypeConverters(DatabaseConverters::class)
 abstract class AppDatabase : RoomDatabase() {

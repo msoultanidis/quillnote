@@ -57,14 +57,14 @@ class NextcloudAccountDialog : BaseDialog<DialogNextcloudAccountBinding>() {
             lifecycleScope.launch {
                 val result = model.authenticate(username, password)
                 val messageResId = when (result) {
-                    NoConnectivity -> R.string.message_internet_not_available
-                    ServerNotSupported -> R.string.message_server_not_compatible
-                    Success -> R.string.message_logged_in_successfully
-                    Unauthorized -> R.string.message_invalid_credentials
+                    is NoConnectivity -> R.string.message_internet_not_available
+                    is ServerNotSupported -> R.string.message_server_not_compatible
+                    is Success -> R.string.message_logged_in_successfully
+                    is Unauthorized -> R.string.message_invalid_credentials
                     else -> R.string.message_something_went_wrong
                 }
                 Toast.makeText(requireContext(), getString(messageResId), Toast.LENGTH_SHORT).show()
-                if (result == Success) dismiss()
+                if (result is Success) dismiss()
             }
         }
 

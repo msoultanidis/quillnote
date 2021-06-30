@@ -102,10 +102,10 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
         }
     }
 
-    private fun BaseResult.showToastOnCriticalError() {
+    private fun Response<*>.showToastOnCriticalError() {
         val resId = when (this) {
-            ServerNotSupported -> R.string.message_server_not_compatible
-            Unauthorized -> R.string.message_invalid_credentials
+            is ServerNotSupported -> R.string.message_server_not_compatible
+            is Unauthorized -> R.string.message_invalid_credentials
             else -> null
         }
 

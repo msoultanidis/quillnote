@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import org.qosp.notes.data.AppDatabase
+import org.qosp.notes.data.database.AppDatabase
 import javax.inject.Singleton
 
 @Module

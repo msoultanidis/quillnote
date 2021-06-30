@@ -27,7 +27,7 @@ class SyncWorker @AssistedInject constructor(
             return@withContext Result.failure()
 
         when (syncManager.sync()) {
-            Success -> Result.success()
+            is Success -> Result.success()
             else -> Result.failure()
         }
     }

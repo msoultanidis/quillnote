@@ -4,19 +4,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import me.msoul.datastore.defaultOf
-import org.qosp.notes.data.dao.IdMappingDao
 import org.qosp.notes.data.dao.NoteDao
 import org.qosp.notes.data.dao.ReminderDao
-import org.qosp.notes.data.model.IdMapping
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.sync.core.SyncManager
-import org.qosp.notes.preferences.CloudService
 import org.qosp.notes.preferences.SortMethod
 import java.time.Instant
 
 class NoteRepository(
     private val noteDao: NoteDao,
-    private val idMappingDao: IdMappingDao,
+    private val idMappingRepository: IdMappingRepository,
     private val reminderDao: ReminderDao,
     private val syncManager: SyncManager?,
 ) {
@@ -24,31 +21,13 @@ class NoteRepository(
     private suspend fun cleanMappingsForLocalNotes(vararg notes: Note) {
         notes
             .filter { it.isLocalOnly }
-            .also { notes ->
-                idMappingDao.setNotesToBeDeleted(
-                    *notes
-                        .map { it.id }
-                        .toLongArray()
-                )
-            }
+            .also { idMappingRepository.unassignNotesFromProviders(*it.toTypedArray()) }
     }
 
     suspend fun insertNote(note: Note, shouldSync: Boolean = true): Long {
         val id = noteDao.insert(note.toEntity())
 
-        if (!note.isLocalOnly && shouldSync) {
-            idMappingDao.insert(
-                IdMapping(
-                    localNoteId = id,
-                    remoteNoteId = null,
-                    provider = null,
-                    isDeletedLocally = false,
-                    extras = null,
-                )
-            )
-
-            if (syncManager == null) return id
-
+        if (!note.isLocalOnly && shouldSync && syncManager != null) {
             syncManager.syncingScope.launch {
                 syncManager.createNote(note.copy(id = id))
             }
@@ -66,11 +45,9 @@ class NoteRepository(
         if (shouldSync && syncManager != null) {
             syncManager.syncingScope.launch {
                 notes
+                    .asSequence()
                     .filterNot { it.isLocalOnly }
-                    .forEach {
-                        idMappingDao.setNoteIsBeingUpdated(it.id, true)
-                        syncManager.updateOrCreate(it)
-                    }
+                    .forEach { syncManager.updateOrCreate(it) }
             }
         }
     }
@@ -87,6 +64,7 @@ class NoteRepository(
         if (shouldSync && syncManager != null) {
             syncManager.syncingScope.launch {
                 notes
+                    .asSequence()
                     .filterNot { it.isLocalOnly }
                     .forEach { syncManager.moveNoteToBin(it) }
             }
@@ -104,6 +82,7 @@ class NoteRepository(
         if (shouldSync && syncManager != null) {
             syncManager.syncingScope.launch {
                 notes
+                    .asSequence()
                     .filterNot { it.isLocalOnly }
                     .forEach { syncManager.restoreNote(it) }
             }
@@ -116,15 +95,14 @@ class NoteRepository(
             .toTypedArray()
         noteDao.delete(*array)
 
-        idMappingDao.setNotesToBeDeleted(*notes.map { it.id }.toLongArray())
+        idMappingRepository.unassignNotesFromProviders(*notes)
 
         if (shouldSync && syncManager != null) {
             syncManager.syncingScope.launch {
                 notes
+                    .asSequence()
                     .filterNot { it.isLocalOnly }
-                    .forEach {
-                        syncManager.deleteNote(it)
-                    }
+                    .forEach { syncManager.deleteNote(it) }
             }
         }
     }
@@ -141,12 +119,9 @@ class NoteRepository(
     }
 
     suspend fun permanentlyDeleteNotesInBin() {
-        val noteIds = noteDao.getDeleted(defaultOf())
-            .first()
-            .map { it.id }
-            .toLongArray()
+        val notes = noteDao.getDeleted(defaultOf()).first().toTypedArray()
+        idMappingRepository.unassignNotesFromProviders(*notes)
 
-        idMappingDao.setNotesToBeDeleted(*noteIds)
         noteDao.permanentlyDeleteNotesInBin()
     }
 
@@ -176,13 +151,5 @@ class NoteRepository(
 
     fun getByNotebook(notebookId: Long, sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
         return noteDao.getByNotebook(notebookId, sortMethod)
-    }
-
-    fun getNonRemoteNotes(provider: CloudService, sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
-        return noteDao.getNonRemoteNotes(sortMethod, provider)
-    }
-
-    suspend fun moveRemotelyDeletedNotesToBin(idsInUse: List<Long>, provider: CloudService) {
-        noteDao.moveRemotelyDeletedNotesToBin(idsInUse, provider)
     }
 }

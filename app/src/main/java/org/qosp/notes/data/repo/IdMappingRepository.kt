@@ -2,49 +2,60 @@ package org.qosp.notes.data.repo
 
 import org.qosp.notes.data.dao.IdMappingDao
 import org.qosp.notes.data.model.IdMapping
+import org.qosp.notes.data.model.Note
+import org.qosp.notes.data.sync.core.RemoteNote
 import org.qosp.notes.preferences.CloudService
 
 class IdMappingRepository(private val idMappingDao: IdMappingDao) {
 
-    suspend fun insert(vararg mappings: IdMapping) = idMappingDao.insert(*mappings)
-
-    suspend fun update(vararg mappings: IdMapping) = idMappingDao.update(*mappings)
-
-    suspend fun delete(vararg mappings: IdMapping) = idMappingDao.delete(*mappings)
-
-    suspend fun assignProviderToNote(mapping: IdMapping) {
-        val unassignedMappingId = idMappingDao.getNonRemoteByLocalId(mapping.localNoteId)?.mappingId
-
-        if (unassignedMappingId != null) {
-            return idMappingDao.update(
-                mapping.copy(mappingId = unassignedMappingId)
-            )
-        }
-
-        idMappingDao.insert(mapping)
+    suspend fun updateMappings(vararg mappings: IdMapping) {
+        idMappingDao.update(*mappings)
     }
 
-    suspend fun deleteByRemoteId(provider: CloudService, vararg remoteIds: Long) {
-        idMappingDao.deleteByRemoteId(provider, *remoteIds)
+    suspend fun update(note: Note, remoteNote: RemoteNote) {
+        idMappingDao.update(remoteNote.id, remoteNote.provider, remoteNote.extras)
     }
 
-    suspend fun getAllByLocalId(localId: Long) = idMappingDao.getAllByLocalId(localId)
+    suspend fun getAllByProvider(provider: CloudService): List<IdMapping> {
+        return idMappingDao.getAllByProvider(provider)
+    }
 
     suspend fun getByLocalIdAndProvider(localId: Long, provider: CloudService): IdMapping? {
         return idMappingDao.getByLocalIdAndProvider(localId, provider)
     }
 
-    suspend fun getByRemoteId(remoteId: Long, provider: CloudService): IdMapping? {
-        return idMappingDao.getByRemoteId(remoteId, provider)
+    suspend fun createMappingForNote(note: Note, remoteNote: RemoteNote) {
+        idMappingDao.insertMapping(
+            IdMapping(
+                localNoteId = note.id,
+                remoteNoteId = remoteNote.id,
+                extras = remoteNote.extras,
+                provider = remoteNote.provider,
+            )
+        )
     }
 
-    suspend fun unassignProviderFromRemotelyDeletedNotes(idsInUse: List<Long>, provider: CloudService) {
-        idMappingDao.unassignProviderFromRemotelyDeletedNotes(idsInUse, provider)
+    suspend fun unassignLocalNotesFromProvider(provider: CloudService, vararg notes: Note) {
+        idMappingDao.unassignLocalNotesFromProvider(provider, notes.map { it.id })
     }
 
-    suspend fun unassignProviderFromNote(provider: CloudService, localId: Long) {
-        idMappingDao.unassignProviderFromNote(localId, provider)
+    suspend fun unassignNotesFromProviders(vararg notes: Note) {
+        idMappingDao.unassignNotesFromProviders(notes.map { it.id })
     }
 
-    suspend fun deleteIfLocalIdNotIn(ids: List<Long>) = idMappingDao.deleteIfLocalIdNotIn(ids)
+    suspend fun deleteMappingsOfRemoteNote(remoteNote: RemoteNote) {
+        idMappingDao.deleteMappingsOfRemoteNote(remoteNote.id, remoteNote.provider)
+    }
+
+    suspend fun deleteIfLocalIdNotIn(ids: List<Long>) {
+        idMappingDao.deleteIfLocalIdNotIn(ids)
+    }
+
+    suspend fun getAllByLocalId(localId: Long): List<IdMapping> {
+        return idMappingDao.getAllByLocalId(localId)
+    }
+
+    suspend fun insertMapping(mapping: IdMapping) {
+        idMappingDao.insertMapping(mapping)
+    }
 }

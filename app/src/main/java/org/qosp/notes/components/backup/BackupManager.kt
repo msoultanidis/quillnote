@@ -122,9 +122,9 @@ class BackupManager(
 
         backup.idMappings.forEach {
             val noteId = notesMap[it.localNoteId] ?: return@forEach
-            val newMapping = it.copy(mappingId = 0L, localNoteId = noteId)
+            val newMapping = it.copy(localNoteId = noteId)
 
-            idMappingRepository.assignProviderToNote(newMapping)
+            idMappingRepository.insertMapping(newMapping)
         }
 
         backup.joins.forEach { join ->

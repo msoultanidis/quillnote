@@ -19,7 +19,7 @@ class EditReminderViewModel @Inject constructor(
     preferenceRepository: PreferenceRepository
 ) : ViewModel() {
 
-    var date = ZonedDateTime.now()
+    var date: ZonedDateTime = ZonedDateTime.now()
 
     val dateTimeFormats = preferenceRepository.getAll().map { it.dateFormat to it.timeFormat }
 

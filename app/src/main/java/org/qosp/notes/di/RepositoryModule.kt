@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import org.qosp.notes.data.AppDatabase
+import org.qosp.notes.data.database.AppDatabase
 import org.qosp.notes.data.repo.*
 import org.qosp.notes.data.sync.core.SyncManager
 import javax.inject.Named
@@ -35,14 +35,16 @@ object RepositoryModule {
     fun provideNoteRepository(
         appDatabase: AppDatabase,
         syncManager: SyncManager,
-    ) = NoteRepository(appDatabase.noteDao, appDatabase.idMappingDao, appDatabase.reminderDao, syncManager)
+        idMappingRepository: IdMappingRepository,
+    ) = NoteRepository(appDatabase.noteDao, idMappingRepository, appDatabase.reminderDao, syncManager)
 
     @Provides
     @Named(NO_SYNC)
     @Singleton
     fun provideNoteRepositoryWithNullSyncManager(
         appDatabase: AppDatabase,
-    ) = NoteRepository(appDatabase.noteDao, appDatabase.idMappingDao, appDatabase.reminderDao, null)
+        idMappingRepository: IdMappingRepository,
+    ) = NoteRepository(appDatabase.noteDao, idMappingRepository, appDatabase.reminderDao, null)
 
     @Provides
     @Singleton

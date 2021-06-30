@@ -1,4 +1,4 @@
-package org.qosp.notes.data
+package org.qosp.notes.data.database
 
 import androidx.room.TypeConverter
 import kotlinx.serialization.decodeFromString
