@@ -41,6 +41,7 @@ class EditorViewModel @Inject constructor(
                         notebook = notebook,
                         dateTimeFormats = prefs.dateFormat to prefs.timeFormat,
                         openMediaInternally = prefs.openMediaIn == OpenMediaIn.INTERNAL,
+                        showDates = prefs.showDate == ShowDate.YES,
                         isInitialized = true,
                     )
                 }
@@ -183,6 +184,7 @@ class EditorViewModel @Inject constructor(
         val notebook: Notebook? = null,
         val dateTimeFormats: Pair<DateFormat, TimeFormat> = defaultOf<DateFormat>() to defaultOf<TimeFormat>(),
         val openMediaInternally: Boolean = true,
+        val showDates: Boolean = true,
         val isInitialized: Boolean = false,
     )
 }

@@ -12,6 +12,7 @@ data class AppPreferences(
     val dateFormat: DateFormat = defaultOf(),
     val timeFormat: TimeFormat = defaultOf(),
     val openMediaIn: OpenMediaIn = defaultOf(),
+    val showDate: ShowDate = defaultOf(),
     val cloudService: CloudService = defaultOf(),
     val syncMode: SyncMode = defaultOf(),
     val backgroundSync: BackgroundSync = defaultOf(),

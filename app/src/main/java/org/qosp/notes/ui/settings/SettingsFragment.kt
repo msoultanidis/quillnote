@@ -47,6 +47,7 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
         setupOpenMediaInListener()
         setupNoteDeletionTimeListener()
         setupBackupStrategyListener()
+        setupShowDateListener()
         setupDateFormatListener()
         setupTimeFormatListener()
         setupSyncSettingsListener()
@@ -87,6 +88,9 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
                 binding.settingBackupStrategy.subText = getString(backupStrategy.nameResource)
                 binding.settingOpenMedia.subText = getString(openMediaIn.nameResource)
                 binding.settingNoteDeletion.subText = getString(noteDeletionTime.nameResource)
+
+                binding.settingShowDate.subText = getString(showDate.nameResource)
+
                 with(DateTimeFormatter.ofPattern(getString(dateFormat.patternResource))) {
                     binding.settingDateFormat.subText = format(LocalDate.now())
                 }
@@ -147,6 +151,12 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
 
     private fun setupNoteDeletionTimeListener() = binding.settingNoteDeletion.setOnClickListener {
         showPreferenceDialog(R.string.preferences_note_deletion_time, appPreferences.noteDeletionTime) { selected ->
+            model.setPreference(selected)
+        }
+    }
+
+    private fun setupShowDateListener() = binding.settingShowDate.setOnClickListener {
+        showPreferenceDialog(R.string.preferences_show_date, appPreferences.showDate) { selected ->
             model.setPreference(selected)
         }
     }

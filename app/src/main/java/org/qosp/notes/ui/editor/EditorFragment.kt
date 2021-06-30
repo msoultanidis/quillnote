@@ -676,7 +676,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
             formatter =
                 DateTimeFormatter.ofPattern("${getString(dateFormat.patternResource)}, ${getString(timeFormat.patternResource)}")
-            if (formatter != null) {
+
+            textViewDate.isVisible = data.showDates
+            if (formatter != null && data.showDates) {
                 textViewDate.text =
                     getString(R.string.indicator_note_date, creationDate.format(formatter), modifiedDate.format(formatter))
             }

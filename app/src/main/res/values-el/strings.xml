@@ -34,6 +34,7 @@
     <string name="preferences_sort_method_created_desc">Ημερομηνία δημιουργίας (φθίνουσα)</string>
     <string name="preferences_sort_method_modified_asc">Ημερομηνία τροποποίησης (αύξουσα)</string>
     <string name="preferences_sort_method_modified_desc">Ημερομηνία τροποποίησης (φθίνουσα)</string>
+    <string name="preferences_show_date">Προβολή ημερομηνίας δημιουργίας/τροποποίησης</string>
     <string name="preferences_date_format">Μορφή ημερομηνίας</string>
     <string name="preferences_time_format">Μορφή ώρας</string>
     <string name="preferences_header_other">Άλλα</string>

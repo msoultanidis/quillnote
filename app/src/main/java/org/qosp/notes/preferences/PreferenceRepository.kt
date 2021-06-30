@@ -40,6 +40,7 @@ class PreferenceRepository(
                     dateFormat = prefs.getEnum(),
                     timeFormat = prefs.getEnum(),
                     openMediaIn = prefs.getEnum(),
+                    showDate = prefs.getEnum(),
                     cloudService = prefs.getEnum(),
                     syncMode = prefs.getEnum(),
                     backgroundSync = prefs.getEnum(),

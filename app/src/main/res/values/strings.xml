@@ -39,6 +39,7 @@
     <string name="preferences_sort_method_modified_asc">Date modified (ascending)</string>
     <string name="preferences_sort_method_modified_desc">Date modified (descending)</string>
 
+    <string name="preferences_show_date">Show date created/modified</string>
     <string name="preferences_date_format">Date format</string>
     <string name="preferences_time_format">Time format</string>
 
