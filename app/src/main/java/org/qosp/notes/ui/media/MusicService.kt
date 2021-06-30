@@ -100,10 +100,12 @@ class MusicServiceBinder(
     val builder: NotificationCompat.Builder = NotificationCompat.Builder(applicationContext, App.PLAYBACK_CHANNEL_ID)
     var notificationId: Int? = null
 
+    private var pausedByUser: Boolean = true
+
     private val audioFocusListener = AudioManager.OnAudioFocusChangeListener {
         when (it) {
-            AudioManager.AUDIOFOCUS_GAIN -> startPlaying()
-            else -> pausePlaying()
+            AudioManager.AUDIOFOCUS_GAIN -> if (state != State.COMPLETED && !pausedByUser) startPlaying()
+            else -> pausePlaying(byUser = false)
         }
     }
 
@@ -157,6 +159,7 @@ class MusicServiceBinder(
             .build()
 
         state = newState
+        pausedByUser = if (newState != State.PAUSED) true else pausedByUser
 
         val playbackState = when (newState) {
             State.INITIALIZED -> buildPlaybackState(PlaybackState.STATE_NONE)
@@ -294,10 +297,11 @@ class MusicServiceBinder(
         }
     }
 
-    fun pausePlaying() {
+    fun pausePlaying(byUser: Boolean = true) {
         if (state == State.STARTED) {
             mediaPlayer.pause()
             setState(State.PAUSED)
+            pausedByUser = byUser
         }
     }
 
