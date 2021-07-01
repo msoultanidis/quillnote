@@ -10,6 +10,7 @@
 
     <style name="NavigationView">
         <item name="colorControlHighlight">@android:color/transparent</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="Widget.Custom.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">

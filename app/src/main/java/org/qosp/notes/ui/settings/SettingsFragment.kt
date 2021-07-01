@@ -44,6 +44,7 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
         setupThemeModeListener()
         setupLayoutModeListener()
         setupSortMethodListener()
+        setupGroupNotesWithoutNotebookListener()
         setupOpenMediaInListener()
         setupNoteDeletionTimeListener()
         setupBackupStrategyListener()
@@ -89,6 +90,7 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
                 binding.settingOpenMedia.subText = getString(openMediaIn.nameResource)
                 binding.settingNoteDeletion.subText = getString(noteDeletionTime.nameResource)
 
+                binding.settingGroupNotesWithoutNotebook.subText = getString(groupNotesWithoutNotebook.nameResource)
                 binding.settingShowDate.subText = getString(showDate.nameResource)
 
                 with(DateTimeFormatter.ofPattern(getString(dateFormat.patternResource))) {
@@ -139,6 +141,12 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
 
     private fun setupBackupStrategyListener() = binding.settingBackupStrategy.setOnClickListener {
         showPreferenceDialog(R.string.preferences_backup_strategy, appPreferences.backupStrategy) { selected ->
+            model.setPreference(selected)
+        }
+    }
+
+    private fun setupGroupNotesWithoutNotebookListener() = binding.settingGroupNotesWithoutNotebook.setOnClickListener {
+        showPreferenceDialog(R.string.preferences_group_notes_without_notebook, appPreferences.groupNotesWithoutNotebook) { selected ->
             model.setPreference(selected)
         }
     }

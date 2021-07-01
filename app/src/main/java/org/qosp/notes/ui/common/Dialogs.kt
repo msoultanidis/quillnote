@@ -9,7 +9,7 @@ import org.qosp.notes.ui.utils.navigateSafely
 
 fun BaseFragment.showMoveToNotebookDialog(vararg notes: Note) {
     lifecycleScope.launch {
-        val notebooks = activityModel.notebooks.value
+        val (_, notebooks) = activityModel.notebooks.value
         var selected = 0
         val notebooksMap: MutableMap<Long?, String> =
             mutableMapOf(null to requireContext().getString(R.string.notebooks_unassigned))

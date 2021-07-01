@@ -13,6 +13,7 @@ data class AppPreferences(
     val timeFormat: TimeFormat = defaultOf(),
     val openMediaIn: OpenMediaIn = defaultOf(),
     val showDate: ShowDate = defaultOf(),
+    val groupNotesWithoutNotebook: GroupNotesWithoutNotebook = defaultOf(),
     val cloudService: CloudService = defaultOf(),
     val syncMode: SyncMode = defaultOf(),
     val backgroundSync: BackgroundSync = defaultOf(),

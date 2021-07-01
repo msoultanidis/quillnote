@@ -8,7 +8,10 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import me.msoul.datastore.defaultOf
 import org.qosp.notes.components.MediaStorageManager
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.model.Notebook
@@ -35,8 +38,18 @@ class ActivityViewModel @Inject constructor(
     private val syncManager: SyncManager,
 ) : ViewModel() {
 
-    val notebooks: StateFlow<List<Notebook>> = notebookRepository.getAll()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), listOf())
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val notebooks: StateFlow<Pair<Boolean, List<Notebook>>> =
+        preferenceRepository.get<GroupNotesWithoutNotebook>().flatMapLatest { groupNotesWithoutNotebook ->
+            notebookRepository.getAll().map { notebooks ->
+                (groupNotesWithoutNotebook == GroupNotesWithoutNotebook.YES) to notebooks
+            }
+        }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = (defaultOf<GroupNotesWithoutNotebook>() == GroupNotesWithoutNotebook.YES) to listOf(),
+            )
 
     var showHiddenNotes: Boolean = false
     var notesToBackup: Set<Note>? = null

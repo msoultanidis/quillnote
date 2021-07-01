@@ -38,6 +38,7 @@
     <string name="preferences_date_format">Μορφή ημερομηνίας</string>
     <string name="preferences_time_format">Μορφή ώρας</string>
     <string name="preferences_header_other">Άλλα</string>
+    <string name="preferences_group_notes_without_notebook">Ομαδοποίηση των σημειώσεων που δεν ανήκουν σε κάποιο τετράδιο</string>
     <string name="preferences_open_media_in">Άνοιγμα πολυμέσων</string>
     <string name="preferences_open_media_in_internal">Μέσα στην εφαρμογή</string>
     <string name="preferences_open_media_in_external">Με άλλη εφαρμογή</string>
@@ -119,6 +120,7 @@
     <string name="action_attach_files">Επισύναψη αρχείων</string>
     <string name="action_take_photo">Τραβήξτε φωτογραφία</string>
     <string name="indicator_recorded_clip">Ηχογραφημένο κλιπ</string>
+    <string name="default_notebook">Άλλες σημειώσεις</string>
     <string name="notebooks_new_notebook">Νέο τετράδιο</string>
     <string name="notebooks_hint_name">Όνομα τετραδίου</string>
     <string name="notebooks_unassigned">Χωρίς Τετράδιο</string>
@@ -189,7 +191,7 @@
     <string name="indicator_nextcloud_currently_logged_in_as">Είστε συνδεδεμένοι ως <b>%s</b>.</string>
     <string name="indicator_nextcloud_currently_not_logged_in">Δεν είστε συνδεδεμένοι.</string>
     <string name="action_nextcloud_authenticate">Σύνδεση</string>
-    <string name="indicator_offline_account">Λογαριασμός εκτός σύνδεσης.</string>
+    <string name="indicator_offline_account">Λογαριασμός εκτός σύνδεσης</string>
     <string name="indicator_connecting">Γίνεται σύνδεση…</string>
     <string name="message_something_went_wrong">Κάτι πήγε λάθος.</string>
     <string name="message_invalid_credentials">Δεν μπορεί να γίνει σύνδεση λόγω λανθασμένων στοιχείων.</string>

@@ -72,9 +72,16 @@ enum class OpenMediaIn(override val nameResource: Int) : HasNameResource, EnumPr
     EXTERNAL(R.string.preferences_open_media_in_external),
 }
 
-enum class ShowDate(override val nameResource: Int): HasNameResource, EnumPreference by key("show_date") {
+enum class ShowDate(override val nameResource: Int) : HasNameResource, EnumPreference by key("show_date") {
     YES(R.string.yes) { override val isDefault = true },
     NO(R.string.no),
+}
+
+enum class GroupNotesWithoutNotebook(
+    override val nameResource: Int,
+) : HasNameResource, EnumPreference by key("group_notes_without_notebook") {
+    YES(R.string.yes),
+    NO(R.string.no) { override val isDefault = true },
 }
 
 enum class CloudService(override val nameResource: Int) : HasNameResource, EnumPreference by key("cloud_service") {

@@ -123,6 +123,13 @@
                     app:iconSrc="@drawable/ic_music"/>
 
             <org.qosp.notes.ui.utils.views.PreferenceView
+                    android:id="@+id/setting_group_notes_without_notebook"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:text="@string/preferences_group_notes_without_notebook"
+                    app:iconSrc="@drawable/ic_notebook"/>
+
+            <org.qosp.notes.ui.utils.views.PreferenceView
                     android:id="@+id/setting_note_deletion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

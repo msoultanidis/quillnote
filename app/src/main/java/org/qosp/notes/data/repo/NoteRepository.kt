@@ -182,6 +182,10 @@ class NoteRepository(
         return noteDao.getNonRemoteNotes(sortMethod, provider)
     }
 
+    fun getNotesWithoutNotebook(sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
+        return noteDao.getNotesWithoutNotebook(sortMethod)
+    }
+
     suspend fun moveRemotelyDeletedNotesToBin(idsInUse: List<Long>, provider: CloudService) {
         noteDao.moveRemotelyDeletedNotesToBin(idsInUse, provider)
     }
