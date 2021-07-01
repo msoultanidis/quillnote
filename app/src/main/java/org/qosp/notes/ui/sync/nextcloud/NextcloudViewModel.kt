@@ -22,13 +22,16 @@ class NextcloudViewModel @Inject constructor(
     val username = preferenceRepository.getEncryptedString(PreferenceRepository.NEXTCLOUD_USERNAME)
     val password = preferenceRepository.getEncryptedString(PreferenceRepository.NEXTCLOUD_PASSWORD)
 
-    fun setURL(url: String) = viewModelScope.launch {
-        if (!URLUtil.isHttpsUrl(url)) return@launch
+    fun validateAndSaveURL(url: String): Boolean {
+        if (!URLUtil.isHttpsUrl(url)) return false
 
-        val url = if (url.endsWith("/")) url else "$url/"
-        preferenceRepository.putEncryptedStrings(
-            PreferenceRepository.NEXTCLOUD_INSTANCE_URL to url,
-        )
+        viewModelScope.launch {
+            preferenceRepository.putEncryptedStrings(
+                PreferenceRepository.NEXTCLOUD_INSTANCE_URL to if (url.endsWith("/")) url else "$url/",
+            )
+        }
+
+        return true
     }
 
     suspend fun authenticate(username: String, password: String): Response<*> {

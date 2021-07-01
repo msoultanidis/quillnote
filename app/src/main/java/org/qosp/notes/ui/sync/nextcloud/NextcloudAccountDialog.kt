@@ -25,9 +25,6 @@ class NextcloudAccountDialog : BaseDialog<DialogNextcloudAccountBinding>() {
     private var username = ""
     private var password = ""
 
-    @Inject
-    lateinit var syncManager: SyncManager
-
     override fun createBinding(inflater: LayoutInflater) = DialogNextcloudAccountBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -95,9 +95,6 @@ open class MainFragment : AbstractNotesFragment(R.layout.fragment_main) {
         get() = binding.layoutAppBar.toolbarSelection
     override val secondaryToolbarMenuRes: Int = R.menu.main_selected_notes
 
-    @Inject
-    lateinit var syncManager: SyncManager
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         model.initialize(notebookId)
