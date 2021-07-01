@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Navigation drawer -->
     <string name="nav_notes">Notatki</string>
     <string name="nav_archive">Archiwum</string>
@@ -253,22 +253,22 @@
     <string name="shortcut_take_note">Nowa notatka</string>
     <string name="shortcut_make_list">Nowa lista</string>
 
-    <plurals name="more_items">
+    <plurals name="more_items" tools:ignore="MissingQuantity">
         <item quantity="one">+%d element</item>
         <item quantity="other">+%d elementy</item>
     </plurals>
 
-    <plurals name="selected_notes">
+    <plurals name="selected_notes" tools:ignore="MissingQuantity">
         <item quantity="one">Zaznaczono %d notatkę</item>
         <item quantity="other">Zaznaczono %d notatki</item>
     </plurals>
 
-    <plurals name="selected_notebooks">
+    <plurals name="selected_notebooks" tools:ignore="MissingQuantity">
         <item quantity="one">Zaznaczono %d notatnik</item>
         <item quantity="other">Zaznaczono %d notatniki</item>
     </plurals>
 
-    <plurals name="selected_tags">
+    <plurals name="selected_tags" tools:ignore="MissingQuantity">
         <item quantity="one">Zaznaczono %d znacznik</item>
         <item quantity="other">Zaznaczono %d znaczniki</item>
     </plurals>

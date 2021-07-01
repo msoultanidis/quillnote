@@ -10,6 +10,7 @@
 |--------------|---------------|----------|
 | English      | [@msoultanidis](https://github.com/msoultanidis) | Complete |
 | Greek (`el`) | [@msoultanidis](https://github.com/msoultanidis) | Complete |
+| Polish (`pl`) | [@TheDidek](https://github.com/TheDidek) | Complete |
 
 You can help Quillnote grow by translating it in languages it does not support yet or by improving existing translations.
 
