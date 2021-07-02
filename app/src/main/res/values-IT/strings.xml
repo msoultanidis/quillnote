@@ -111,7 +111,7 @@
     <string name="action_cancel">Annulla</string>
     <string name="action_delete">Cestina</string>
     <string name="action_done">Fatto!</string>
-    <string name="action_delete_permanently">Elimina</string>
+    <string name="action_delete_permanently">Cancella</string>
     <string name="action_select_all">Seleziona Tutto</string>
     <string name="action_create_list">Crea una lista</string>
     <string name="action_show_hidden_notes">Mostra note nascoste</string>
@@ -163,8 +163,8 @@
     <string name="indicator_deleted_note_cannot_be_edited">Le note nel cestino non si possono modificare.</string>
     <string name="indicator_deleted_empty">Le tue note cestinate appariranno qui per %1$d giorni.</string>
     <string name="indicator_bin_disabled">Note impostate per essere cancellate subito.\nPuoi cambiarlo in Impostazioni.</string>
-    <string name="indicator_deleted_notes_permanently">Note eliminate.</string>
-    <string name="indicator_deleted_note_permanently">Nota eliminata.</string>
+    <string name="indicator_deleted_notes_permanently">Note cancellate.</string>
+    <string name="indicator_deleted_note_permanently">Nota cancellata.</string>
 
 
     <!-- Reminders -->
