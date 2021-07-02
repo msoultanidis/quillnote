@@ -104,7 +104,7 @@
     <string name="no">No</string>
     <string name="ok">Ok</string>
     <string name="indicator_notes_empty">Le tue note appariranno qui.</string>
-    <string name="indicator_untitled">Untitled</string>
+    <string name="indicator_untitled">Senza nome</string>
     <string name="hint_username">Nome utente</string>
     <string name="hint_password">Chiave</string>
     <string name="action_save">Salva</string>
@@ -240,7 +240,7 @@
     <string name="action_nextcloud_authenticate">Autenticazione</string>
     <string name="indicator_offline_account">Profilo non in linea</string>
     <string name="indicator_connecting">In connessione…</string>
-    <string name="message_something_went_wrong">Something went wrong.</string>
+    <string name="message_something_went_wrong">Qualcosa non ha funzionato.</string>
     <string name="message_invalid_credentials">Credenziali non valide.</string>
     <string name="message_logged_in_successfully">Collegato con successo!</string>
     <string name="message_server_not_compatible">Versione del server non compatibile con questa app.</string>
