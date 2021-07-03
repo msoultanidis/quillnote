@@ -39,10 +39,12 @@
     <string name="preferences_sort_method_modified_asc">Date de modification (croissant)</string>
     <string name="preferences_sort_method_modified_desc">Date de modification (décroissant)</string>
 
+    <string name="preferences_show_date">Afficher la date de création et modification</string>
     <string name="preferences_date_format">Format de la date</string>
     <string name="preferences_time_format">Format de l\'heure</string>
 
     <string name="preferences_header_other">Autre</string>
+    <string name="preferences_group_notes_without_notebook">Grouper les notes qui ne sont pas dans un carnet</string>
     <string name="preferences_open_media_in">Ouvrir les médias dans</string>
     <string name="preferences_open_media_in_internal">Lecteur interne</string>
     <string name="preferences_open_media_in_external">Lecteur externe</string>
@@ -138,6 +140,7 @@
 
 
     <!-- Notebooks -->
+    <string name="default_notebook">Autre</string>
     <string name="notebooks_new_notebook">Nouveau carnet</string>
     <string name="notebooks_hint_name">Nom du carnet</string>
     <string name="notebooks_unassigned">Pas de carnet</string>
