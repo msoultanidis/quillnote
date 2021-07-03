@@ -216,17 +216,17 @@
     <string name="indicator_moved_notes_to_bin">Przeniesiono notatki do kosza</string>
     <string name="indicator_moved_note_to_bin">Przeniesiono notatkę do kosza</string>
     <string name="indicator_empty_note_discarded">Odrzucono pustą notatkę</string>
-    <string name="action_insert_link">Insert link</string>
-    <string name="action_insert">Insert</string>
-    <string name="action_insert_table">Insert table</string>
-    <string name="message_invalid_number_rows_columns">Invalid number of rows and columns</string>
-    <string name="action_insert_image">Insert image</string>
-    <string name="hint_image_description">Description</string>
-    <string name="hint_image_path">Image path</string>
-    <string name="hint_hyperlink_text">Text</string>
+    <string name="action_insert_link">Wstaw link</string>
+    <string name="action_insert">Wstaw</string>
+    <string name="action_insert_table">Wstaw tabelę</string>
+    <string name="message_invalid_number_rows_columns">Nieprawidłowa liczba kolumn lub wierszy</string>
+    <string name="action_insert_image">Wstaw obrazek</string>
+    <string name="hint_image_description">Opis</string>
+    <string name="hint_image_path">Ścieżka do obrazka</string>
+    <string name="hint_hyperlink_text">Tekst</string>
     <string name="hint_hyperlink_url">URL</string>
-    <string name="hint_number_columns">Number of columns</string>
-    <string name="hint_number_rows">Number of rows</string>
+    <string name="hint_number_columns">Liczba kolum</string>
+    <string name="hint_number_rows">Liczba wierszy</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Kopiowanie twoich notatek…</string>
