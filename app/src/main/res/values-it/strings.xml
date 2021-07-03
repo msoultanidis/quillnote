@@ -217,7 +217,17 @@
     <string name="indicator_moved_notes_to_bin">Note cestinate</string>
     <string name="indicator_moved_note_to_bin">Nota cestinata</string>
     <string name="indicator_empty_note_discarded">Nota vuota scartata</string>
-
+    <string name="action_insert_link">Insert link</string>
+    <string name="action_insert">Insert</string>
+    <string name="action_insert_table">Insert table</string>
+    <string name="message_invalid_number_rows_columns">Invalid number of rows and columns</string>
+    <string name="action_insert_image">Insert image</string>
+    <string name="hint_image_description">Description</string>
+    <string name="hint_image_path">Image path</string>
+    <string name="hint_hyperlink_text">Text</string>
+    <string name="hint_hyperlink_url">URL</string>
+    <string name="hint_number_columns">Number of columns</string>
+    <string name="hint_number_rows">Number of rows</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Ripristinando le tue note…</string>
