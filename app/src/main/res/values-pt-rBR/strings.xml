@@ -218,7 +218,17 @@
     <string name="indicator_moved_notes_to_bin">Anotações movidas para a lixeira</string>
     <string name="indicator_moved_note_to_bin">Anotação movida para a lixeira</string>
     <string name="indicator_empty_note_discarded">Anotação vazia descartada</string>
-
+    <string name="action_insert_link">Inserir link</string>
+    <string name="action_insert">Inserir</string>
+    <string name="action_insert_table">Inserir tabela</string>
+    <string name="message_invalid_number_rows_columns">Número de linhas e colunas inválido</string>
+    <string name="action_insert_image">Inserir imagem</string>
+    <string name="hint_image_description">Descrição</string>
+    <string name="hint_image_path">Caminho da imagem</string>
+    <string name="hint_hyperlink_text">Texto</string>
+    <string name="hint_hyperlink_url">URL</string>
+    <string name="hint_number_columns">Número de colunas</string>
+    <string name="hint_number_rows">Número de linhas</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Criando cópia de segurança das suas anotações…</string>
