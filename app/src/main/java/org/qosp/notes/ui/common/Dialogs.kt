@@ -15,7 +15,7 @@ fun BaseFragment.showMoveToNotebookDialog(vararg notes: Note) {
             mutableMapOf(null to requireContext().getString(R.string.notebooks_unassigned))
 
         // If notes are in the same notebook (or if it's just a single note)
-        // we will display the selected note
+        // we will display the selected notebook
         val notesInSameNotebook = notes.all { it.notebookId == notes[0].notebookId }
         notebooks.forEachIndexed { index, notebook ->
             notebooksMap[notebook.id] = notebook.name
