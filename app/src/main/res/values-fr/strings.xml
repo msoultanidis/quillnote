@@ -216,7 +216,17 @@
     <string name="indicator_moved_notes_to_bin">Notes déplacées dans la corbeille</string>
     <string name="indicator_moved_note_to_bin">Note déplacée dans la corbeille</string>
     <string name="indicator_empty_note_discarded">Note vide annulée</string>
-
+    <string name="action_insert_link">Insérer un lien</string>
+    <string name="action_insert">Insérer</string>
+    <string name="action_insert_table">Insérer un tableau</string>
+    <string name="message_invalid_number_rows_columns">Nombres de lignes et colonnes invalide.</string>
+    <string name="action_insert_image">Insérer une image</string>
+    <string name="hint_image_description">Description</string>
+    <string name="hint_image_path">Chemin de l\'image</string>
+    <string name="hint_hyperlink_text">Texte</string>
+    <string name="hint_hyperlink_url">URL</string>
+    <string name="hint_number_columns">Nombre de colonnes</string>
+    <string name="hint_number_rows">Nombre de lignes</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Sauvegarde des notes…</string>
