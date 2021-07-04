@@ -30,6 +30,18 @@ android {
         }
     }
 
+    flavorDimensions "versions"
+    productFlavors {
+        googleFlavor {
+            dimension "versions"
+            buildConfigField "boolean", "IS_GOOGLE", "true"
+        }
+        defaultFlavor {
+            dimension "versions"
+            buildConfigField "boolean", "IS_GOOGLE", "false"
+        }
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -135,6 +147,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 
-     // LeakCanary
-     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+    // LeakCanary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
 }
