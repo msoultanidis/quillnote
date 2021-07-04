@@ -115,7 +115,6 @@ class NoteViewHolder(
         val list = attachments.take(attachments.size.coerceAtMost(4))
         val remaining = attachments.size - list.size
         layoutManager.allocateSpans(list.size)
-        list
         attachmentsAdapter.submitList(list)
 
         if (remaining > 0) {
@@ -155,6 +154,7 @@ class NoteViewHolder(
                     note,
                     note.reminders.isNotEmpty()
                 )
+                NoteRecyclerAdapter.Payload.TasksChanged -> setContent(note)
             }
         }
     }
