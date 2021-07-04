@@ -3,6 +3,7 @@ package org.qosp.notes.ui.utils.views
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Rect
 import android.os.Build
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -16,11 +17,18 @@ class ExtendedEditText : AppCompatEditText {
 
     val textWatchers: MutableList<TextWatcher> = mutableListOf()
 
-    val textBeforeSelection get() = text?.substring(0 until selectionStart).orEmpty()
+    private val textBeforeSelection get() = text?.substring(0 until selectionStart).orEmpty()
     val currentLineStartPos get() = textBeforeSelection.lastIndexOf("\n") + 1
     val currentLineIndex get() = textBeforeSelection.filter { it == '\n' }.length
 
     val selectedText get() = text?.substring(selectionStart, selectionEnd)
+
+    override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
+        return super.requestFocus(direction, previouslyFocusedRect).also { tookFocus ->
+            if (tookFocus && text != null) setSelection(length())
+        }
+    }
+
     // With a regular EditText, users can paste rich text inside which may look out of place.
     // This function prevents that from happening by changing the clip board
     override fun onTextContextMenuItem(id: Int): Boolean {
