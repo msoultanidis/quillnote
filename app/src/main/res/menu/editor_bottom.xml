@@ -48,4 +48,15 @@
             android:title="@string/action_insert_image"
             android:icon="@drawable/ic_photo"
             app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/action_scroll_to_top"
+            android:icon="@drawable/ic_up"
+            app:showAsAction="always"
+            android:title=""/>
+    <item
+            android:id="@+id/action_scroll_to_bottom"
+            android:icon="@drawable/ic_down"
+            app:showAsAction="always"
+            android:title=""/>
 </menu>

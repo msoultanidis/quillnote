@@ -13,6 +13,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
+import org.qosp.notes.ui.utils.views.ExtendedEditText
 
 fun Int.dp(context: Context): Int {
     return (context.resources.displayMetrics.density * this).toInt()
@@ -20,7 +21,12 @@ fun Int.dp(context: Context): Int {
 
 fun View.requestFocusAndKeyboard() {
     postDelayed(100) {
-        requestFocus()
+        if (this is ExtendedEditText) {
+            requestFocusAndMoveCaret()
+        } else {
+            requestFocus()
+        }
+
         if (hasWindowFocus()) return@postDelayed showKeyboard()
 
         viewTreeObserver.addOnWindowFocusChangeListener(

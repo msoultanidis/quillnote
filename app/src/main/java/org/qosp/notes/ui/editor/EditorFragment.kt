@@ -159,7 +159,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
+            target: RecyclerView.ViewHolder,
         ): Boolean {
             tasksAdapter.moveItem(viewHolder.bindingAdapterPosition, target.bindingAdapterPosition)
             return true
@@ -172,7 +172,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             dX: Float,
             dY: Float,
             actionState: Int,
-            isCurrentlyActive: Boolean
+            isCurrentlyActive: Boolean,
         ) {
             when (actionState) {
                 ACTION_STATE_DRAG -> {
@@ -776,6 +776,16 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 R.id.action_insert_table -> {
                     clearFragmentResult(MARKDOWN_DIALOG_RESULT)
                     InsertTableDialog().show(parentFragmentManager, null)
+                    null
+                }
+                R.id.action_scroll_to_top -> {
+                    scrollView.smoothScrollTo(0, 0)
+                    editTextContent.setSelection(0)
+                    null
+                }
+                R.id.action_scroll_to_bottom -> {
+                    scrollView.smoothScrollTo(0, editTextContent.bottom + editTextContent.paddingBottom + editTextContent.marginBottom)
+                    editTextContent.setSelection(editTextContent.length())
                     null
                 }
                 else -> return@setOnMenuItemClickListener false

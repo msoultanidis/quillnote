@@ -3,7 +3,6 @@ package org.qosp.notes.ui.utils.views
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.graphics.Rect
 import android.os.Build
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -23,8 +22,8 @@ class ExtendedEditText : AppCompatEditText {
 
     val selectedText get() = text?.substring(selectionStart, selectionEnd)
 
-    override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
-        return super.requestFocus(direction, previouslyFocusedRect).also { tookFocus ->
+    fun requestFocusAndMoveCaret(): Boolean {
+        return requestFocus().also { tookFocus ->
             if (tookFocus && text != null) setSelection(length())
         }
     }
