@@ -19,9 +19,9 @@ fun Int.dp(context: Context): Int {
 }
 
 fun View.requestFocusAndKeyboard() {
-    post {
+    postDelayed(100) {
         requestFocus()
-        if (hasWindowFocus()) return@post showKeyboard()
+        if (hasWindowFocus()) return@postDelayed showKeyboard()
 
         viewTreeObserver.addOnWindowFocusChangeListener(
             object : ViewTreeObserver.OnWindowFocusChangeListener {
@@ -37,17 +37,13 @@ fun View.requestFocusAndKeyboard() {
 }
 
 fun View.showKeyboard() {
-    post {
-        val inputMethodManager = context.getSystemService<InputMethodManager>()
-        inputMethodManager?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-    }
+    val inputMethodManager = context.getSystemService<InputMethodManager>()
+    inputMethodManager?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }
 
 fun View.hideKeyboard() {
-    post {
-        val inputMethodManager = context.getSystemService<InputMethodManager>()
-        inputMethodManager?.hideSoftInputFromWindow(windowToken, 0)
-    }
+    val inputMethodManager = context.getSystemService<InputMethodManager>()
+    inputMethodManager?.hideSoftInputFromWindow(windowToken, 0)
 }
 
 fun View.liftAppBarOnScroll(
