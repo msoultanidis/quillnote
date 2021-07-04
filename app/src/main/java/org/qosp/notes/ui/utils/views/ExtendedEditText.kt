@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.getSystemService
-import io.noties.markwon.editor.MarkwonEditorTextWatcher
 
 class ExtendedEditText : AppCompatEditText {
     constructor(context: Context) : super(context)
@@ -17,6 +16,11 @@ class ExtendedEditText : AppCompatEditText {
 
     val textWatchers: MutableList<TextWatcher> = mutableListOf()
 
+    val textBeforeSelection get() = text?.substring(0 until selectionStart).orEmpty()
+    val currentLineStartPos get() = textBeforeSelection.lastIndexOf("\n") + 1
+    val currentLineIndex get() = textBeforeSelection.filter { it == '\n' }.length
+
+    val selectedText get() = text?.substring(selectionStart, selectionEnd)
     // With a regular EditText, users can paste rich text inside which may look out of place.
     // This function prevents that from happening by changing the clip board
     override fun onTextContextMenuItem(id: Int): Boolean {
@@ -49,7 +53,7 @@ class ExtendedEditText : AppCompatEditText {
     }
 
     /**
-     * Set's the EditText's text without notifying any TextWatchers.
+     * Sets the EditText's text without notifying any TextWatchers.
      *
      * @param text Text to set
      */
@@ -61,21 +65,4 @@ class ExtendedEditText : AppCompatEditText {
 
         watchers.forEach { addTextChangedListener(it) }
     }
-}
-
-/**
- * Set's the EditText's text without notifying any TextWatchers which are not [MarkwonEditorTextWatcher].
- *
- * @param text Text to set
- */
-fun ExtendedEditText.setMarkdownTextSilently(text: CharSequence?) {
-    val watchers = textWatchers
-        .filterNot { it is MarkwonEditorTextWatcher }
-        .toList()
-
-    watchers.forEach { removeTextChangedListener(it) }
-
-    setText(text)
-
-    watchers.forEach { addTextChangedListener(it) }
 }

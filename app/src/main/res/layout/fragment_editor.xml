@@ -173,13 +173,17 @@
                 android:layout_height="1dp"
                 android:background="?attr/colorOutline"/>
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/bottom_toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                app:contentInsetStart="0dp"
-                app:menu="@menu/editor_bottom"/>
+        <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/bottom_toolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:contentInsetStart="0dp"
+                    app:menu="@menu/editor_bottom"/>
+        </HorizontalScrollView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
