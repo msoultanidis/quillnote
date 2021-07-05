@@ -6,4 +6,5 @@ interface ProviderConfig {
     val remoteAddress: String
     val username: String
     val provider: CloudService
+    val authenticationHeaders: Map<String, String>
 }

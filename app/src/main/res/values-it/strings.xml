@@ -228,6 +228,7 @@
     <string name="hint_hyperlink_url">URL</string>
     <string name="hint_number_columns">Numero di colonne</string>
     <string name="hint_number_rows">Numero di righe</string>
+    <string name="message_cannot_preview_table">Impossibile visualizzare l\'anteprima della tabella.</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Ripristinando le tue note…</string>

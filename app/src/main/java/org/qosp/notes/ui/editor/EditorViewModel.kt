@@ -151,20 +151,6 @@ class EditorViewModel @Inject constructor(
         )
     }
 
-    fun disableMarkdown() = update { note ->
-        note.copy(
-            isMarkdownEnabled = false,
-            modifiedDate = Instant.now().epochSecond,
-        )
-    }
-
-    fun enableMarkdown() = update { note ->
-        note.copy(
-            isMarkdownEnabled = true,
-            modifiedDate = Instant.now().epochSecond,
-        )
-    }
-
     private inline fun update(crossinline transform: suspend (Note) -> Note) {
         viewModelScope.launch(Dispatchers.IO) {
             val note = data.value.note ?: return@launch

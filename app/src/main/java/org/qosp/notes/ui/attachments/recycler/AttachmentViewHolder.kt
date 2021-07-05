@@ -16,7 +16,7 @@ import org.qosp.notes.R
 import org.qosp.notes.data.model.Attachment
 import org.qosp.notes.databinding.LayoutAttachmentBinding
 import org.qosp.notes.ui.attachments.uri
-import org.qosp.notes.ui.utils.AlbumArtFetcher
+import org.qosp.notes.ui.utils.coil.AlbumArtFetcher
 
 class AttachmentViewHolder(
     private val context: Context,

@@ -229,6 +229,7 @@
     <string name="hint_hyperlink_url">URL</string>
     <string name="hint_number_columns">Número de colunas</string>
     <string name="hint_number_rows">Número de linhas</string>
+    <string name="message_cannot_preview_table">Não é possível visualizar a tabela.</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Criando cópia de segurança das suas anotações…</string>

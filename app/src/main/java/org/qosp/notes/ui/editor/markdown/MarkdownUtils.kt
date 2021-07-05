@@ -56,6 +56,27 @@ fun ExtendedEditText.insertMarkdown(markdownSpan: MarkdownSpan) {
     }
 }
 
+fun ExtendedEditText.toggleCheckmarkCurrentLine() {
+    var line = text?.lines()?.get(currentLineIndex) ?: return
+    val lineStart = currentLineStartPos
+    val oldLength = line.length
+
+    line = when {
+        line.matches(Regex("-[ ]*\\[ \\][ ]+.*")) -> {
+            line.replaceFirst("[ ]", "[x]").trimEnd() + " " // There's a strange bug which causes
+            // text to be duplicated after pressing Enter
+            // .trimEnd() + " " seems to be fixing it
+        }
+        line.matches(Regex("-[ ]*\\[x\\][ ]+.*")) -> {
+            line.replaceFirst("[x]", "[ ]").trimEnd() + " "
+        }
+        else -> "- [ ] $line"
+    }
+
+    text?.replace(lineStart, lineStart + oldLength, line)
+    setSelection(lineStart + line.length)
+}
+
 /**
  * Sets the EditText's text without notifying any TextWatchers which are not [MarkwonEditorTextWatcher].
  *
@@ -96,13 +117,14 @@ fun tableMarkdown(rows: Int, columns: Int): String {
 
 val ExtendedEditText.addListItemListener: TextView.OnEditorActionListener
     get() = TextView.OnEditorActionListener { v: TextView, actionId: Int, event: KeyEvent ->
-        if (actionId == EditorInfo.IME_NULL && event.action == KeyEvent.ACTION_DOWN) {
+        if (actionId == EditorInfo.TYPE_NULL && event.action == KeyEvent.ACTION_DOWN) {
             val text = text ?: return@OnEditorActionListener true
             text.insert(selectionStart, "\n")
 
             val previousLine = text.lines().getOrNull(currentLineIndex - 1) ?: return@OnEditorActionListener true
 
             when {
+                previousLine.matches(Regex("-[ ]*\\[( |x)\\][ ]+.*")) -> text.insert(currentLineStartPos, "- [ ] ")
                 previousLine.matches(Regex("-[ ]+.*")) -> text.insert(currentLineStartPos, "- ")
                 previousLine.matches(Regex("[1-9]+[0-9]*[.][ ]+.*")) -> {
                     val inc = Regex("[1-9]+[0-9]*").findAll(previousLine).first().value.toInt().inc()
@@ -110,5 +132,6 @@ val ExtendedEditText.addListItemListener: TextView.OnEditorActionListener
                 }
             }
         }
+
         true
     }

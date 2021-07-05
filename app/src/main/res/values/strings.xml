@@ -229,6 +229,7 @@
     <string name="hint_hyperlink_url">URL</string>
     <string name="hint_number_columns">Number of columns</string>
     <string name="hint_number_rows">Number of rows</string>
+    <string name="message_cannot_preview_table">Cannot preview table.</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Backing up your notes…</string>

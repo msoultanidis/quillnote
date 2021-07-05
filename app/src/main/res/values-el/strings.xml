@@ -215,6 +215,7 @@
     <string name="hint_hyperlink_url">Διεύθυνση URL</string>
     <string name="hint_number_columns">Αριθμός στηλών</string>
     <string name="hint_number_rows">Αριθμός σειρών</string>
+    <string name="message_cannot_preview_table">Δεν είναι δυνατή η προεπισκόπηση του πίνακα.</string>
 
     <plurals name="more_items">
         <item quantity="one">+%d στοιχείο</item>

@@ -38,6 +38,7 @@ import io.noties.markwon.editor.MarkwonEditor
 import io.noties.markwon.editor.MarkwonEditorTextWatcher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.commonmark.node.Code
 import org.qosp.notes.R
 import org.qosp.notes.data.model.Attachment
 import org.qosp.notes.data.model.Note
@@ -45,7 +46,6 @@ import org.qosp.notes.data.model.NoteColor
 import org.qosp.notes.data.model.NoteTask
 import org.qosp.notes.databinding.FragmentEditorBinding
 import org.qosp.notes.databinding.LayoutAttachmentBinding
-import org.qosp.notes.di.MarkwonModule.SUPPORTS_IMAGES
 import org.qosp.notes.ui.attachments.dialog.EditAttachmentDialog
 import org.qosp.notes.ui.attachments.fromUri
 import org.qosp.notes.ui.attachments.recycler.AttachmentRecyclerListener
@@ -60,8 +60,10 @@ import org.qosp.notes.ui.editor.dialog.InsertImageDialog
 import org.qosp.notes.ui.editor.dialog.InsertTableDialog
 import org.qosp.notes.ui.editor.markdown.MarkdownSpan
 import org.qosp.notes.ui.editor.markdown.addListItemListener
+import org.qosp.notes.ui.editor.markdown.applyTo
 import org.qosp.notes.ui.editor.markdown.insertMarkdown
 import org.qosp.notes.ui.editor.markdown.setMarkdownTextSilently
+import org.qosp.notes.ui.editor.markdown.toggleCheckmarkCurrentLine
 import org.qosp.notes.ui.media.MediaActivity
 import org.qosp.notes.ui.recorder.RECORDED_ATTACHMENT
 import org.qosp.notes.ui.recorder.RECORD_CODE
@@ -78,7 +80,6 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.Executors
 import javax.inject.Inject
-import javax.inject.Named
 
 private typealias Data = EditorViewModel.Data
 
@@ -109,7 +110,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
     private lateinit var tasksAdapter: TasksAdapter
 
     @Inject
-    @Named(SUPPORTS_IMAGES)
     lateinit var markwon: Markwon
 
     @Inject
@@ -386,7 +386,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                     RecordAudioDialog().show(parentFragmentManager, null)
                 }
                 R.id.action_enable_disable_markdown -> {
-                    if (note.isMarkdownEnabled) model.disableMarkdown() else model.enableMarkdown()
+                    if (note.isMarkdownEnabled) {
+                        activityModel.disableMarkdown(note)
+                    } else {
+                        activityModel.enableMarkdown(note)
+                    }
                 }
                 else -> false
             }
@@ -671,7 +675,12 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
             if (isMarkdownEnabled) {
                 // Seems to be crashing often without wrapping it in a post { } call
-                textViewContentPreview.post { markwon.setMarkdown(textViewContentPreview, data.note.content) }
+                textViewContentPreview.post {
+                    markwon.applyTo(textViewContentPreview, data.note.content) {
+                        tableReplacement = { Code(getString(R.string.message_cannot_preview_table)) }
+                        maximumTableColumns = 15
+                    }
+                }
             } else {
                 textViewContentPreview.text = data.note.content
             }
@@ -776,6 +785,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 R.id.action_insert_table -> {
                     clearFragmentResult(MARKDOWN_DIALOG_RESULT)
                     InsertTableDialog().show(parentFragmentManager, null)
+                    null
+                }
+                R.id.action_toggle_check_line -> {
+                    editTextContent.toggleCheckmarkCurrentLine()
                     null
                 }
                 R.id.action_scroll_to_top -> {

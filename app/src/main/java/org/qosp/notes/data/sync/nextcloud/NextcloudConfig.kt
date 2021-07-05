@@ -16,7 +16,10 @@ data class NextcloudConfig(
 ) : ProviderConfig {
 
     val credentials = ("Basic " + Base64.encodeToString("$username:$password".toByteArray(), Base64.NO_WRAP)).trim()
+
     override val provider: CloudService = CloudService.NEXTCLOUD
+    override val authenticationHeaders: Map<String, String>
+        get() = mapOf("Authorization" to credentials)
 
     companion object {
         @OptIn(ExperimentalCoroutinesApi::class)

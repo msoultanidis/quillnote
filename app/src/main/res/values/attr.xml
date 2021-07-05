@@ -32,6 +32,7 @@
 
     <attr name="colorTaskDone" format="color"/>
     <attr name="colorTaskSwipe" format="color"/>
+    <attr name="colorMarkdownTask" format="color"/>
 
     <!-- Media -->
     <attr name="colorMediaControlsBackground" format="color"/>

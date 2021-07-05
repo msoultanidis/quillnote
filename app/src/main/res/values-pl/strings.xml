@@ -227,6 +227,7 @@
     <string name="hint_hyperlink_url">URL</string>
     <string name="hint_number_columns">Liczba kolum</string>
     <string name="hint_number_rows">Liczba wierszy</string>
+    <string name="message_cannot_preview_table">Nie można wyświetlić podglądu tabeli.</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Kopiowanie twoich notatek…</string>
@@ -262,6 +263,7 @@
     <!-- App shortcuts -->
     <string name="shortcut_take_note">Nowa notatka</string>
     <string name="shortcut_make_list">Nowa lista</string>
+
 
     <plurals name="more_items" tools:ignore="MissingQuantity">
         <item quantity="one">+%d element</item>

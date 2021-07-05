@@ -227,6 +227,7 @@
     <string name="hint_hyperlink_url">URL</string>
     <string name="hint_number_columns">Nombre de colonnes</string>
     <string name="hint_number_rows">Nombre de lignes</string>
+    <string name="message_cannot_preview_table">Impossible de prévisualiser le tableau.</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Sauvegarde des notes…</string>

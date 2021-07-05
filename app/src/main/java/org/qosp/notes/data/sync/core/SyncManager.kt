@@ -33,6 +33,7 @@ class SyncManager(
     }
 
     val config = prefs.map { prefs -> prefs.config }
+        .stateIn(syncingScope, SharingStarted.WhileSubscribed(5000), null)
 
     @OptIn(ObsoleteCoroutinesApi::class)
     private val actor = syncingScope.actor<Message> {

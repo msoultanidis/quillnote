@@ -479,6 +479,12 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
             action(R.string.action_hide, R.drawable.ic_hidden, condition = !note.isHidden) {
                 activityModel.hideNotes(note)
             }
+            action(R.string.action_disable_markdown, R.drawable.ic_markdown, condition = !note.isDeleted && note.isMarkdownEnabled) {
+                activityModel.disableMarkdown(note)
+            }
+            action(R.string.action_enable_markdown, R.drawable.ic_markdown, condition = !note.isDeleted && !note.isMarkdownEnabled) {
+                activityModel.enableMarkdown(note)
+            }
             action(R.string.action_duplicate, R.drawable.ic_duplicate, condition = isNormal) {
                 activityModel.duplicateNotes(note)
             }

@@ -9,12 +9,14 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.noties.markwon.Markwon
+import org.commonmark.node.Code
 import org.qosp.notes.R
 import org.qosp.notes.data.model.*
 import org.qosp.notes.databinding.LayoutNoteBinding
 import org.qosp.notes.ui.attachments.recycler.AttachmentViewHolder
 import org.qosp.notes.ui.attachments.recycler.AttachmentsAdapter
 import org.qosp.notes.ui.attachments.recycler.AttachmentsPreviewGridManager
+import org.qosp.notes.ui.editor.markdown.applyTo
 import org.qosp.notes.ui.tasks.TasksAdapter
 import org.qosp.notes.ui.utils.ellipsize
 import org.qosp.notes.ui.utils.resId
@@ -99,8 +101,11 @@ class NoteViewHolder(
         tasksAdapter.submitList(taskList)
         textViewContent.ellipsize()
 
-        if (note.isMarkdownEnabled) {
-            markwon.setMarkdown(textViewContent, note.content)
+        if (note.isMarkdownEnabled && note.content.isNotBlank()) {
+            markwon.applyTo(textViewContent, note.content) {
+                maximumTableColumns = 4
+                tableReplacement = { Code(context.getString(R.string.message_cannot_preview_table)) }
+            }
         } else {
             textViewContent.text = note.content
         }

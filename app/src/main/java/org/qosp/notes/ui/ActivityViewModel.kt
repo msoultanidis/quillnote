@@ -147,6 +147,20 @@ class ActivityViewModel @Inject constructor(
         )
     }
 
+    fun disableMarkdown(vararg notes: Note) = update(*notes) { note ->
+        note.copy(
+            isMarkdownEnabled = false,
+            modifiedDate = Instant.now().epochSecond,
+        )
+    }
+
+    fun enableMarkdown(vararg notes: Note) = update(*notes) { note ->
+        note.copy(
+            isMarkdownEnabled = true,
+            modifiedDate = Instant.now().epochSecond,
+        )
+    }
+
     fun duplicateNotes(vararg notes: Note) = notes.forEachAsync { note ->
         val oldId = note.id
         val cloned = note.copy(

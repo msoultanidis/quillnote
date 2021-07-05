@@ -48,6 +48,11 @@
             android:title="@string/action_insert_image"
             android:icon="@drawable/ic_photo"
             app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_toggle_check_line"
+            android:title=""
+            android:icon="@drawable/ic_box_checked_outline"
+            app:showAsAction="always"/>
 
     <item
             android:id="@+id/action_scroll_to_top"

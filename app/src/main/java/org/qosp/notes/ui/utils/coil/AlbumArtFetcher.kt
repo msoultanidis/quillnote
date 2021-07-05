@@ -1,4 +1,4 @@
-package org.qosp.notes.ui.utils
+package org.qosp.notes.ui.utils.coil
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -22,6 +22,7 @@ import coil.size.PixelSize
 import coil.size.Size
 import org.qosp.notes.R
 import org.qosp.notes.ui.attachments.getAlbumArtBitmap
+import org.qosp.notes.ui.utils.getDrawableCompat
 import kotlin.math.roundToInt
 
 // Modified VideoFrameFetcher to load album art images
