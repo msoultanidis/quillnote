@@ -255,4 +255,15 @@ Modificadas el %2$s"</string>
         <item quantity="one">"%d etiqueta seleccionada"</item>
         <item quantity="other">"%d etiquetas seleccionadas"</item>
     </plurals>
+    <string name="action_insert_link">"Insertar enlace"</string>
+    <string name="action_insert">"Insertar"</string>
+    <string name="action_insert_table">"Insertar tabla"</string>
+    <string name="message_invalid_number_rows_columns">"Número inválido de filas y columnas"</string>
+    <string name="action_insert_image">"Insertar imagen"</string>
+    <string name="hint_image_description">"Descripción"</string>
+    <string name="hint_image_path">"Ruta de la imagen"</string>
+    <string name="hint_hyperlink_text">"Texto"</string>
+    <string name="hint_hyperlink_url">"URL"</string>
+    <string name="hint_number_columns">"Número de columnas"</string>
+    <string name="hint_number_rows">"Número de filas"</string>
 </resources>
