@@ -55,8 +55,13 @@ import org.qosp.notes.ui.attachments.uri
 import org.qosp.notes.ui.common.BaseDialog
 import org.qosp.notes.ui.common.BaseFragment
 import org.qosp.notes.ui.common.showMoveToNotebookDialog
+import org.qosp.notes.ui.editor.dialog.InsertHyperlinkDialog
+import org.qosp.notes.ui.editor.dialog.InsertImageDialog
+import org.qosp.notes.ui.editor.dialog.InsertTableDialog
 import org.qosp.notes.ui.editor.markdown.MarkdownSpan
+import org.qosp.notes.ui.editor.markdown.addListItemListener
 import org.qosp.notes.ui.editor.markdown.insertMarkdown
+import org.qosp.notes.ui.editor.markdown.setMarkdownTextSilently
 import org.qosp.notes.ui.media.MediaActivity
 import org.qosp.notes.ui.recorder.RECORDED_ATTACHMENT
 import org.qosp.notes.ui.recorder.RECORD_CODE
@@ -67,7 +72,6 @@ import org.qosp.notes.ui.tasks.TaskViewHolder
 import org.qosp.notes.ui.tasks.TasksAdapter
 import org.qosp.notes.ui.utils.*
 import org.qosp.notes.ui.utils.views.BottomSheet
-import org.qosp.notes.ui.utils.views.setMarkdownTextSilently
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -155,7 +159,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
+            target: RecyclerView.ViewHolder,
         ): Boolean {
             tasksAdapter.moveItem(viewHolder.bindingAdapterPosition, target.bindingAdapterPosition)
             return true
@@ -168,7 +172,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             dX: Float,
             dY: Float,
             actionState: Int,
-            isCurrentlyActive: Boolean
+            isCurrentlyActive: Boolean,
         ) {
             when (actionState) {
                 ACTION_STATE_DRAG -> {
@@ -275,7 +279,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
         setupAttachmentsRecycler()
         setupTasksRecycler()
-        setupObservers()
+        observeData()
         setupEditTexts()
         setupMarkdown()
         setupListeners()
@@ -290,6 +294,16 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         setFragmentResultListener(RECORD_CODE) { s, bundle ->
             val attachment = bundle.getParcelable<Attachment>(RECORDED_ATTACHMENT) ?: return@setFragmentResultListener
             model.insertAttachments(attachment)
+        }
+
+        setFragmentResultListener(MARKDOWN_DIALOG_RESULT) { s, bundle ->
+            val markdown = bundle.getString(MARKDOWN_DIALOG_RESULT) ?: return@setFragmentResultListener
+            binding.editTextContent.apply {
+                if (selectedText?.isNotEmpty() == true) {
+                    text?.replace(selectionStart, selectionEnd, "")
+                }
+                text?.insert(selectionStart, markdown)
+            }
         }
 
         binding.fabChangeMode.setOnClickListener {
@@ -378,6 +392,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPause() {
+        model.selectedRange = with(binding.editTextContent) { selectionStart to selectionEnd }
+        super.onPause()
     }
 
     override fun onDestroyView() {
@@ -533,6 +552,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 contentHasFocus = hasFocus
                 setMarkdownToolbarVisibility()
             }
+
+            setOnEditorActionListener(addListItemListener)
         }
 
         // Used to clear focus and hide the keyboard when touching outside of the edit texts
@@ -588,7 +609,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         }
     }
 
-    private fun setupObservers() = with(binding) {
+    private fun observeData() = with(binding) {
         model.data.collect(viewLifecycleOwner) { data ->
             if (data.note == null && data.isInitialized) {
                 return@collect run { findNavController().navigateUp() }
@@ -619,6 +640,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                     else -> {
                         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
                             editTextContent.setMarkdownTextSilently(data.note.content)
+
+                            val (selStart, selEnd) = model.selectedRange
+                            if (selStart >= 0 && selEnd <= editTextContent.length()) {
+                                editTextContent.setSelection(selStart, selEnd)
+                            }
                         }
                     }
                 }
@@ -725,6 +751,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
     private fun setupListeners() = with(binding) {
         bottomToolbar.setOnMenuItemClickListener {
+
             val span = when (it.itemId) {
                 R.id.action_insert_bold -> MarkdownSpan.BOLD
                 R.id.action_insert_italics -> MarkdownSpan.ITALICS
@@ -732,9 +759,38 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 R.id.action_insert_code -> MarkdownSpan.CODE
                 R.id.action_insert_quote -> MarkdownSpan.QUOTE
                 R.id.action_insert_heading -> MarkdownSpan.HEADING
+                R.id.action_insert_link -> {
+                    clearFragmentResult(MARKDOWN_DIALOG_RESULT)
+                    InsertHyperlinkDialog
+                        .build(editTextContent.selectedText ?: "")
+                        .show(parentFragmentManager, null)
+                    null
+                }
+                R.id.action_insert_image -> {
+                    clearFragmentResult(MARKDOWN_DIALOG_RESULT)
+                    InsertImageDialog
+                        .build(editTextContent.selectedText ?: "")
+                        .show(parentFragmentManager, null)
+                    null
+                }
+                R.id.action_insert_table -> {
+                    clearFragmentResult(MARKDOWN_DIALOG_RESULT)
+                    InsertTableDialog().show(parentFragmentManager, null)
+                    null
+                }
+                R.id.action_scroll_to_top -> {
+                    scrollView.smoothScrollTo(0, 0)
+                    editTextContent.setSelection(0)
+                    null
+                }
+                R.id.action_scroll_to_bottom -> {
+                    scrollView.smoothScrollTo(0, editTextContent.bottom + editTextContent.paddingBottom + editTextContent.marginBottom)
+                    editTextContent.setSelection(editTextContent.length())
+                    null
+                }
                 else -> return@setOnMenuItemClickListener false
             }
-            editTextContent.insertMarkdown(span)
+            editTextContent.insertMarkdown(span ?: return@setOnMenuItemClickListener false)
             true
         }
 
@@ -922,4 +978,8 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             NoteColor.Yellow -> R.string.preferences_color_scheme_yellow
         }
     )
+
+    companion object {
+        const val MARKDOWN_DIALOG_RESULT = "MARKDOWN_DIALOG_RESULT"
+    }
 }

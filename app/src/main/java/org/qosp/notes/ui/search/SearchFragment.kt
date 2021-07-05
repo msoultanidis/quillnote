@@ -3,7 +3,7 @@ package org.qosp.notes.ui.search
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.core.widget.doOnTextChanged
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -15,7 +15,6 @@ import org.qosp.notes.data.model.Note
 import org.qosp.notes.databinding.FragmentSearchBinding
 import org.qosp.notes.databinding.LayoutNoteBinding
 import org.qosp.notes.ui.common.AbstractNotesFragment
-import org.qosp.notes.ui.utils.hideKeyboard
 import org.qosp.notes.ui.utils.navigateSafely
 import org.qosp.notes.ui.utils.requestFocusAndKeyboard
 import org.qosp.notes.ui.utils.viewBinding
@@ -43,16 +42,22 @@ class SearchFragment : AbstractNotesFragment(resId = R.layout.fragment_search) {
         super.onViewCreated(view, savedInstanceState)
         recyclerAdapter.searchMode = true
 
-        binding.editTextSearch.doOnTextChanged { text, start, before, count ->
+        binding.editTextSearch.doAfterTextChanged { text ->
             model.setSearchQuery(text.toString())
+        }
 
-            if (text.isNullOrEmpty()) {
+        when {
+            !model.isFirstLoad -> return
+            args.searchQuery.isNotEmpty() -> {
+                binding.editTextSearch.setText(args.searchQuery)
+                binding.editTextSearch.requestFocusAndMoveCaret()
+            }
+            binding.editTextSearch.text?.isEmpty() == true -> {
                 binding.editTextSearch.requestFocusAndKeyboard()
             }
         }
 
-        binding.editTextSearch.setText(args.searchQuery)
-        binding.editTextSearch.hideKeyboard()
+        model.isFirstLoad = false
     }
 
     override fun onNoteClick(noteId: Long, position: Int, viewBinding: LayoutNoteBinding) {

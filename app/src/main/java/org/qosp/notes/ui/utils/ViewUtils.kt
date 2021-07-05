@@ -13,15 +13,21 @@ import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
+import org.qosp.notes.ui.utils.views.ExtendedEditText
 
 fun Int.dp(context: Context): Int {
     return (context.resources.displayMetrics.density * this).toInt()
 }
 
 fun View.requestFocusAndKeyboard() {
-    post {
-        requestFocus()
-        if (hasWindowFocus()) return@post showKeyboard()
+    postDelayed(100) {
+        if (this is ExtendedEditText) {
+            requestFocusAndMoveCaret()
+        } else {
+            requestFocus()
+        }
+
+        if (hasWindowFocus()) return@postDelayed showKeyboard()
 
         viewTreeObserver.addOnWindowFocusChangeListener(
             object : ViewTreeObserver.OnWindowFocusChangeListener {
@@ -37,17 +43,13 @@ fun View.requestFocusAndKeyboard() {
 }
 
 fun View.showKeyboard() {
-    post {
-        val inputMethodManager = context.getSystemService<InputMethodManager>()
-        inputMethodManager?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-    }
+    val inputMethodManager = context.getSystemService<InputMethodManager>()
+    inputMethodManager?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }
 
 fun View.hideKeyboard() {
-    post {
-        val inputMethodManager = context.getSystemService<InputMethodManager>()
-        inputMethodManager?.hideSoftInputFromWindow(windowToken, 0)
-    }
+    val inputMethodManager = context.getSystemService<InputMethodManager>()
+    inputMethodManager?.hideSoftInputFromWindow(windowToken, 0)
 }
 
 fun View.liftAppBarOnScroll(

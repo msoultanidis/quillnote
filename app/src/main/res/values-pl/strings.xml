@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Navigation drawer -->
     <string name="nav_notes">Notatki</string>
     <string name="nav_archive">Archiwum</string>
@@ -216,7 +216,17 @@
     <string name="indicator_moved_notes_to_bin">Przeniesiono notatki do kosza</string>
     <string name="indicator_moved_note_to_bin">Przeniesiono notatkę do kosza</string>
     <string name="indicator_empty_note_discarded">Odrzucono pustą notatkę</string>
-
+    <string name="action_insert_link">Wstaw link</string>
+    <string name="action_insert">Wstaw</string>
+    <string name="action_insert_table">Wstaw tabelę</string>
+    <string name="message_invalid_number_rows_columns">Nieprawidłowa liczba kolumn lub wierszy</string>
+    <string name="action_insert_image">Wstaw obrazek</string>
+    <string name="hint_image_description">Opis</string>
+    <string name="hint_image_path">Ścieżka do obrazka</string>
+    <string name="hint_hyperlink_text">Tekst</string>
+    <string name="hint_hyperlink_url">URL</string>
+    <string name="hint_number_columns">Liczba kolum</string>
+    <string name="hint_number_rows">Liczba wierszy</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Kopiowanie twoich notatek…</string>
@@ -253,22 +263,22 @@
     <string name="shortcut_take_note">Nowa notatka</string>
     <string name="shortcut_make_list">Nowa lista</string>
 
-    <plurals name="more_items">
+    <plurals name="more_items" tools:ignore="MissingQuantity">
         <item quantity="one">+%d element</item>
         <item quantity="other">+%d elementy</item>
     </plurals>
 
-    <plurals name="selected_notes">
+    <plurals name="selected_notes" tools:ignore="MissingQuantity">
         <item quantity="one">Zaznaczono %d notatkę</item>
         <item quantity="other">Zaznaczono %d notatki</item>
     </plurals>
 
-    <plurals name="selected_notebooks">
+    <plurals name="selected_notebooks" tools:ignore="MissingQuantity">
         <item quantity="one">Zaznaczono %d notatnik</item>
         <item quantity="other">Zaznaczono %d notatniki</item>
     </plurals>
 
-    <plurals name="selected_tags">
+    <plurals name="selected_tags" tools:ignore="MissingQuantity">
         <item quantity="one">Zaznaczono %d znacznik</item>
         <item quantity="other">Zaznaczono %d znaczniki</item>
     </plurals>

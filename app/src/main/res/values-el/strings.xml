@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Quillnote</string>
     <string name="nav_notes">Σημειώσεις</string>
     <string name="nav_archive">Αρχειοθετημένες</string>
     <string name="nav_deleted">Διαγραμμένες</string>
@@ -205,6 +204,17 @@
     <string name="shortcut_take_note">Κρατήστε μια σημείωση</string>
     <string name="shortcut_make_list">Φτιάξτε μια λίστα</string>
     <string name="default_string">Προεπιλεγμένο</string>
+    <string name="action_insert_link">Εισαγωγή συνδέσμου</string>
+    <string name="action_insert">Εισαγωγή</string>
+    <string name="action_insert_table">Εισαγωγή πίνακα</string>
+    <string name="message_invalid_number_rows_columns">Μη έγκυρος αριθμός στηλών και σειρών</string>
+    <string name="action_insert_image">Εισαγωγή εικόνας</string>
+    <string name="hint_image_description">Περιγραφή</string>
+    <string name="hint_image_path">Διεύθυνση εικόνας</string>
+    <string name="hint_hyperlink_text">Κείμενο</string>
+    <string name="hint_hyperlink_url">Διεύθυνση URL</string>
+    <string name="hint_number_columns">Αριθμός στηλών</string>
+    <string name="hint_number_rows">Αριθμός σειρών</string>
 
     <plurals name="more_items">
         <item quantity="one">+%d στοιχείο</item>

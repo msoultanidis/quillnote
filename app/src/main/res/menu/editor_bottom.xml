@@ -32,4 +32,31 @@
             android:icon="@drawable/ic_code"
             app:showAsAction="always"/>
 
+    <item
+            android:id="@+id/action_insert_link"
+            android:title="@string/action_insert_link"
+            android:icon="@drawable/ic_link"
+            app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/action_insert_table"
+            android:title="@string/action_insert_table"
+            android:icon="@drawable/ic_table"
+            app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_insert_image"
+            android:title="@string/action_insert_image"
+            android:icon="@drawable/ic_photo"
+            app:showAsAction="always"/>
+
+    <item
+            android:id="@+id/action_scroll_to_top"
+            android:icon="@drawable/ic_up"
+            app:showAsAction="always"
+            android:title=""/>
+    <item
+            android:id="@+id/action_scroll_to_bottom"
+            android:icon="@drawable/ic_down"
+            app:showAsAction="always"
+            android:title=""/>
 </menu>

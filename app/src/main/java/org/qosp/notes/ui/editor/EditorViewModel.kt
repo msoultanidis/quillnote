@@ -28,6 +28,8 @@ class EditorViewModel @Inject constructor(
     private var syncJob: Job? = null
     private val noteIdFlow: MutableStateFlow<Long?> = MutableStateFlow(null)
 
+    var selectedRange = 0 to 0
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val data = noteIdFlow
         .filterNotNull()

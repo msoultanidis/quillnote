@@ -10,6 +10,10 @@
 |--------------|---------------|----------|
 | English      | [@msoultanidis](https://github.com/msoultanidis) | Complete |
 | Greek (`el`) | [@msoultanidis](https://github.com/msoultanidis) | Complete |
+| Polish (`pl`) | [@TheDidek](https://github.com/TheDidek) | Complete |
+| Brazilian Portuguese (`pt-rBR`) | [@RodolfoCandido](https://github.com/RodolfoCandido) | Complete |
+| Italian (`it`) | [@danigarau](https://github.com/danigarau) | Complete |
+| French (`fr`) | [@locness3](https://github.com/locness3) | Complete |
 
 You can help Quillnote grow by translating it in languages it does not support yet or by improving existing translations.
 
