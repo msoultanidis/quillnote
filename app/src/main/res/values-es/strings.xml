@@ -66,8 +66,7 @@
     <string name="preferences_cloud_service">Servicio de sincronización</string>
     <string name="preferences_cloud_service_disabled">Deshabilitado</string>
     <string name="preferences_cloud_service_nextcloud">Nextcloud</string>
-    <string name="preferences_sync_experimental_warning">Por el momento la sincronización es una característica experimental.
-Podrían aparecer errores.</string>
+    <string name="preferences_sync_experimental_warning">Por el momento la sincronización es una característica experimental.\nPodrían aparecer errores.</string>
     <string name="preferences_nextcloud_limited_features">Recuerda que las Nextcloud Notes no soporta etiquetas, adjuntos, recordatorios, listas de tareas y más.</string>
     <string name="preferences_nextcloud_account">Cuenta Nextcloud</string>
     <string name="preferences_nextcloud_instance_url">URL de la instancia Nextcloud</string>
@@ -87,8 +86,7 @@ Podrían aparecer errores.</string>
     <string name="about_developer">Desarrollador</string>
     <string name="about_contribute">Contribuye</string>
     <string name="about_support">Soporte</string>
-    <string name="about_support_subtext">Crear y mantener proyectos de código abierto consume tiempo y no está retribuido.
-¡Invita a los desarrolladores a una cerveza!</string>
+    <string name="about_support_subtext">Crear y mantener proyectos de código abierto consume tiempo y no está retribuido.\n¡Invita a los desarrolladores a una cerveza!</string>
     <string name="about_libraries">Librerías</string>
     <string name="about_libraries_subtext">Ver librerías y licencias de terceros.</string>
 
@@ -130,7 +128,7 @@ Podrían aparecer errores.</string>
     <string name="indicator_recording">Grabando (%1$s)</string>
     <string name="action_attach_files">Adjuntar archivos</string>
     <string name="action_take_photo">Hacer una foto</string>
-    <string name="indicator_recorded_clip">Grabación de vídeo</string>
+    <string name="indicator_recorded_clip">Grabación de audio</string>
 
     <!-- Notebooks -->
     <string name="default_notebook">Otro</string>
@@ -152,8 +150,7 @@ Podrían aparecer errores.</string>
     <string name="empty_bin_warning_text">Todas las notas se perderán.</string>
     <string name="indicator_deleted_note_cannot_be_edited">Las notas de la papelera no se pueden editar.</string>
     <string name="indicator_deleted_empty">Las notas eliminadas se mostrarán aquí durante %1$d días.</string>
-    <string name="indicator_bin_disabled">Las notas se eliminarán al instante.
-Puedes cambiar esto en los ajustes.</string>
+    <string name="indicator_bin_disabled">Las notas se eliminarán al instante.\nPuedes cambiar esto en los ajustes.</string>
     <string name="indicator_deleted_notes_permanently">Notas eliminadas permanentemente.</string>
     <string name="indicator_deleted_note_permanently">Nota eliminada permanentemente.</string>
 
@@ -196,8 +193,7 @@ Puedes cambiar esto en los ajustes.</string>
     <string name="action_insert_heading">Insertar formato cabecera</string>
     <string name="action_insert_quote">Insertar formato de cita</string>
     <string name="action_insert_code">Insertar formato de código</string>
-    <string name="indicator_note_date">Creada el %1$s
-Modificadas el %2$s</string>
+    <string name="indicator_note_date">Creada el %1$s\nModificadas el %2$s</string>
     <string name="indicator_restored_notes">Notas restauradas</string>
     <string name="indicator_restored_note">Nota restaurada</string>
     <string name="indicator_archived_notes">Notas archivadas</string>
@@ -205,6 +201,18 @@ Modificadas el %2$s</string>
     <string name="indicator_moved_notes_to_bin">Las notas se han trasladado a la papelera</string>
     <string name="indicator_moved_note_to_bin">La nota se ha trasladado a la papelera</string>
     <string name="indicator_empty_note_discarded">Se ha descartado la nota vacía</string>
+    <string name="action_insert_link">Insertar enlace</string>
+    <string name="action_insert">Insertar</string>
+    <string name="action_insert_table">Insertar tabla</string>
+    <string name="message_invalid_number_rows_columns">Número inválido de filas y columnas</string>
+    <string name="action_insert_image">Insertar imagen</string>
+    <string name="hint_image_description">Descripción</string>
+    <string name="hint_image_path">Ruta de la imagen</string>
+    <string name="hint_hyperlink_text">Texto</string>
+    <string name="hint_hyperlink_url">URL</string>
+    <string name="hint_number_columns">Número de columnas</string>
+    <string name="hint_number_rows">Número de filas</string>
+    <string name="message_cannot_preview_table">Cannot preview table.</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Creando copia de seguridad de tus notas…</string>
@@ -221,7 +229,7 @@ Modificadas el %2$s</string>
 
     <!-- Syncing -->
     <string name="message_not_valid_https">Está no es una URL HTTPS válida.</string>
-    <string name="indicator_nextcloud_currently_logged_in_as">Sesión iniciada como &lt;b&gt;%s&lt;/b&gt;.</string>
+    <string name="indicator_nextcloud_currently_logged_in_as">Sesión iniciada como <b>%s</b>.</string>
     <string name="indicator_nextcloud_currently_not_logged_in">No hay iniciado sesión.</string>
     <string name="action_nextcloud_authenticate">Autenticar</string>
     <string name="indicator_offline_account">Cuenta sin conexión</string>
@@ -255,15 +263,5 @@ Modificadas el %2$s</string>
         <item quantity="one">%d etiqueta seleccionada</item>
         <item quantity="other">%d etiquetas seleccionadas</item>
     </plurals>
-    <string name="action_insert_link">Insertar enlace</string>
-    <string name="action_insert">Insertar</string>
-    <string name="action_insert_table">Insertar tabla</string>
-    <string name="message_invalid_number_rows_columns">Número inválido de filas y columnas</string>
-    <string name="action_insert_image">Insertar imagen</string>
-    <string name="hint_image_description">Descripción</string>
-    <string name="hint_image_path">Ruta de la imagen</string>
-    <string name="hint_hyperlink_text">Texto</string>
-    <string name="hint_hyperlink_url">URL</string>
-    <string name="hint_number_columns">Número de columnas</string>
-    <string name="hint_number_rows">Número de filas</string>
+
 </resources>
