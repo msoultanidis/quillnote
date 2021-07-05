@@ -14,7 +14,7 @@ class NotebookFragment : MainFragment() {
     private val args: NotebookFragmentArgs by navArgs()
 
     override val notebookId: Long?
-        get() = args.notebookId.takeIf { it >= 0L }
+        get() = args.notebookId.takeIf { it >= 0L || it == R.id.nav_default_notebook.toLong() }
     override val toolbarTitle: String
         get() = args.notebookName
 
@@ -28,7 +28,7 @@ class NotebookFragment : MainFragment() {
             .setNoteId(noteId)
             .setNewNoteAttachments(attachments.toTypedArray())
             .setNewNoteIsList(isList)
-            .setNewNoteNotebookId(notebookId ?: 0L)
+            .setNewNoteNotebookId(notebookId.takeUnless { it == R.id.nav_default_notebook.toLong() } ?: 0L)
 
     override fun actionToSearch(searchQuery: String) =
         NotebookFragmentDirections.actionNotebookToSearch().setSearchQuery(searchQuery)
@@ -38,7 +38,7 @@ class NotebookFragment : MainFragment() {
 
         // Check if notebook exists in database. If it doesn't then go back
         lifecycleScope.launch {
-            if (!model.notebookExists(args.notebookId)) {
+            if (!model.notebookExists(args.notebookId) && args.notebookId != R.id.nav_default_notebook.toLong()) {
                 findNavController().navigateUp()
             }
         }

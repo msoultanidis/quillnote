@@ -84,6 +84,7 @@ class NoteRecyclerAdapter(
                 Payload.RemindersChanged to (oldItem.reminders != newItem.reminders),
                 Payload.TagsChanged to (oldItem.tags != newItem.tags),
                 Payload.AttachmentsChanged to (oldItem.attachments != newItem.attachments),
+                Payload.TasksChanged to (oldItem.taskList != newItem.taskList),
             )
                 .filter { (_, condition) -> condition }
                 .map { (payload, _) -> payload }
@@ -103,5 +104,6 @@ class NoteRecyclerAdapter(
         TagsChanged,
         RemindersChanged,
         AttachmentsChanged,
+        TasksChanged,
     }
 }

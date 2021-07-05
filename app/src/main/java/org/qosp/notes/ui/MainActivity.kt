@@ -125,7 +125,7 @@ class MainActivity : BaseActivity() {
         val textViewUsername = header.findViewById<AppCompatTextView>(R.id.text_view_username)
         val textViewProvider = header.findViewById<AppCompatTextView>(R.id.text_view_provider)
 
-        // Fixes bug that causes the header to have large padding when the keybord is open
+        // Fixes bug that causes the header to have large padding when the keyboard is open
         ViewCompat.setOnApplyWindowInsetsListener(header) { view, insets ->
             header.setPadding(0, insets.getInsets(WindowInsetsCompat.Type.systemBars()).top, 0, 0)
             WindowInsetsCompat.CONSUMED
@@ -166,20 +166,35 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun setupDrawerMenuItemClickListeners() {
+    private fun setupDrawerMenuItems() {
         // Alternative of setupWithNavController(), NavigationUI.java
         // Sets up click listeners for all drawer menu items except from notebooks.
         // Those are handled in createNotebookMenuItems()
-        (topLevelMenu.children + notebooksMenu.children).forEach { item ->
-            if (item.itemId !in primaryDestinations + secondaryDestinations) return@forEach
+        (topLevelMenu.children + listOfNotNull(notebooksMenu.findItem(R.id.fragment_manage_notebooks)))
+            .forEach { item ->
+                if (item.itemId !in primaryDestinations + secondaryDestinations) return@forEach
 
-            item.setOnMenuItemClickListener {
-                binding.drawer.closeAndThen {
-                    navController.navigateSafely(item.itemId)
+                item.setOnMenuItemClickListener {
+                    binding.drawer.closeAndThen {
+                        navController.navigateSafely(item.itemId)
+                    }
+                    false // Returning true would cause the menu item to become checked.
+                    // We check the menu items only when the destination changes.
                 }
-                false // Returning true would cause the menu item to become checked.
-                // We check the menu items only when the destination changes.
             }
+
+        notebooksMenu.findItem(R.id.nav_default_notebook)?.setOnMenuItemClickListener {
+            binding.drawer.closeAndThen {
+                navController.navigateSafely(
+                    R.id.fragment_notebook,
+                    bundleOf(
+                        "notebookId" to R.id.nav_default_notebook.toLong(),
+                        "notebookName" to getString(R.string.default_notebook),
+                    )
+                )
+            }
+            false // Returning true would cause the menu item to become checked.
+            // We check the menu items only when the destination changes.
         }
     }
 
@@ -222,7 +237,7 @@ class MainActivity : BaseActivity() {
         navController =
             (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
 
-        setupDrawerMenuItemClickListeners()
+        setupDrawerMenuItems()
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             currentFocus?.hideKeyboard()
@@ -231,8 +246,8 @@ class MainActivity : BaseActivity() {
             setDrawerEnabled(destination.id != R.id.fragment_editor)
         }
 
-        activityModel.notebooks.collect(this) { notebooks ->
-            val notebookIds = notebooks.map { it.id.toInt() }.toSet()
+        activityModel.notebooks.collect(this) { (showDefaultNotebook, notebooks) ->
+            val notebookIds = (notebooks.map { it.id.toInt() } + R.id.nav_default_notebook).toSet()
 
             // Remove deleted notebooks from the menu
             (primaryDestinations + secondaryDestinations + notebookIds).let { dests ->
@@ -244,6 +259,12 @@ class MainActivity : BaseActivity() {
             }
 
             createNotebookMenuItems(notebooks)
+
+            val defaultTitle = getString(R.string.default_notebook)
+            notebooksMenu.findItem(R.id.nav_default_notebook)?.apply {
+                isVisible = showDefaultNotebook
+                title = defaultTitle + " (${getString(R.string.default_string)})".takeIf { notebooks.any { it.name == defaultTitle } }.orEmpty()
+            }
         }
     }
 

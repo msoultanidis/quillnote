@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Quillnote</string>
     <string name="nav_notes">Σημειώσεις</string>
     <string name="nav_archive">Αρχειοθετημένες</string>
     <string name="nav_deleted">Διαγραμμένες</string>
@@ -34,9 +33,11 @@
     <string name="preferences_sort_method_created_desc">Ημερομηνία δημιουργίας (φθίνουσα)</string>
     <string name="preferences_sort_method_modified_asc">Ημερομηνία τροποποίησης (αύξουσα)</string>
     <string name="preferences_sort_method_modified_desc">Ημερομηνία τροποποίησης (φθίνουσα)</string>
+    <string name="preferences_show_date">Προβολή ημερομηνίας δημιουργίας/τροποποίησης</string>
     <string name="preferences_date_format">Μορφή ημερομηνίας</string>
     <string name="preferences_time_format">Μορφή ώρας</string>
     <string name="preferences_header_other">Άλλα</string>
+    <string name="preferences_group_notes_without_notebook">Ομαδοποίηση των σημειώσεων που δεν ανήκουν σε κάποιο τετράδιο</string>
     <string name="preferences_open_media_in">Άνοιγμα πολυμέσων</string>
     <string name="preferences_open_media_in_internal">Μέσα στην εφαρμογή</string>
     <string name="preferences_open_media_in_external">Με άλλη εφαρμογή</string>
@@ -118,6 +119,7 @@
     <string name="action_attach_files">Επισύναψη αρχείων</string>
     <string name="action_take_photo">Τραβήξτε φωτογραφία</string>
     <string name="indicator_recorded_clip">Ηχογραφημένο κλιπ</string>
+    <string name="default_notebook">Άλλες σημειώσεις</string>
     <string name="notebooks_new_notebook">Νέο τετράδιο</string>
     <string name="notebooks_hint_name">Όνομα τετραδίου</string>
     <string name="notebooks_unassigned">Χωρίς Τετράδιο</string>
@@ -188,7 +190,7 @@
     <string name="indicator_nextcloud_currently_logged_in_as">Είστε συνδεδεμένοι ως <b>%s</b>.</string>
     <string name="indicator_nextcloud_currently_not_logged_in">Δεν είστε συνδεδεμένοι.</string>
     <string name="action_nextcloud_authenticate">Σύνδεση</string>
-    <string name="indicator_offline_account">Λογαριασμός εκτός σύνδεσης.</string>
+    <string name="indicator_offline_account">Λογαριασμός εκτός σύνδεσης</string>
     <string name="indicator_connecting">Γίνεται σύνδεση…</string>
     <string name="message_something_went_wrong">Κάτι πήγε λάθος.</string>
     <string name="message_invalid_credentials">Δεν μπορεί να γίνει σύνδεση λόγω λανθασμένων στοιχείων.</string>
@@ -202,6 +204,18 @@
     <string name="shortcut_take_note">Κρατήστε μια σημείωση</string>
     <string name="shortcut_make_list">Φτιάξτε μια λίστα</string>
     <string name="default_string">Προεπιλεγμένο</string>
+    <string name="action_insert_link">Εισαγωγή συνδέσμου</string>
+    <string name="action_insert">Εισαγωγή</string>
+    <string name="action_insert_table">Εισαγωγή πίνακα</string>
+    <string name="message_invalid_number_rows_columns">Μη έγκυρος αριθμός στηλών και σειρών</string>
+    <string name="action_insert_image">Εισαγωγή εικόνας</string>
+    <string name="hint_image_description">Περιγραφή</string>
+    <string name="hint_image_path">Διεύθυνση εικόνας</string>
+    <string name="hint_hyperlink_text">Κείμενο</string>
+    <string name="hint_hyperlink_url">Διεύθυνση URL</string>
+    <string name="hint_number_columns">Αριθμός στηλών</string>
+    <string name="hint_number_rows">Αριθμός σειρών</string>
+    <string name="message_cannot_preview_table">Δεν είναι δυνατή η προεπισκόπηση του πίνακα.</string>
 
     <plurals name="more_items">
         <item quantity="one">+%d στοιχείο</item>

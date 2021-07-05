@@ -32,6 +32,11 @@
                         android:id="@+id/fragment_manage_notebooks"
                         android:icon="@drawable/ic_manage_notebooks"
                         android:title="@string/nav_your_notebooks"/>
+                <item
+                        android:id="@+id/nav_default_notebook"
+                        android:icon="@drawable/ic_notebook"
+                        android:title="@string/default_notebook"
+                        android:visible="false"/>
             </group>
         </menu>
     </item>

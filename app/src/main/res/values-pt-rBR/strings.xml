@@ -1,0 +1,288 @@
+<resources>
+    <!-- Navigation drawer -->
+    <string name="nav_notes">Anotações</string>
+    <string name="nav_archive">Arquivo</string>
+    <string name="nav_deleted">Excluído</string>
+    <string name="nav_settings">Configurações</string>
+    <string name="nav_about">Sobre</string>
+    <string name="nav_tags">Etiquetas</string>
+    <string name="nav_all_notes">Todas Anotações</string>
+    <string name="nav_notebooks">Caderno de Notas</string>
+    <string name="nav_your_notebooks">Seu Caderno de Notas</string>
+
+    <!-- Preferences -->
+    <string name="preferences_header_general">Geral</string>
+    <string name="preferences_theme_mode">Modo de tema</string>
+    <string name="preferences_theme_mode_dark">Escuro</string>
+    <string name="preferences_theme_mode_light">Claro</string>
+    <string name="preferences_theme_mode_system">Seguir tema do sistema</string>
+
+    <string name="preferences_header_view">Visualização</string>
+    <string name="preferences_layout_mode">Modo de exibição</string>
+    <string name="preferences_layout_mode_grid">Grelha</string>
+    <string name="preferences_layout_mode_list">Lista</string>
+
+    <string name="preferences_color_scheme">Esquema de cores</string>
+    <string name="preferences_color_scheme_blue">Azul</string>
+    <string name="preferences_color_scheme_pink">Rosa</string>
+    <string name="preferences_color_scheme_green">Verde</string>
+    <string name="preferences_color_scheme_orange">Laranja</string>
+    <string name="preferences_color_scheme_purple">Roxo</string>
+    <string name="preferences_color_scheme_yellow">Amarelo</string>
+    <string name="preferences_color_scheme_red">Vermelho</string>
+
+    <string name="preferences_sort_method">Ordenar por</string>
+    <string name="preferences_sort_method_title_asc">Título (crescente)</string>
+    <string name="preferences_sort_method_title_desc">Título (decrescente)</string>
+    <string name="preferences_sort_method_created_asc">Data criado (crescente)</string>
+    <string name="preferences_sort_method_created_desc">Data criado (decrescente)</string>
+    <string name="preferences_sort_method_modified_asc">Data modificado (crescente)</string>
+    <string name="preferences_sort_method_modified_desc">Data modificado (decrescente)</string>
+
+    <string name="preferences_show_date">Mostrar data que foi criado/modificado</string>
+    <string name="preferences_date_format">Formato de data</string>
+    <string name="preferences_time_format">Formato de hora</string>
+
+    <string name="preferences_header_other">Outro</string>
+    <string name="preferences_group_notes_without_notebook">Agrupar anotações que não estão em nenhum caderno de notas</string>
+    <string name="preferences_open_media_in">Abrir mídia em</string>
+    <string name="preferences_open_media_in_internal">Tocador interno</string>
+    <string name="preferences_open_media_in_external">Tocador externo</string>
+    <string name="preferences_note_deletion_time">Excluir anotações na lixeira</string>
+    <string name="preferences_note_deletion_time_instantly">Instantaneamente</string>
+    <string name="preferences_note_deletion_time_week">Após 7 dias</string>
+    <string name="preferences_note_deletion_time_two_weeks">Após 14 dias</string>
+    <string name="preferences_note_deletion_time_month">Após 30 dias</string>
+
+    <string name="preferences_header_backup">Cópia de segurança</string>
+    <string name="preferences_create_backup">Criar uma cópia de segurança</string>
+    <string name="preferences_create_backup_subtext">Exportar todas as anotações em um arquivo de cópia de segurança.</string>
+    <string name="preferences_restore">Restaurar</string>
+    <string name="preferences_restore_subtext">Carregar anotações de um arquivo de cópia de segurança.</string>
+    <string name="preferences_backup_strategy">Estratégia de cópia de segurança para anexos</string>
+    <string name="preferences_backup_strategy_include_files">Criar cópia de tudo</string>
+    <string name="preferences_backup_strategy_keep_info">Criar cópia apenas da descrição e do caminho</string>
+    <string name="preferences_backup_strategy_keep_nothing">Não criar cópia dos anexos</string>
+
+    <string name="preferences_header_syncing">Sincronização</string>
+    <string name="preferences_go_to_sync_settings">Ir para configurações de sincronização</string>
+    <string name="preferences_currently_syncing_with">Sincronizando atualmente com %s</string>
+    <string name="preferences_currently_not_syncing">Atualmente não está sincronizando</string>
+    <string name="preferences_cloud_service">Serviço de sincronia</string>
+    <string name="preferences_cloud_service_disabled">Desabilitado</string>
+    <string name="preferences_cloud_service_nextcloud">Nextcloud</string>
+    <string name="preferences_sync_experimental_warning">Função de sincronização atualmente é experimental. Você pode encontrar bugs.</string>
+    <string name="preferences_nextcloud_limited_features">Tenha em mente que o Nextcloud Notes não suporta recursos como etiquetas, anexos, lembretes, listas de tarefas e mais.</string>
+    <string name="preferences_nextcloud_account">Conta Nextcloud</string>
+    <string name="preferences_nextcloud_instance_url">URL de instancia do Nextcloud</string>
+    <string name="preferences_nextcloud_set_your_credentials">Coloque suas credenciais</string>
+    <string name="preferences_nextcloud_set_server_url">Coloque a URL do server</string>
+    <string name="preferences_sync_on_wifi">Wi-Fi</string>
+    <string name="preferences_sync_on_wifi_data">Wi-Fi ou Dados Móveis</string>
+    <string name="preferences_sync_when_on">Sincronizar quando estiver no</string>
+    <string name="preferences_background_sync">Sincronização em segundo plano</string>
+    <string name="preferences_background_sync_enabled">Habilitado</string>
+    <string name="preferences_background_sync_disabled">Desabilitado</string>
+    <string name="preferences_new_notes_synchronizable">Novas anotações sincronizáveis</string>
+
+
+    <!-- About -->
+    <string name="about_version">Versão</string>
+    <string name="about_website">Site</string>
+    <string name="about_developer">Desenvolvedor</string>
+    <string name="about_contribute">Contribua</string>
+    <string name="about_support">Suporte</string>
+    <string name="about_support_subtext">Criar e manter projetos de código aberto consome tempo e
+        não gera renda.\nPague uma cerveja aos desenvolvedores!
+    </string>
+    <string name="about_libraries">Bibliotecas</string>
+    <string name="about_libraries_subtext">Veja as bibliotecas de terceiro e suas licenças.</string>
+
+
+    <!-- General -->
+    <string name="default_string">Padrão</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="ok">OK</string>
+    <string name="indicator_notes_empty">Suas anotações aparecerão aqui.</string>
+    <string name="indicator_untitled">Sem titulo</string>
+    <string name="hint_username">Nome de usuário</string>
+    <string name="hint_password">Senha</string>
+    <string name="action_save">Salvar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_delete">Excluir</string>
+    <string name="action_done">Feito!</string>
+    <string name="action_delete_permanently">Excluir permanentemente</string>
+    <string name="action_select_all">Selecionar todas</string>
+    <string name="action_create_list">Criar uma lista</string>
+    <string name="action_show_hidden_notes">Exibir anotações escondidas</string>
+    <string name="action_unarchive">Desarquivar</string>
+    <string name="action_export">Exportar</string>
+    <string name="action_hide">Esconder</string>
+    <string name="action_show">Exibir</string>
+    <string name="action_archive">Arquivar</string>
+    <string name="action_pin">Fixar</string>
+    <string name="action_unpin">Desafixar</string>
+    <string name="action_restore">Restaurar</string>
+    <string name="action_share">Compartilhar</string>
+    <string name="action_pin_unpin">Fixar / Desafixar</string>
+    <string name="action_move_to">Mover para…</string>
+    <string name="action_duplicate">Duplicar</string>
+    <string name="action_select_more">Selecionar mais…</string>
+
+
+    <!-- Attachments -->
+    <string name="attachments_edit_description">Editar descrição</string>
+    <string name="attachments_hint_description">Descrição do anexo</string>
+    <string name="action_record_audio">Gravar áudio</string>
+    <string name="indicator_recording">Gravando (%1$s)</string>
+    <string name="action_attach_files">Anexar arquivos</string>
+    <string name="action_take_photo">Tirar uma foto</string>
+    <string name="indicator_recorded_clip">Clipe Gravado</string>
+
+
+    <!-- Notebooks -->
+    <string name="default_notebook">Outro</string>
+    <string name="notebooks_new_notebook">Novo caderno de notas</string>
+    <string name="notebooks_hint_name">Nome do caderno de notas</string>
+    <string name="notebooks_unassigned">Nenhum Caderno</string>
+    <string name="indicator_notebook_empty">Você não tem nenhum caderno de notas.</string>
+    <string name="action_create_notebook">Criar um caderno de notas</string>
+    <string name="action_rename_notebook">Renomear caderno de notas</string>
+    <string name="action_new_notebook">Novo caderno de notas</string>
+    <string name="indicator_notebook_already_exists">Caderno de notas com o nome %1$s já existe.</string>
+
+
+    <!-- Archive -->
+    <string name="indicator_archive_empty">Suas anotações arquivadas aparecerão aqui.</string>
+
+
+    <!-- Deleted -->
+    <string name="action_empty_bin">Esvaziar lixeira</string>
+    <string name="empty_bin_warning_title">Tem certeza?</string>
+    <string name="empty_bin_warning_text">Todas as anotações excluídas serão perdidas.</string>
+    <string name="indicator_deleted_note_cannot_be_edited">Anotações na lixeira não podem ser editadas.</string>
+    <string name="indicator_deleted_empty">Suas anotações excluídas aparecerão aqui por %1$d dias.</string>
+    <string name="indicator_bin_disabled">As anotações estão definidas para serem excluídas instantaneamente.\nVocê pode mudar isso em Configurações.</string>
+    <string name="indicator_deleted_notes_permanently">Anotações excluídas permanentemente.</string>
+    <string name="indicator_deleted_note_permanently">Anotação excluída permanentemente.</string>
+
+
+    <!-- Reminders -->
+    <string name="reminders">Lembretes</string>
+    <string name="reminder">Lembrete</string>
+    <string name="reminders_hint_name">Nome do lembrete</string>
+    <string name="action_set_date">Definir data</string>
+    <string name="action_set_time">Definir hora</string>
+    <string name="action_new_reminder">Novo lembrete</string>
+    <string name="notification_reminder_fired">Você tem um lembrete.</string>
+    <string name="indicator_cannot_set_past_reminder">Não é possível definir um lembrete para uma data passada</string>
+
+
+    <!-- Tags -->
+    <string name="action_new_tag">Nova etiqueta</string>
+    <string name="tags_hint_name">Nome da etiqueta</string>
+    <string name="indicator_tags_empty">Você não tem etiquetas.</string>
+    <string name="action_rename_tag">Renomear etiqueta</string>
+    <string name="indicator_tag_already_exists">Etiqueta com o nome %1$s já existe.</string>
+
+
+    <!-- Search -->
+    <string name="search_hint">Pesquisar…</string>
+    <string name="action_search">Pesquisar</string>
+    <string name="indicator_search_empty">Resultados de busca aparecerão aqui.</string>
+    <string name="indicator_no_results_found">Nenhum resultado encontrado.</string>
+
+
+    <!-- Editor -->
+    <string name="editor_hint_title">Título</string>
+    <string name="editor_hint_content">Faça uma anotação!</string>
+    <string name="action_add_task">Tarefa</string>
+    <string name="action_convert_to_note">Converter para anotação</string>
+    <string name="action_convert_to_list">Converter para lista</string>
+    <string name="action_do_not_sync">Não sincronizar</string>
+    <string name="action_change_color">Mudar cor</string>
+    <string name="action_enable_markdown">Habilitar marcação</string>
+    <string name="action_disable_markdown">Desabilitar marcação</string>
+    <string name="action_insert_bold_text">Inserir marcador de negrito</string>
+    <string name="action_insert_italics">Inserir marcador de itálico</string>
+    <string name="action_insert_strikethrough">Inserir marcador de tachado</string>
+    <string name="action_insert_heading">Inserir marcador de cabeçalho</string>
+    <string name="action_insert_quote">Inserir marcador de citação</string>
+    <string name="action_insert_code">Inserir marcador de código</string>
+    <string name="indicator_note_date">Criado em %1$s\nUltima modificação em %2$s</string>
+    <string name="indicator_restored_notes">Anotações restauradas</string>
+    <string name="indicator_restored_note">Anotação restaurada</string>
+    <string name="indicator_archived_notes">Anotações arquivadas</string>
+    <string name="indicator_archive_note">Anotação arquivada</string>
+    <string name="indicator_moved_notes_to_bin">Anotações movidas para a lixeira</string>
+    <string name="indicator_moved_note_to_bin">Anotação movida para a lixeira</string>
+    <string name="indicator_empty_note_discarded">Anotação vazia descartada</string>
+    <string name="action_insert_link">Inserir link</string>
+    <string name="action_insert">Inserir</string>
+    <string name="action_insert_table">Inserir tabela</string>
+    <string name="message_invalid_number_rows_columns">Número de linhas e colunas inválido</string>
+    <string name="action_insert_image">Inserir imagem</string>
+    <string name="hint_image_description">Descrição</string>
+    <string name="hint_image_path">Caminho da imagem</string>
+    <string name="hint_hyperlink_text">Texto</string>
+    <string name="hint_hyperlink_url">URL</string>
+    <string name="hint_number_columns">Número de colunas</string>
+    <string name="hint_number_rows">Número de linhas</string>
+    <string name="message_cannot_preview_table">Não é possível visualizar a tabela.</string>
+
+    <!-- Backup / Restore -->
+    <string name="notification_backing_up">Criando cópia de segurança das suas anotações…</string>
+    <string name="notification_backup_complete">Cópia de segurança concluída!</string>
+    <string name="notification_backup_failed">A cópia de segurança falhou</string>
+    <string name="notification_restoring_notes">Restaurando suas anotações…</string>
+    <string name="notification_restore_complete">Restauração concluída</string>
+    <string name="notification_restore_failed">A restauração falhou</string>
+
+
+    <!-- Notification channels -->
+    <string name="notifications_channel_reminders">Lembrete</string>
+    <string name="notifications_channel_backups">Cópias de segurança</string>
+    <string name="notifications_channel_playback">Reprodução de mídia</string>
+
+    <!-- Syncing -->
+    <string name="message_not_valid_https">Isto não é uma URL HTTPS válida.</string>
+    <string name="indicator_nextcloud_currently_logged_in_as">Você atualmente está conectado como <b>%s</b>.</string>
+    <string name="indicator_nextcloud_currently_not_logged_in">Você atualmente não está conectado.</string>
+    <string name="action_nextcloud_authenticate">Autenticar</string>
+    <string name="indicator_offline_account">Contas offline</string>
+    <string name="indicator_connecting">Conectando…</string>
+    <string name="message_something_went_wrong">Algo deu errado.</string>
+    <string name="message_invalid_credentials">Não foi possível autenticar com o servidor devido a credenciais inválidas.</string>
+    <string name="message_logged_in_successfully">Conectado com sucesso!</string>
+    <string name="message_server_not_compatible">Versão do servidor não é compatível com esse app.</string>
+    <string name="message_internet_not_available">Conexão com a Internet não está disponível.</string>
+    <string name="message_credentials_cannot_be_blank">As credenciais não podem ficar em branco.</string>
+    <string name="preference_nextcloud_clear_credentials">Limpar credenciais e URL do servidor</string>
+    <string name="notification_media_play_pause">Reproduzir / Pausar</string>
+    <string name="notification_media_stop">Parar</string>
+
+    <!-- App shortcuts -->
+    <string name="shortcut_take_note">Fazer uma anotação</string>
+    <string name="shortcut_make_list">Fazer uma lista</string>
+
+    <plurals name="more_items">
+        <item quantity="one">+%d item</item>
+        <item quantity="other">+%d itens</item>
+    </plurals>
+
+    <plurals name="selected_notes">
+        <item quantity="one">%d anotação selecionada</item>
+        <item quantity="other">%d anotações selecionadas</item>
+    </plurals>
+
+    <plurals name="selected_notebooks">
+        <item quantity="one">%d caderno de notas selecionado</item>
+        <item quantity="other">%d cadernos de notas selecionados</item>
+    </plurals>
+
+    <plurals name="selected_tags">
+        <item quantity="one">%d etiqueta selecionada</item>
+        <item quantity="other">%d etiquetas selecionadas</item>
+    </plurals>
+</resources>

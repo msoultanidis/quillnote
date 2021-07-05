@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.qosp.notes.R
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.data.repo.NotebookRepository
 import org.qosp.notes.data.sync.core.SyncManager
@@ -26,7 +27,11 @@ class MainViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     override val provideNotes = { sortMethod: SortMethod ->
         notebookIdFlow.flatMapLatest { id ->
-            if (id == null) noteRepository.getNonDeletedOrArchived(sortMethod) else noteRepository.getByNotebook(id, sortMethod)
+            when (id) {
+                null -> noteRepository.getNonDeletedOrArchived(sortMethod)
+                R.id.nav_default_notebook.toLong() -> noteRepository.getNotesWithoutNotebook(sortMethod)
+                else -> noteRepository.getByNotebook(id, sortMethod)
+            }
         }
     }
 
