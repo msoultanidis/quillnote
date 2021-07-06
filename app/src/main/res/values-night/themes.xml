@@ -24,7 +24,7 @@
         <item name="colorNoteIndicator">#B3FFFFFF</item>
         <item name="colorAttachmentIndicator">#89000000</item>
         <item name="colorTaskDone">#80FFFFFF</item>
-
+        <item name="colorMarkdownTask">#80FFFFFF</item>
         <item name="colorMediaControlsBackground">#CC000000</item>
 
         <item name="colorTaskSwipe">#CCF44336</item>

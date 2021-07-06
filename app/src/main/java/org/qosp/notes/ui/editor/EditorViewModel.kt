@@ -28,6 +28,8 @@ class EditorViewModel @Inject constructor(
     private var syncJob: Job? = null
     private val noteIdFlow: MutableStateFlow<Long?> = MutableStateFlow(null)
 
+    var selectedRange = 0 to 0
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val data = noteIdFlow
         .filterNotNull()
@@ -41,6 +43,7 @@ class EditorViewModel @Inject constructor(
                         notebook = notebook,
                         dateTimeFormats = prefs.dateFormat to prefs.timeFormat,
                         openMediaInternally = prefs.openMediaIn == OpenMediaIn.INTERNAL,
+                        showDates = prefs.showDate == ShowDate.YES,
                         isInitialized = true,
                     )
                 }
@@ -148,20 +151,6 @@ class EditorViewModel @Inject constructor(
         )
     }
 
-    fun disableMarkdown() = update { note ->
-        note.copy(
-            isMarkdownEnabled = false,
-            modifiedDate = Instant.now().epochSecond,
-        )
-    }
-
-    fun enableMarkdown() = update { note ->
-        note.copy(
-            isMarkdownEnabled = true,
-            modifiedDate = Instant.now().epochSecond,
-        )
-    }
-
     private inline fun update(crossinline transform: suspend (Note) -> Note) {
         viewModelScope.launch(Dispatchers.IO) {
             val note = data.value.note ?: return@launch
@@ -183,6 +172,7 @@ class EditorViewModel @Inject constructor(
         val notebook: Notebook? = null,
         val dateTimeFormats: Pair<DateFormat, TimeFormat> = defaultOf<DateFormat>() to defaultOf<TimeFormat>(),
         val openMediaInternally: Boolean = true,
+        val showDates: Boolean = true,
         val isInitialized: Boolean = false,
     )
 }

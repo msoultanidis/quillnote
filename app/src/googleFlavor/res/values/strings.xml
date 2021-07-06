@@ -1,0 +1,4 @@
+<resources>
+    <string name="about_support" translatable="false"></string>
+    <string name="about_support_subtext" translatable="false"></string>
+</resources>

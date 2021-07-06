@@ -153,4 +153,9 @@ class NoteRepository(
     fun getByNotebook(notebookId: Long, sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
         return noteDao.getByNotebook(notebookId, sortMethod)
     }
+
+    fun getNotesWithoutNotebook(sortMethod: SortMethod = defaultOf()): Flow<List<Note>> {
+        return noteDao.getNotesWithoutNotebook(sortMethod)
+    }
+
 }

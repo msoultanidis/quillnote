@@ -40,8 +40,8 @@ class ManageNotebooksFragment : BaseFragment(R.layout.fragment_manage_notebooks)
 
         setupRecyclerView()
 
-        activityModel.notebooks.collect(viewLifecycleOwner) {
-            adapter.submitList(it)
+        activityModel.notebooks.collect(viewLifecycleOwner) { (_, notebooks) ->
+            adapter.submitList(notebooks)
         }
 
         binding.layoutAppBar.toolbarSelection.apply {

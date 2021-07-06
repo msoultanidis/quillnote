@@ -8,6 +8,13 @@ Take beautiful markdown notes whenever you feel inspired. Place them in notebook
 
 Quillnote is fully free and open-source. It will never show you ads, ask you for unnecessary permissions or upload your notes anywhere without you knowing.
 
+<a href="https://f-droid.org/packages/org.qosp.notes">
+    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">
+</a>
+<a href='https://play.google.com/store/apps/details?id=org.qosp.notes'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="80"/></a>
+
 ## Features
 With Quillnote, you can:
 

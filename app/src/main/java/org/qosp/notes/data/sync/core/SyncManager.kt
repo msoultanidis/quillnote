@@ -31,6 +31,7 @@ class SyncManager(
     }
 
     val config = prefs.map { prefs -> prefs.config }
+        .stateIn(syncingScope, SharingStarted.WhileSubscribed(5000), null)
 
     private val actor = syncActor.launchIn(syncingScope)
 

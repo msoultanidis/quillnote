@@ -24,6 +24,8 @@ class SearchViewModel @Inject constructor(
 ) : AbstractNotesViewModel(preferenceRepository, syncManager) {
     private val searchKeyData: MutableStateFlow<String> = MutableStateFlow("")
 
+    var isFirstLoad = true
+
     @OptIn(ExperimentalCoroutinesApi::class, kotlinx.coroutines.FlowPreview::class)
     override val provideNotes = { sortMethod: SortMethod ->
         notebookRepository.getAll().distinctUntilChanged().flatMapLatest { notebooks ->

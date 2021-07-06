@@ -120,4 +120,16 @@ interface NoteDao {
         }
         return Pair(column, order)
     }
+
+    fun getNotesWithoutNotebook(sortMethod: SortMethod): Flow<List<Note>> {
+        val (column, order) = getOrderByMethod(sortMethod)
+        return rawGetQuery(
+            SimpleSQLiteQuery(
+                """
+                SELECT * FROM notes WHERE isArchived = 0 AND isDeleted = 0 AND notebookId IS NULL 
+                ORDER BY isPinned DESC, $column $order
+            """
+            )
+        )
+    }
 }

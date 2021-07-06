@@ -39,10 +39,12 @@
     <string name="preferences_sort_method_modified_asc">Date modified (ascending)</string>
     <string name="preferences_sort_method_modified_desc">Date modified (descending)</string>
 
+    <string name="preferences_show_date">Show date created/modified</string>
     <string name="preferences_date_format">Date format</string>
     <string name="preferences_time_format">Time format</string>
 
     <string name="preferences_header_other">Other</string>
+    <string name="preferences_group_notes_without_notebook">Group notes which are not in any notebook</string>
     <string name="preferences_open_media_in">Open media in</string>
     <string name="preferences_open_media_in_internal">Internal player</string>
     <string name="preferences_open_media_in_external">External player</string>
@@ -140,6 +142,7 @@
 
 
     <!-- Notebooks -->
+    <string name="default_notebook">Other</string>
     <string name="notebooks_new_notebook">New notebook</string>
     <string name="notebooks_hint_name">Notebook name</string>
     <string name="notebooks_unassigned">No Notebook</string>
@@ -215,7 +218,18 @@
     <string name="indicator_moved_notes_to_bin">Moved notes to bin</string>
     <string name="indicator_moved_note_to_bin">Moved note to bin</string>
     <string name="indicator_empty_note_discarded">Empty note discarded</string>
-
+    <string name="action_insert_link">Insert link</string>
+    <string name="action_insert">Insert</string>
+    <string name="action_insert_table">Insert table</string>
+    <string name="message_invalid_number_rows_columns">Invalid number of rows and columns</string>
+    <string name="action_insert_image">Insert image</string>
+    <string name="hint_image_description">Description</string>
+    <string name="hint_image_path">Image path</string>
+    <string name="hint_hyperlink_text">Text</string>
+    <string name="hint_hyperlink_url">URL</string>
+    <string name="hint_number_columns">Number of columns</string>
+    <string name="hint_number_rows">Number of rows</string>
+    <string name="message_cannot_preview_table">Cannot preview table.</string>
 
     <!-- Backup / Restore -->
     <string name="notification_backing_up">Backing up your notes…</string>

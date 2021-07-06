@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:animateLayoutChanges="true">
+
+    <org.qosp.notes.ui.utils.views.ExtendedEditText
+            android:id="@+id/edit_text_hyperlink_text"
+            android:hint="@string/hint_hyperlink_text"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:background="@drawable/background_edit_text"
+            android:inputType="text"
+            android:maxLines="1"
+            android:scrollHorizontally="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"/>
+
+
+    <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_hyperlink"
+            android:hint="@string/hint_hyperlink_url"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:background="@drawable/background_edit_text"
+            android:inputType="textUri"
+            android:maxLines="1"
+            android:scrollHorizontally="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="16dp"/>
+
+</LinearLayout>

@@ -44,9 +44,11 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
         setupThemeModeListener()
         setupLayoutModeListener()
         setupSortMethodListener()
+        setupGroupNotesWithoutNotebookListener()
         setupOpenMediaInListener()
         setupNoteDeletionTimeListener()
         setupBackupStrategyListener()
+        setupShowDateListener()
         setupDateFormatListener()
         setupTimeFormatListener()
         setupSyncSettingsListener()
@@ -87,6 +89,10 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
                 binding.settingBackupStrategy.subText = getString(backupStrategy.nameResource)
                 binding.settingOpenMedia.subText = getString(openMediaIn.nameResource)
                 binding.settingNoteDeletion.subText = getString(noteDeletionTime.nameResource)
+
+                binding.settingGroupNotesWithoutNotebook.subText = getString(groupNotesWithoutNotebook.nameResource)
+                binding.settingShowDate.subText = getString(showDate.nameResource)
+
                 with(DateTimeFormatter.ofPattern(getString(dateFormat.patternResource))) {
                     binding.settingDateFormat.subText = format(LocalDate.now())
                 }
@@ -139,6 +145,12 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
         }
     }
 
+    private fun setupGroupNotesWithoutNotebookListener() = binding.settingGroupNotesWithoutNotebook.setOnClickListener {
+        showPreferenceDialog(R.string.preferences_group_notes_without_notebook, appPreferences.groupNotesWithoutNotebook) { selected ->
+            model.setPreference(selected)
+        }
+    }
+
     private fun setupOpenMediaInListener() = binding.settingOpenMedia.setOnClickListener {
         showPreferenceDialog(R.string.preferences_open_media_in, appPreferences.openMediaIn) { selected ->
             model.setPreference(selected)
@@ -147,6 +159,12 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
 
     private fun setupNoteDeletionTimeListener() = binding.settingNoteDeletion.setOnClickListener {
         showPreferenceDialog(R.string.preferences_note_deletion_time, appPreferences.noteDeletionTime) { selected ->
+            model.setPreference(selected)
+        }
+    }
+
+    private fun setupShowDateListener() = binding.settingShowDate.setOnClickListener {
+        showPreferenceDialog(R.string.preferences_show_date, appPreferences.showDate) { selected ->
             model.setPreference(selected)
         }
     }

@@ -5,8 +5,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import dagger.hilt.android.AndroidEntryPoint
 import io.noties.markwon.Markwon
+import org.qosp.notes.BuildConfig
 import org.qosp.notes.R
 import org.qosp.notes.databinding.FragmentAboutBinding
 import org.qosp.notes.ui.common.BaseDialog
@@ -41,14 +43,20 @@ class AboutFragment : BaseFragment(resId = R.layout.fragment_about) {
             binding.layoutAppBar.appBar,
             requireContext().resources.getDimension(R.dimen.app_bar_elevation)
         )
+
+        if (!BuildConfig.IS_GOOGLE) {
+            binding.actionSupport.isVisible = true
+        }
     }
 
     private fun setupListeners() = with(binding) {
         actionWebsite.setOnClickListener { launchUrl(requireContext().getString(R.string.app_website)) }
         actionContribute.setOnClickListener { launchUrl(requireContext().getString(R.string.app_repo)) }
         actionVisitDeveloper.setOnClickListener { launchUrl(requireContext().getString(R.string.app_developer_repo)) }
-        actionSupport.setOnClickListener { launchUrl(requireContext().getString(R.string.app_support_page)) }
         actionViewLibraries.setOnClickListener { showLibrariesDialog() }
+        if (!BuildConfig.IS_GOOGLE) {
+            actionSupport.setOnClickListener { launchUrl(requireContext().getString(R.string.app_support_page)) }
+        }
     }
 
     private fun showLibrariesDialog() {
