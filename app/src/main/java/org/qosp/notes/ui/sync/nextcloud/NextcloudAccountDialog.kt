@@ -16,7 +16,6 @@ import org.qosp.notes.databinding.DialogNextcloudAccountBinding
 import org.qosp.notes.ui.common.BaseDialog
 import org.qosp.notes.ui.common.setButton
 import org.qosp.notes.ui.utils.requestFocusAndKeyboard
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class NextcloudAccountDialog : BaseDialog<DialogNextcloudAccountBinding>() {

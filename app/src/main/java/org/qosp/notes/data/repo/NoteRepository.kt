@@ -99,10 +99,11 @@ class NoteRepository(
 
         if (shouldSync && syncManager != null) {
             syncManager.syncingScope.launch {
-                notes
-                    .asSequence()
-                    .filterNot { it.isLocalOnly }
-                    .forEach { syncManager.deleteNote(it) }
+                syncManager.deleteNotes(
+                    *notes
+                        .filterNot { it.isLocalOnly }
+                        .toTypedArray()
+                )
             }
         }
     }
@@ -113,9 +114,9 @@ class NoteRepository(
             .filter { it.isEmpty() }
             .toTypedArray()
 
-        deleteNotes(*notes)
-
-        return notes.isNotEmpty()
+        return notes.isNotEmpty().also {
+            if (it) deleteNotes(*notes)
+        }
     }
 
     suspend fun permanentlyDeleteNotesInBin() {

@@ -13,12 +13,14 @@ import org.qosp.notes.components.MediaStorageManager
 import org.qosp.notes.data.model.Attachment
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.repo.NoteRepository
+import org.qosp.notes.di.NO_SYNC
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltAndroidTest
 class MediaStorageManagerTest {
-    @Inject
+    @Inject @Named(NO_SYNC)
     lateinit var noteRepository: NoteRepository
     @Inject
     lateinit var mediaStorageManager: MediaStorageManager

@@ -44,6 +44,15 @@ class NextcloudManager(
         }
     }
 
+    override suspend fun deleteByRemoteId(config: ProviderConfig, vararg remoteIds: Long): Response<Any> {
+        if (config !is NextcloudConfig) return InvalidConfig()
+        return tryCalling {
+            remoteIds.forEach {
+                nextcloudAPI.deleteNote(NextcloudNote(id = it), config)
+            }
+        }
+    }
+
     override suspend fun getAll(config: ProviderConfig): Response<List<RemoteNote>> {
         if (config !is NextcloudConfig) return InvalidConfig()
 

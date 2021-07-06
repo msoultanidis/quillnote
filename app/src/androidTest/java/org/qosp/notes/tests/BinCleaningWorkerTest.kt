@@ -15,10 +15,12 @@ import org.junit.Test
 import org.qosp.notes.components.workers.BinCleaningWorker
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.repo.NoteRepository
+import org.qosp.notes.di.NO_SYNC
 import org.qosp.notes.preferences.NoteDeletionTime
 import org.qosp.notes.preferences.PreferenceRepository
 import java.time.Instant
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltAndroidTest
 class BinCleaningWorkerTest {
@@ -27,7 +29,7 @@ class BinCleaningWorkerTest {
     lateinit var context: Context
     @Inject
     lateinit var preferenceRepository: PreferenceRepository
-    @Inject
+    @Inject @Named(NO_SYNC)
     lateinit var noteRepository: NoteRepository
     @Inject
     lateinit var workerFactory: HiltWorkerFactory

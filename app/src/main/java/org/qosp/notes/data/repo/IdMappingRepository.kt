@@ -35,8 +35,8 @@ class IdMappingRepository(private val idMappingDao: IdMappingDao) {
         )
     }
 
-    suspend fun unassignLocalNotesFromProvider(provider: CloudService, vararg notes: Note) {
-        idMappingDao.unassignLocalNotesFromProvider(provider, notes.map { it.id })
+    suspend fun deleteMappingsForNotes(provider: CloudService, vararg notes: Note) {
+        idMappingDao.deleteIfLocalIdIn(provider, notes.map { it.id })
     }
 
     suspend fun unassignNotesFromProviders(vararg notes: Note) {
@@ -47,8 +47,8 @@ class IdMappingRepository(private val idMappingDao: IdMappingDao) {
         idMappingDao.deleteMappingsOfRemoteNote(remoteNote.id, remoteNote.provider)
     }
 
-    suspend fun deleteIfLocalIdNotIn(ids: List<Long>) {
-        idMappingDao.deleteIfLocalIdNotIn(ids)
+    suspend fun deleteIfIdsNotIn(localIds: List<Long>, remoteIds: List<Long>) {
+        idMappingDao.deleteIfIdsNotIn(localIds, remoteIds)
     }
 
     suspend fun getAllByLocalId(localId: Long): List<IdMapping> {

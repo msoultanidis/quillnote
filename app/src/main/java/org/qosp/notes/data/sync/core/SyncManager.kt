@@ -70,15 +70,19 @@ class SyncManager(
         SyncActor.CreateNote(note, provider, config)
     }
 
-    suspend fun deleteNote(note: Note): Response<Any> = sendMessage { provider, config ->
+    suspend fun deleteNotes(vararg notes: Note): Response<Any> = sendMessage { provider, config ->
+        SyncActor.DeleteNotes(notes.toList(), provider, config)
+    }
+
+    suspend fun deleteNote(note: Note): Response<RemoteNote> = sendMessage { provider, config ->
         SyncActor.DeleteNote(note, provider, config)
     }
 
-    suspend fun moveNoteToBin(note: Note): Response<Any> = sendMessage { provider, config ->
+    suspend fun moveNoteToBin(note: Note): Response<RemoteNote> = sendMessage { provider, config ->
         SyncActor.MoveNoteToBin(note, provider, config)
     }
 
-    suspend fun restoreNote(note: Note): Response<Any> = sendMessage { provider, config ->
+    suspend fun restoreNote(note: Note): Response<RemoteNote> = sendMessage { provider, config ->
         SyncActor.RestoreNote(note, provider, config)
     }
 

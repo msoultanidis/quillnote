@@ -27,11 +27,17 @@ interface IdMappingDao {
     @Query("SELECT * FROM id_mappings WHERE localNoteId = :localId AND provider = :provider")
     suspend fun getByLocalIdAndProvider(localId: Long, provider: CloudService): IdMapping?
 
-    @Query("UPDATE id_mappings SET localNoteId = NULL WHERE localNoteId IN (:ids) AND provider = :provider")
-    suspend fun unassignLocalNotesFromProvider(provider: CloudService, ids: List<Long>)
+    @Query("DELETE FROM id_mappings WHERE localNoteId IN (:ids) AND provider = :provider")
+    suspend fun deleteIfLocalIdIn(provider: CloudService, ids: List<Long>)
 
-    @Query("DELETE FROM id_mappings WHERE localNoteId NOT IN (:ids)")
-    suspend fun deleteIfLocalIdNotIn(ids: List<Long>)
+    @Query(
+        """
+        DELETE FROM id_mappings 
+        WHERE (localNoteId NOT IN (:localIds) AND localNoteId IS NOT NULL)
+        OR (remoteNoteId NOT IN (:remoteIds))
+        """
+    )
+    suspend fun deleteIfIdsNotIn(localIds: List<Long>, remoteIds: List<Long>)
 
     @Query("SELECT * FROM id_mappings WHERE localNoteId = :localId")
     suspend fun getAllByLocalId(localId: Long): List<IdMapping>

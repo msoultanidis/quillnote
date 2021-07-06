@@ -30,6 +30,8 @@ inline fun <T> Response<T>.bodyOrElse(block: (Response<T>) -> T): T {
 }
 
 inline fun <T> tryCalling(block: () -> T): Response<T> {
+    return Success(block())
+
     return try {
         Success(block())
     } catch (e: Exception) {

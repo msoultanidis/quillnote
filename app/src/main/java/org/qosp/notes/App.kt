@@ -110,7 +110,6 @@ class App : Application(), ImageLoaderFactory, Configuration.Provider {
         StrictMode.setVmPolicy(
             StrictMode.VmPolicy.Builder()
                 .detectLeakedSqlLiteObjects()
-                .detectLeakedClosableObjects()
                 .penaltyLog()
                 .penaltyDeath()
                 .build()

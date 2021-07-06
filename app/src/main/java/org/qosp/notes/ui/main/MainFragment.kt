@@ -23,7 +23,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.qosp.notes.R
 import org.qosp.notes.data.model.Attachment
-import org.qosp.notes.data.sync.core.SyncManager
 import org.qosp.notes.databinding.FragmentMainBinding
 import org.qosp.notes.databinding.LayoutNoteBinding
 import org.qosp.notes.preferences.LayoutMode
@@ -38,7 +37,6 @@ import org.qosp.notes.ui.utils.TakePictureContract
 import org.qosp.notes.ui.utils.launch
 import org.qosp.notes.ui.utils.navigateSafely
 import org.qosp.notes.ui.utils.viewBinding
-import javax.inject.Inject
 
 @AndroidEntryPoint
 open class MainFragment : AbstractNotesFragment(R.layout.fragment_main) {

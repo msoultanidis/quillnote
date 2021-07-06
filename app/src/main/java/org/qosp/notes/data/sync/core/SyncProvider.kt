@@ -8,6 +8,7 @@ interface SyncProvider {
 
     suspend fun createNote(note: Note, config: ProviderConfig): Response<RemoteNote>
     suspend fun deleteNote(note: Note, config: ProviderConfig, mapping: IdMapping): Response<RemoteNote>
+    suspend fun deleteByRemoteId(config: ProviderConfig, vararg remoteIds: Long): Response<Any>
     suspend fun updateNote(note: Note, config: ProviderConfig, mapping: IdMapping): Response<RemoteNote>
 
     suspend fun supportsBin(): Boolean
