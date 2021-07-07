@@ -11,8 +11,8 @@ interface RemoteNote {
 
     fun compareTo(localNote: Note, mapping: IdMapping): Comparison
 
-    sealed class Comparison
-    object IsOutdated : Comparison()
-    object IsNewer : Comparison()
-    object IsSame : Comparison()
+    sealed interface Comparison
+    object IsOutdated : Comparison
+    object IsNewer : Comparison
+    object IsSame : Comparison
 }

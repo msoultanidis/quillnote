@@ -224,7 +224,7 @@ class SyncActor(
         for ((_, note) in localNotes) {
             createNote(note, provider, config)
         }
-        idMappingRepository
+
         return Success()
     }
 

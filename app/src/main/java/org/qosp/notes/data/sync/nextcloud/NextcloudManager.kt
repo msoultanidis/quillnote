@@ -22,7 +22,7 @@ class NextcloudManager(
         val nextcloudNote = note.toRemoteNote()
         if (nextcloudNote.id != 0L) return GenericError("Cannot create note that already exists")
 
-        return tryCalling {
+        return Response.from {
             nextcloudAPI.createNote(nextcloudNote, config)
         }
     }
@@ -38,7 +38,7 @@ class NextcloudManager(
 
         if (nextcloudNote.id == 0L) return GenericError("Cannot delete note that does not exist.")
 
-        return tryCalling {
+        return Response.from {
             nextcloudAPI.deleteNote(nextcloudNote, config)
             nextcloudNote
         }
@@ -46,7 +46,7 @@ class NextcloudManager(
 
     override suspend fun deleteByRemoteId(config: ProviderConfig, vararg remoteIds: Long): Response<Any> {
         if (config !is NextcloudConfig) return InvalidConfig()
-        return tryCalling {
+        return Response.from {
             remoteIds.forEach {
                 nextcloudAPI.deleteNote(NextcloudNote(id = it), config)
             }
@@ -56,7 +56,7 @@ class NextcloudManager(
     override suspend fun getAll(config: ProviderConfig): Response<List<RemoteNote>> {
         if (config !is NextcloudConfig) return InvalidConfig()
 
-        return tryCalling {
+        return Response.from {
             nextcloudAPI.getNotes(config)
         }
     }
@@ -72,7 +72,7 @@ class NextcloudManager(
 
         if (nextcloudNote.id == 0L) return GenericError("Cannot update note that does not exist.")
 
-        return tryCalling {
+        return Response.from {
             nextcloudAPI.updateNote(
                 nextcloudNote,
                 mapping.extras.toString(),
@@ -94,7 +94,7 @@ class NextcloudManager(
     override suspend fun authenticate(config: ProviderConfig): Response<Any> {
         if (config !is NextcloudConfig) return InvalidConfig()
 
-        return tryCalling {
+        return Response.from {
             nextcloudAPI.testCredentials(config)
         }
     }
@@ -102,7 +102,7 @@ class NextcloudManager(
     override suspend fun isServerCompatible(config: ProviderConfig): Response<Any> {
         if (config !is NextcloudConfig) return InvalidConfig()
 
-        return tryCalling {
+        return Response.from {
             val capabilities = nextcloudAPI.getNotesCapabilities(config)!!
             val maxServerVersion = capabilities.apiVersion.last().toFloat()
 
