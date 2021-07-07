@@ -110,7 +110,7 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:$datastore_version"
     implementation "me.msoul:datastoreext:1.0.0"
 
-    // Markwon
+    // Markdown
     implementation "io.noties.markwon:core:$markwon_version"
     implementation "io.noties.markwon:editor:$markwon_version"
     implementation "io.noties.markwon:linkify:$markwon_version"
