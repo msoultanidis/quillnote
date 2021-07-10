@@ -80,7 +80,7 @@
     <string name="preferences_nextcloud_set_server_url">Setze die URL des Servers</string>
     <string name="preferences_sync_on_wifi">WLAN</string>
     <string name="preferences_sync_on_wifi_data">WLAN oder Mobile Daten</string>
-    <string name="preferences_sync_when_on">Synchronisiere wenn</string>
+    <string name="preferences_sync_when_on">Synchronisiere wenn verbunden über</string>
     <string name="preferences_background_sync">Hintergrund-Synchronisierung</string>
     <string name="preferences_background_sync_enabled">Aktiviert</string>
     <string name="preferences_background_sync_disabled">Deaktiviert</string>
