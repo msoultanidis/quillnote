@@ -5,6 +5,7 @@ import me.msoul.datastore.defaultOf
 data class AppPreferences(
     val layoutMode: LayoutMode = defaultOf(),
     val themeMode: ThemeMode = defaultOf(),
+    val darkThemeMode: DarkThemeMode = defaultOf(),
     val colorScheme: ColorScheme = defaultOf(),
     val sortMethod: SortMethod = defaultOf(),
     val backupStrategy: BackupStrategy = defaultOf(),

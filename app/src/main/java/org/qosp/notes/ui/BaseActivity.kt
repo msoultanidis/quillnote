@@ -1,5 +1,6 @@
 package org.qosp.notes.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.qosp.notes.preferences.PreferenceRepository
+import org.qosp.notes.preferences.ThemeMode
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,6 +33,21 @@ open class BaseActivity : AppCompatActivity() {
 
             if (themeMode != AppCompatDelegate.getDefaultNightMode()) {
                 AppCompatDelegate.setDefaultNightMode(themeMode)
+            }
+
+            val isAutoDark =
+                themeMode == ThemeMode.SYSTEM.mode && resources.configuration.uiMode == Configuration.UI_MODE_NIGHT_YES
+
+            if (themeMode == ThemeMode.DARK.mode || isAutoDark) {
+                val darkThemeModeStyle = withContext(Dispatchers.IO) {
+                    preferenceRepository
+                        .getAll()
+                        .map { it.darkThemeMode.styleResource }
+                        .first()
+                }
+                darkThemeModeStyle?.let {
+                    theme.applyStyle(darkThemeModeStyle, true)
+                }
             }
         }
     }
