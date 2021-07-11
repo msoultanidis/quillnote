@@ -18,7 +18,7 @@
     <string name="preferences_theme_mode_system">Follow system</string>
 
     <string name="preferences_dark_theme_mode">Dark theme mode</string>
-    <string name="preferences_theme_dark_mode_standard">Standard</string>
+    <string name="preferences_theme_dark_mode_grey">Grey</string>
     <string name="preferences_theme_dark_mode_black">Black</string>
 
     <string name="preferences_header_view">View</string>
