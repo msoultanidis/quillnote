@@ -47,12 +47,13 @@
 
     <style name="DarkBlack">
         <item name="colorBackground">#000</item>
+
         <item name="colorSurface">#1B1B1B</item>
         <item name="elevationOverlayEnabled">false</item>
+
         <item name="colorNoteDefault">#000</item>
-        <item name="colorDrawerBackground">#040404</item>
+        <item name="colorDrawerBackground">#191919</item>
         <item name="colorBottomAppBarBackground">#000</item>
-        <item name="android:navigationBarColor">#000</item>
     </style>
 
     <style name="Blue">
