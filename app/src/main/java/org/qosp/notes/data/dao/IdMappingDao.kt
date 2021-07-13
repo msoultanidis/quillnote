@@ -21,8 +21,8 @@ interface IdMappingDao {
     @Query("UPDATE id_mappings SET localNoteId = NULL WHERE localNoteId IN (:ids)")
     suspend fun unassignNotesFromProviders(ids: List<Long>)
 
-    @Query("DELETE FROM id_mappings WHERE remoteNoteId = :remoteNoteId AND provider = :provider")
-    suspend fun deleteMappingsOfRemoteNote(remoteNoteId: Long, provider: CloudService)
+    @Query("DELETE FROM id_mappings WHERE remoteNoteId IN (:remoteIds) AND provider = :provider")
+    suspend fun deleteMappingsOfRemoteNote(provider: CloudService, vararg remoteIds: Long)
 
     @Query("SELECT * FROM id_mappings WHERE localNoteId = :localId AND provider = :provider")
     suspend fun getByLocalIdAndProvider(localId: Long, provider: CloudService): IdMapping?

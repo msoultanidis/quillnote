@@ -66,6 +66,7 @@ class PreferenceRepository(
 
     companion object {
         const val NEXTCLOUD_INSTANCE_URL = "NEXTCLOUD_INSTANCE_URL"
+        const val LOCAL_SYNC_DIRECTORY_PATH = "LOCAL_SYNC_DIRECTORY_PATH"
         const val NEXTCLOUD_USERNAME = "NEXTCLOUD_USERNAME"
         const val NEXTCLOUD_PASSWORD = "NEXTCLOUD_PASSWORD"
     }

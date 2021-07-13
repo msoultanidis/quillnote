@@ -87,6 +87,7 @@ enum class GroupNotesWithoutNotebook(
 enum class CloudService(override val nameResource: Int) : HasNameResource, EnumPreference by key("cloud_service") {
     DISABLED(R.string.preferences_cloud_service_disabled) { override val isDefault = true },
     NEXTCLOUD(R.string.preferences_cloud_service_nextcloud),
+    LOCAL(R.string.indicator_offline_account), // TODO
 }
 
 enum class SyncMode(override val nameResource: Int) : HasNameResource, EnumPreference by key("sync_mode") {

@@ -8,10 +8,13 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.GlobalScope
+import org.qosp.notes.App
 import org.qosp.notes.data.repo.IdMappingRepository
 import org.qosp.notes.data.repo.NoteRepository
+import org.qosp.notes.data.sync.core.ConfigFactory
 import org.qosp.notes.data.sync.core.SyncActor
 import org.qosp.notes.data.sync.core.SyncManager
+import org.qosp.notes.data.sync.local.LocalSyncProvider
 import org.qosp.notes.data.sync.nextcloud.NextcloudManager
 import org.qosp.notes.preferences.PreferenceRepository
 import org.qosp.notes.ui.utils.ConnectionManager
@@ -31,12 +34,15 @@ object TestSyncModule {
         syncActor: SyncActor,
         preferenceRepository: PreferenceRepository,
         nextcloudManager: NextcloudManager,
-        app: Application,
+        localSyncProvider: LocalSyncProvider,
+        configFactory: ConfigFactory,
     ) = SyncManager(
         nextcloudManager,
-        preferenceRepository,
+        localSyncProvider,
+        configFactory,
         ConnectionManager(context),
         GlobalScope,
+        preferenceRepository,
         syncActor,
     )
 
@@ -46,4 +52,11 @@ object TestSyncModule {
         @Named(NO_SYNC) noteRepository: NoteRepository,
         idMappingRepository: IdMappingRepository,
     ) = SyncActor(noteRepository, idMappingRepository)
+
+    @Provides
+    @Singleton
+    fun provideConfigFactory(
+        @ApplicationContext context: Context,
+        preferencesRepository: PreferenceRepository,
+    ) = ConfigFactory(context, preferencesRepository)
 }

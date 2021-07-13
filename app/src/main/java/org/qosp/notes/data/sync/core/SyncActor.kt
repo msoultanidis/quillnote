@@ -103,9 +103,16 @@ class SyncActor(
 
     private suspend fun deleteNote(note: Note, mapping: IdMapping, provider: SyncProvider, config: ProviderConfig): Response<RemoteNote> {
         val remoteNote = provider.deleteNote(note, config, mapping).bodyOrElse { return it }
-        idMappingRepository.deleteMappingsOfRemoteNote(remoteNote)
+        idMappingRepository.deleteMappingsOfRemoteNote(config.provider, remoteNote.id)
 
         return Success(remoteNote)
+    }
+
+    private suspend fun deleteByRemoteId(provider: SyncProvider, config: ProviderConfig, vararg remoteIds: Long): Response<Any> {
+        provider.deleteByRemoteId(config, *remoteIds)
+        idMappingRepository.deleteMappingsOfRemoteNote(config.provider, *remoteIds)
+
+        return Success()
     }
 
     private suspend fun deleteNotes(notes: List<Note>, provider: SyncProvider, config: ProviderConfig): Response<Any> {
@@ -161,36 +168,43 @@ class SyncActor(
     private suspend fun sync(provider: SyncProvider, config: ProviderConfig): Response<Any> {
         suspend fun RemoteNote.asLocalNote() = with(provider) { toLocalNote() }
 
+        val timeSyncStarted = Instant.now().epochSecond
         val response = provider.getAll(config)
         val remoteNotes = response.bodyOrElse { return GenericError() }
-            .mapKeysToElements { it.id }
+            .groupBy { it.id }
+            .toMutableMap()
         val localNotes = noteRepository
             .getAll()
             .first()
-            .filterNot { it.isLocalOnly || it.isDeleted }
-            .mapKeysToElements { it.id }
+            .filterNot { it.isLocalOnly || it.isDeleted || it.creationDate > timeSyncStarted }
+            .groupBy { it.id }
+            .toMutableMap()
 
         // Clean up the mappings table by removing mappings for local or remote notes that do not exist
-        idMappingRepository.deleteIfIdsNotIn(localIds = localNotes.keys.toList(), remoteIds = remoteNotes.keys.toList())
+        idMappingRepository.deleteIfIdsNotIn(
+            localIds = localNotes.keys.toList() - SyncProvider.NOT_SET_ID,
+            remoteIds = remoteNotes.keys.toList() - SyncProvider.NOT_SET_ID,
+        )
 
         val remoteIdsToBeDeleted: List<Long>
         val mappings = idMappingRepository.getAllByProvider(config.provider).let { allMappings ->
             val mappingsToBeDeleted = allMappings.filter { it.localNoteId == null }
+
             remoteIdsToBeDeleted = mappingsToBeDeleted.map { it.remoteNoteId }
 
             // Return only the mappings with non-null localNoteId
             allMappings - mappingsToBeDeleted
         }
 
-        provider.deleteByRemoteId(config, *remoteIdsToBeDeleted.toLongArray())
+        deleteByRemoteId(provider, config, *remoteIdsToBeDeleted.toLongArray())
 
         val notesToBeUpdated = mutableListOf<Note>()
         val mappingsToBeUpdated = mutableListOf<IdMapping>()
         val notesToBeMovedToBin = mutableListOf<Note>()
 
         for (mapping in mappings) {
-            val localNote = localNotes.remove(mapping.localNoteId) ?: continue
-            val remoteNote = remoteNotes.remove(mapping.remoteNoteId)
+            val localNote = localNotes.remove(mapping.localNoteId)?.first() ?: continue
+            val remoteNote = remoteNotes.remove(mapping.remoteNoteId)?.first()
 
             if (remoteNote == null) {
                 // Note was deleted remotely. We should move the note to the bin in case the bin
@@ -215,14 +229,16 @@ class SyncActor(
         idMappingRepository.deleteMappingsForNotes(config.provider, *notesToBeMovedToBin.toTypedArray())
 
         // Persist new notes created remotely
-        for ((_, remoteNote) in remoteNotes) {
-            val note = remoteNote.asLocalNote().let { it.copy(id = noteRepository.insertNote(it)) }
-            idMappingRepository.createMappingForNote(note, remoteNote)
+        remoteNotes.values.flatten().forEach { remoteNote ->
+            val localNote = remoteNote.asLocalNote().let { it.copy(id = noteRepository.insertNote(it)) }
+            if (remoteNote.id == SyncProvider.NOT_SET_ID) provider.assignIdToNote(remoteNote, localNote.id, config)
+            idMappingRepository.createMappingForNote(localNote, remoteNote)
         }
 
+
         // Upload new local notes
-        for ((_, note) in localNotes) {
-            createNote(note, provider, config)
+        localNotes.values.flatten().forEach {
+            createNote(it, provider, config)
         }
 
         return Success()
@@ -242,13 +258,4 @@ class SyncActor(
     class Sync(provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
     class Authenticate(provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
     class IsServerCompatible(provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
-
-    private inline fun <T, K> Iterable<T>.mapKeysToElements(keySelector: (T) -> K): MutableMap<K, T> {
-        val result = mutableMapOf<K, T>()
-        for (item in this) {
-            val key = keySelector(item)
-            result[key] = item
-        }
-        return result
-    }
 }

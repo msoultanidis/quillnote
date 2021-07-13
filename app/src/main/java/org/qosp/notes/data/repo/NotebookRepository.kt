@@ -20,6 +20,7 @@ class NotebookRepository(
     suspend fun delete(vararg notebooks: Notebook, shouldSync: Boolean = true) {
         val affectedNotes = notebooks
             .map { noteRepository.getByNotebook(it.id).first() }
+            .asSequence()
             .flatten()
             .filterNot { it.isLocalOnly }
 
@@ -39,6 +40,7 @@ class NotebookRepository(
             syncManager.syncingScope.launch {
                 notebooks
                     .map { noteRepository.getByNotebook(it.id).first() }
+                    .asSequence()
                     .flatten()
                     .filterNot { it.isLocalOnly }
                     .forEach { syncManager.updateNote(it) }

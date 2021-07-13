@@ -13,17 +13,22 @@ class NextcloudManager(
     private val notebookRepository: NotebookRepository,
 ) : SyncProvider {
 
+    private inline fun <T> withConfig(config: ProviderConfig, block: NextcloudConfig.() -> Response<T>): Response<T> {
+        if (config !is NextcloudConfig) return InvalidConfig()
+        return block(config)
+    }
+
     override suspend fun createNote(
         note: Note,
         config: ProviderConfig
     ): Response<RemoteNote> {
-        if (config !is NextcloudConfig) return InvalidConfig()
+        return withConfig(config) {
+            val nextcloudNote = note.toRemoteNote()
+            if (nextcloudNote.id != 0L) return GenericError("Cannot create note that already exists")
 
-        val nextcloudNote = note.toRemoteNote()
-        if (nextcloudNote.id != 0L) return GenericError("Cannot create note that already exists")
-
-        return Response.from {
-            nextcloudAPI.createNote(nextcloudNote, config)
+            Response.from {
+              nextcloudAPI.createNote(nextcloudNote, this)
+            }
         }
     }
 
@@ -32,32 +37,33 @@ class NextcloudManager(
         config: ProviderConfig,
         mapping: IdMapping,
     ): Response<RemoteNote> {
-        if (config !is NextcloudConfig) return InvalidConfig()
+        return withConfig(config) {
+            val nextcloudNote = note.toRemoteNote(old = NextcloudNote(mapping.remoteNoteId))
 
-        val nextcloudNote = note.toRemoteNote(old = NextcloudNote(mapping.remoteNoteId))
+            if (nextcloudNote.id == 0L) return GenericError("Cannot delete note that does not exist.")
 
-        if (nextcloudNote.id == 0L) return GenericError("Cannot delete note that does not exist.")
-
-        return Response.from {
-            nextcloudAPI.deleteNote(nextcloudNote, config)
-            nextcloudNote
+            Response.from {
+                nextcloudAPI.deleteNote(nextcloudNote, this)
+                nextcloudNote
+            }
         }
     }
 
     override suspend fun deleteByRemoteId(config: ProviderConfig, vararg remoteIds: Long): Response<Any> {
-        if (config !is NextcloudConfig) return InvalidConfig()
-        return Response.from {
-            remoteIds.forEach {
-                nextcloudAPI.deleteNote(NextcloudNote(id = it), config)
+        return withConfig(config) {
+            Response.from {
+                remoteIds.forEach {
+                    nextcloudAPI.deleteNote(NextcloudNote(id = it), this)
+                }
             }
         }
     }
 
     override suspend fun getAll(config: ProviderConfig): Response<List<RemoteNote>> {
-        if (config !is NextcloudConfig) return InvalidConfig()
-
-        return Response.from {
-            nextcloudAPI.getNotes(config)
+        return withConfig(config) {
+            Response.from {
+                nextcloudAPI.getNotes(this)
+            }
         }
     }
 
@@ -66,18 +72,18 @@ class NextcloudManager(
         config: ProviderConfig,
         mapping: IdMapping,
     ): Response<RemoteNote> {
-        if (config !is NextcloudConfig) return InvalidConfig()
+        return withConfig(config) {
+            val nextcloudNote = note.toRemoteNote(old = NextcloudNote(mapping.remoteNoteId))
 
-        val nextcloudNote = note.toRemoteNote(old = NextcloudNote(mapping.remoteNoteId))
+            if (nextcloudNote.id == 0L) return GenericError("Cannot update note that does not exist.")
 
-        if (nextcloudNote.id == 0L) return GenericError("Cannot update note that does not exist.")
-
-        return Response.from {
-            nextcloudAPI.updateNote(
-                nextcloudNote,
-                mapping.extras.toString(),
-                config,
-            )
+            Response.from {
+                nextcloudAPI.updateNote(
+                    nextcloudNote,
+                    mapping.extras.toString(),
+                    this,
+                )
+            }
         }
     }
 
@@ -92,22 +98,26 @@ class NextcloudManager(
     }
 
     override suspend fun authenticate(config: ProviderConfig): Response<Any> {
-        if (config !is NextcloudConfig) return InvalidConfig()
-
-        return Response.from {
-            nextcloudAPI.testCredentials(config)
+        return withConfig(config) {
+            Response.from {
+                nextcloudAPI.testCredentials(this)
+            }
         }
     }
 
     override suspend fun isServerCompatible(config: ProviderConfig): Response<Any> {
-        if (config !is NextcloudConfig) return InvalidConfig()
+        return withConfig(config) {
+            Response.from {
+                val capabilities = nextcloudAPI.getNotesCapabilities(this)!!
+                val maxServerVersion = capabilities.apiVersion.last().toFloat()
 
-        return Response.from {
-            val capabilities = nextcloudAPI.getNotesCapabilities(config)!!
-            val maxServerVersion = capabilities.apiVersion.last().toFloat()
-
-            if (MIN_SUPPORTED_VERSION.toFloat() > maxServerVersion) throw ServerNotSupportedException
+                if (MIN_SUPPORTED_VERSION.toFloat() > maxServerVersion) throw ServerNotSupportedException
+            }
         }
+    }
+
+    override suspend fun assignIdToNote(remoteNote: RemoteNote, id: Long, config: ProviderConfig): Response<Any> {
+        return OperationNotSupported()
     }
 
     override suspend fun RemoteNote.toLocalNote(old: Note?): Note {
@@ -149,3 +159,4 @@ class NextcloudManager(
         const val MIN_SUPPORTED_VERSION = 1
     }
 }
+

@@ -39,6 +39,7 @@ class TagRepository(
     suspend fun delete(vararg tags: Tag, shouldSync: Boolean = true) {
         val affectedNotes = tags
             .map { noteTagDao.getNotesByTagId(it.id).first() }
+            .asSequence()
             .flatten()
             .filterNot { it.isLocalOnly }
 

@@ -10,8 +10,10 @@ import dagger.hilt.components.SingletonComponent
 import org.qosp.notes.App
 import org.qosp.notes.data.repo.IdMappingRepository
 import org.qosp.notes.data.repo.NoteRepository
+import org.qosp.notes.data.sync.core.ConfigFactory
 import org.qosp.notes.data.sync.core.SyncActor
 import org.qosp.notes.data.sync.core.SyncManager
+import org.qosp.notes.data.sync.local.LocalSyncProvider
 import org.qosp.notes.data.sync.nextcloud.NextcloudManager
 import org.qosp.notes.preferences.PreferenceRepository
 import org.qosp.notes.ui.utils.ConnectionManager
@@ -28,12 +30,16 @@ object SyncModule {
         syncActor: SyncActor,
         preferenceRepository: PreferenceRepository,
         nextcloudManager: NextcloudManager,
+        localSyncProvider: LocalSyncProvider,
+        configFactory: ConfigFactory,
         app: Application,
     ) = SyncManager(
         nextcloudManager,
-        preferenceRepository,
+        localSyncProvider,
+        configFactory,
         ConnectionManager(context),
         (app as App).syncingScope,
+        preferenceRepository,
         syncActor,
     )
 
@@ -43,4 +49,11 @@ object SyncModule {
         @Named(NO_SYNC) noteRepository: NoteRepository,
         idMappingRepository: IdMappingRepository,
     ) = SyncActor(noteRepository, idMappingRepository)
+
+    @Provides
+    @Singleton
+    fun provideConfigFactory(
+        @ApplicationContext context: Context,
+        preferencesRepository: PreferenceRepository,
+    ) = ConfigFactory(context, preferencesRepository)
 }

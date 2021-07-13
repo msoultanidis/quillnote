@@ -18,6 +18,12 @@ interface SyncProvider {
     suspend fun authenticate(config: ProviderConfig): Response<Any>
     suspend fun isServerCompatible(config: ProviderConfig): Response<Any>
 
+    suspend fun assignIdToNote(remoteNote: RemoteNote, id: Long, config: ProviderConfig): Response<Any>
+
     suspend fun RemoteNote.toLocalNote(old: Note? = null): Note
     suspend fun Note.toRemoteNote(old: RemoteNote? = null): RemoteNote
+
+    companion object {
+        const val NOT_SET_ID = 0L
+    }
 }

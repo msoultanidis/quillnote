@@ -48,6 +48,13 @@
                     app:text="@string/preferences_cloud_service"
                     app:iconSrc="@drawable/ic_sync_settings"/>
 
+            <org.qosp.notes.ui.utils.views.PreferenceView
+                    android:id="@+id/setting_local_sync_folder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:text="Local sync folder"
+                    app:iconSrc="@drawable/ic_sync_settings"/>
+
             <LinearLayout
                     android:id="@+id/layout_generic_settings"
                     android:layout_width="match_parent"

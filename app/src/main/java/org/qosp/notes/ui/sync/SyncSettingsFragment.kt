@@ -1,7 +1,9 @@
 package org.qosp.notes.ui.sync
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -33,6 +35,14 @@ class SyncSettingsFragment : BaseFragment(R.layout.fragment_sync_settings) {
 
     private var nextcloudUrl = ""
 
+    private val directoryLauncher = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
+        val path = it?.toString() ?: return@registerForActivityResult
+        requireContext().contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        model.putEncryptedStrings(
+            PreferenceRepository.LOCAL_SYNC_DIRECTORY_PATH to path,
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -40,6 +50,10 @@ class SyncSettingsFragment : BaseFragment(R.layout.fragment_sync_settings) {
             binding.layoutAppBar.appBar,
             requireContext().resources.getDimension(R.dimen.app_bar_elevation)
         )
+
+        binding.settingLocalSyncFolder.setOnClickListener {
+            directoryLauncher.launch(null)
+        }
 
         setProviderSettingsVisibility(appPreferences.cloudService)
 

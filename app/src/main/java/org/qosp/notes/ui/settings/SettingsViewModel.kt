@@ -35,6 +35,10 @@ class SettingsViewModel @Inject constructor(
         return preferenceRepository.getEncryptedString(key)
     }
 
+    fun putEncryptedStrings(vararg strings: Pair<String, String>) = viewModelScope.launch {
+        preferenceRepository.putEncryptedStrings(*strings)
+    }
+
     fun clearNextcloudCredentials() = viewModelScope.launch {
         preferenceRepository.putEncryptedStrings(
             PreferenceRepository.NEXTCLOUD_INSTANCE_URL to "",
