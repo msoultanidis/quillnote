@@ -62,7 +62,6 @@ import org.qosp.notes.ui.editor.markdown.MarkdownSpan
 import org.qosp.notes.ui.editor.markdown.addListItemListener
 import org.qosp.notes.ui.editor.markdown.applyTo
 import org.qosp.notes.ui.editor.markdown.insertMarkdown
-import org.qosp.notes.ui.editor.markdown.setMarkdownTextSilently
 import org.qosp.notes.ui.editor.markdown.toggleCheckmarkCurrentLine
 import org.qosp.notes.ui.media.MediaActivity
 import org.qosp.notes.ui.recorder.RECORDED_ATTACHMENT
@@ -94,7 +93,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
     private var contentHasFocus: Boolean = false
     private var isNoteDeleted: Boolean = false
     private var markwonTextWatcher: TextWatcher? = null
-    private var isMarkwonAttachedToEditText: Boolean = false
     private var onBackPressHandled: Boolean = false
 
     @ColorInt
@@ -264,7 +262,6 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
         data = Data()
         isFirstLoad = true
-        isMarkwonAttachedToEditText = false
 
         if (model.isNotInitialized) {
             model.initialize(
@@ -543,6 +540,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         }
 
         editTextContent.apply {
+            enableUndoRedo(this@EditorFragment)
             setRawInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
             doOnTextChanged { text, start, before, count ->
                 // Only listen for meaningful changes, we do not care about empty text
@@ -558,6 +556,13 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             }
 
             setOnEditorActionListener(addListItemListener)
+
+            setOnCanUndoRedoListener { canUndo, canRedo ->
+                binding.bottomToolbar.menu?.run {
+                    findItem(R.id.action_undo).isEnabled = canUndo
+                    findItem(R.id.action_redo).isEnabled = canRedo
+                }
+            }
         }
 
         // Used to clear focus and hide the keyboard when touching outside of the edit texts
@@ -638,13 +643,18 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
             // Update Title and Content only the first the since they are EditTexts
             if (isFirstLoad) {
-                editTextTitle.setTextSilently(data.note.title)
+
+                editTextTitle.withoutTextWatchers {
+                    setText(data.note.title)
+                }
+
                 when {
                     isList -> tasksAdapter.submitList(data.note.taskList)
                     else -> {
                         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-                            editTextContent.setMarkdownTextSilently(data.note.content)
-
+                            editTextContent.withOnlyTextWatcher<MarkwonEditorTextWatcher> {
+                                setText(data.note.content)
+                            }
                             val (selStart, selEnd) = model.selectedRange
                             if (selStart >= 0 && selEnd <= editTextContent.length()) {
                                 editTextContent.setSelection(selStart, selEnd)
@@ -661,7 +671,9 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 tasksAdapter.tasks.clear()
                 tasksAdapter.notifyDataSetChanged()
                 tasksAdapter.submitList(data.note.taskList)
-                editTextContent.setMarkdownTextSilently(data.note.content)
+                editTextContent.withOnlyTextWatcher<MarkwonEditorTextWatcher> {
+                    setText(data.note.content)
+                }
             }
             recyclerTasks.isVisible = isList
 
@@ -801,6 +813,14 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                     editTextContent.setSelection(editTextContent.length())
                     null
                 }
+                R.id.action_undo -> {
+                    editTextContent.undo()
+                    null
+                }
+                R.id.action_redo -> {
+                    editTextContent.redo()
+                    null
+                }
                 else -> return@setOnMenuItemClickListener false
             }
             editTextContent.insertMarkdown(span ?: return@setOnMenuItemClickListener false)
@@ -824,28 +844,32 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
     }
 
     private fun enableMarkdownTextWatcher() = with(binding) {
-        if (markwonTextWatcher != null && !isMarkwonAttachedToEditText) {
+        if (markwonTextWatcher != null && !editTextContent.isMarkdownEnabled) {
             // TextWatcher is created and currently not attached to the EditText, we attach it
             editTextContent.addTextChangedListener(markwonTextWatcher)
 
             // Re-set text to notify the listener
-            editTextContent.setMarkdownTextSilently(editTextContent.text)
+            editTextContent.withOnlyTextWatcher<MarkwonEditorTextWatcher> {
+                setText(text)
+            }
 
-            isMarkwonAttachedToEditText = true
+            editTextContent.isMarkdownEnabled = true
             setMarkdownToolbarVisibility()
         }
     }
 
     private fun disableMarkdownTextWatcher() = with(binding) {
-        if (markwonTextWatcher != null && isMarkwonAttachedToEditText) {
+        if (markwonTextWatcher != null && editTextContent.isMarkdownEnabled) {
             // TextWatcher is created and currently attached to the EditText, we detach it
             editTextContent.removeTextChangedListener(markwonTextWatcher)
             val text = editTextContent.text.toString()
 
             editTextContent.text?.clearSpans()
-            editTextContent.setTextSilently(text)
+            editTextContent.withoutTextWatchers {
+                setText(text)
+            }
 
-            isMarkwonAttachedToEditText = false
+            editTextContent.isMarkdownEnabled = false
             setMarkdownToolbarVisibility()
         }
     }
