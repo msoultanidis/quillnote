@@ -64,4 +64,16 @@
             android:icon="@drawable/ic_down"
             app:showAsAction="always"
             android:title=""/>
+    <item
+            android:id="@+id/action_undo"
+            android:icon="@drawable/ic_undo"
+            app:showAsAction="always"
+            android:enabled="false"
+            android:title=""/>
+    <item
+            android:id="@+id/action_redo"
+            android:icon="@drawable/ic_redo"
+            app:showAsAction="always"
+            android:enabled="false"
+            android:title=""/>
 </menu>

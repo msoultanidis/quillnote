@@ -3,7 +3,6 @@ package org.qosp.notes.ui.editor.markdown
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import io.noties.markwon.editor.MarkwonEditorTextWatcher
 import org.qosp.notes.ui.utils.views.ExtendedEditText
 
 enum class MarkdownSpan(val value: String) {
@@ -75,23 +74,6 @@ fun ExtendedEditText.toggleCheckmarkCurrentLine() {
 
     text?.replace(lineStart, lineStart + oldLength, line)
     setSelection(lineStart + line.length)
-}
-
-/**
- * Sets the EditText's text without notifying any TextWatchers which are not [MarkwonEditorTextWatcher].
- *
- * @param text Text to set
- */
-fun ExtendedEditText.setMarkdownTextSilently(text: CharSequence?) {
-    val watchers = textWatchers
-        .filterNot { it is MarkwonEditorTextWatcher }
-        .toList()
-
-    watchers.forEach { removeTextChangedListener(it) }
-
-    setText(text)
-
-    watchers.forEach { addTextChangedListener(it) }
 }
 
 fun hyperlinkMarkdown(url: String, content: String): String {
