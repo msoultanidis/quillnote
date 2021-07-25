@@ -230,6 +230,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 swipeRefreshLayout.isRefreshing = false
+                swipeRefreshLayout.isEnabled = model.isSyncingEnabled()
 
                 val discardedNotes = activityModel
                     .discardEmptyNotesAsync()
