@@ -8,17 +8,17 @@ interface SyncProvider {
 
     suspend fun createNote(note: Note, config: ProviderConfig): Response<RemoteNote>
     suspend fun deleteNote(note: Note, config: ProviderConfig, mapping: IdMapping): Response<RemoteNote>
-    suspend fun deleteByRemoteId(config: ProviderConfig, vararg remoteIds: Long): Response<Any>
+    suspend fun deleteByRemoteId(config: ProviderConfig, vararg remoteIds: Long): Response<Unit>
     suspend fun updateNote(note: Note, config: ProviderConfig, mapping: IdMapping): Response<RemoteNote>
 
     suspend fun supportsBin(): Boolean
     suspend fun moveNoteToBin(note: Note, config: ProviderConfig, mapping: IdMapping): Response<RemoteNote>
     suspend fun restoreNote(note: Note, config: ProviderConfig, mapping: IdMapping): Response<RemoteNote>
 
-    suspend fun authenticate(config: ProviderConfig): Response<Any>
-    suspend fun isServerCompatible(config: ProviderConfig): Response<Any>
+    suspend fun authenticate(config: ProviderConfig): Response<Unit>
+    suspend fun isServerCompatible(config: ProviderConfig): Response<Unit>
 
-    suspend fun assignIdToNote(remoteNote: RemoteNote, id: Long, config: ProviderConfig): Response<Any>
+    suspend fun assignIdToNote(remoteNote: RemoteNote, note: Note, config: ProviderConfig): Response<RemoteNote>
 
     suspend fun RemoteNote.toLocalNote(old: Note? = null): Note
     suspend fun Note.toRemoteNote(old: RemoteNote? = null): RemoteNote

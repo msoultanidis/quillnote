@@ -49,7 +49,7 @@ class NextcloudManager(
         }
     }
 
-    override suspend fun deleteByRemoteId(config: ProviderConfig, vararg remoteIds: Long): Response<Any> {
+    override suspend fun deleteByRemoteId(config: ProviderConfig, vararg remoteIds: Long): Response<Unit> {
         return withConfig(config) {
             Response.from {
                 remoteIds.forEach {
@@ -97,7 +97,7 @@ class NextcloudManager(
         return OperationNotSupported()
     }
 
-    override suspend fun authenticate(config: ProviderConfig): Response<Any> {
+    override suspend fun authenticate(config: ProviderConfig): Response<Unit> {
         return withConfig(config) {
             Response.from {
                 nextcloudAPI.testCredentials(this)
@@ -105,7 +105,7 @@ class NextcloudManager(
         }
     }
 
-    override suspend fun isServerCompatible(config: ProviderConfig): Response<Any> {
+    override suspend fun isServerCompatible(config: ProviderConfig): Response<Unit> {
         return withConfig(config) {
             Response.from {
                 val capabilities = nextcloudAPI.getNotesCapabilities(this)!!
@@ -116,7 +116,7 @@ class NextcloudManager(
         }
     }
 
-    override suspend fun assignIdToNote(remoteNote: RemoteNote, id: Long, config: ProviderConfig): Response<Any> {
+    override suspend fun assignIdToNote(remoteNote: RemoteNote, note: Note, config: ProviderConfig): Response<RemoteNote> {
         return OperationNotSupported()
     }
 
@@ -129,6 +129,7 @@ class NextcloudManager(
             notebookId = getNotebookIdForCategory(category),
             isPinned = favorite,
             modifiedDate = modified,
+            modifiedDateStrict = modified,
         )
     }
 

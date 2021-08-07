@@ -34,10 +34,10 @@ interface IdMappingDao {
         """
         DELETE FROM id_mappings 
         WHERE (localNoteId NOT IN (:localIds) AND localNoteId IS NOT NULL)
-        OR (remoteNoteId NOT IN (:remoteIds))
+        OR (remoteNoteId NOT IN (:remoteIds) AND provider = :provider)
         """
     )
-    suspend fun deleteIfIdsNotIn(localIds: List<Long>, remoteIds: List<Long>)
+    suspend fun deleteIfIdsNotIn(localIds: List<Long>, remoteIds: List<Long>, provider: CloudService)
 
     @Query("SELECT * FROM id_mappings WHERE localNoteId = :localId")
     suspend fun getAllByLocalId(localId: Long): List<IdMapping>

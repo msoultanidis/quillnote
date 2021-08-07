@@ -54,7 +54,13 @@ class NoteRepository(
 
     suspend fun moveNotesToBin(vararg notes: Note, shouldSync: Boolean = true) {
         val array = notes
-            .map { it.toEntity().copy(isDeleted = true, deletionDate = Instant.now().epochSecond) }
+            .map {
+                it.toEntity().copy(
+                    isDeleted = true,
+                    deletionDate = Instant.now().epochSecond,
+                    modifiedDate = Instant.now().epochSecond,
+                )
+            }
             .toTypedArray()
         noteDao.update(*array)
 
@@ -73,7 +79,13 @@ class NoteRepository(
 
     suspend fun restoreNotes(vararg notes: Note, shouldSync: Boolean = true) {
         val array = notes
-            .map { it.toEntity().copy(isDeleted = false, deletionDate = null) }
+            .map {
+                it.toEntity().copy(
+                    isDeleted = false,
+                    deletionDate = null,
+                    modifiedDate = Instant.now().epochSecond,
+                )
+            }
             .toTypedArray()
         noteDao.update(*array)
 

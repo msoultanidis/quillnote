@@ -1,11 +1,13 @@
 package org.qosp.notes.ui.sync
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
+import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.qosp.notes.R
@@ -34,6 +36,7 @@ class SyncSettingsFragment : BaseFragment(R.layout.fragment_sync_settings) {
     private var appPreferences = AppPreferences()
 
     private var nextcloudUrl = ""
+    private var localSyncDir: String? = ""
 
     private val directoryLauncher = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
         val path = it?.toString() ?: return@registerForActivityResult
@@ -87,6 +90,14 @@ class SyncSettingsFragment : BaseFragment(R.layout.fragment_sync_settings) {
             binding.settingNextcloudServer.subText = nextcloudUrl.ifEmpty { getString(R.string.preferences_nextcloud_set_server_url) }
         }
 
+        model.getEncryptedString(PreferenceRepository.LOCAL_SYNC_DIRECTORY_PATH).collect(viewLifecycleOwner) { uriString ->
+            localSyncDir = uriString.takeUnless { it.isEmpty() }
+                ?.let { DocumentFile.fromTreeUri(requireContext(), Uri.parse(it)) }
+                ?.let { if (it.exists()) it.name else null }
+
+            binding.settingLocalSyncFolder.subText = localSyncDir ?: getString(R.string.preferences_local_choose_directory)
+        }
+
         model.loggedInUsername.collect(viewLifecycleOwner) {
             binding.settingNextcloudAccount.subText = if (it != null) {
                 getString(R.string.indicator_nextcloud_currently_logged_in_as, it)
@@ -133,6 +144,7 @@ class SyncSettingsFragment : BaseFragment(R.layout.fragment_sync_settings) {
     }
     private fun setProviderSettingsVisibility(currentProvider: CloudService) {
         binding.layoutNextcloudSettings.isVisible = currentProvider == CloudService.NEXTCLOUD
+        binding.layoutLocalSettings.isVisible = currentProvider == CloudService.LOCAL
         binding.layoutGenericSettings.isVisible = currentProvider != CloudService.DISABLED
     }
 }

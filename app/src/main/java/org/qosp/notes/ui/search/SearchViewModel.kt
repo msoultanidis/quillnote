@@ -53,11 +53,11 @@ class SearchViewModel @Inject constructor(
         when (note.isList) {
             true -> note.taskList.any { it.content.matches() }
             false -> note.content.matches()
-        } ||
-            note.title.matches() ||
-            note.attachments.any { it.description.matches() } ||
-            note.tags.any { it.name.matches() } ||
-            notebooks.any { it.name.matches() && it.id == note.notebookId }
+        }
+            || note.title.matches()
+            || note.attachments.any { it.description.matches() }
+            || note.tags.any { it.name.matches() }
+            || notebooks.any { it.name.matches() && it.id == note.notebookId }
     }
 
     fun setSearchQuery(query: String) = viewModelScope.launch {

@@ -7,6 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 object MIGRATION_1_2 : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL(
+            // Migrate from old id_mappings to new
             """
                 CREATE TABLE id_mappings (
                     localNoteId INTEGER,
@@ -31,5 +32,9 @@ object MIGRATION_1_2 : Migration(1, 2) {
                 DROP TABLE cloud_ids
             """.trimIndent()
         )
+
+        // Add modifiedStrictDate to Note table
+        database.execSQL("ALTER TABLE notes ADD COLUMN modifiedDateStrict INTEGER")
+        database.execSQL("UPDATE notes SET modifiedDateStrict = modifiedDate")
     }
 }

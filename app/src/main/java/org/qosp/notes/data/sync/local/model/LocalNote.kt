@@ -22,8 +22,8 @@ data class LocalNote(
     // TODO: Add equality checks for content as well
     override fun compareTo(localNote: Note, mapping: IdMapping): RemoteNote.Comparison {
         return when {
-            dateModified == localNote.modifiedDate -> RemoteNote.IsSame
-            dateModified > localNote.modifiedDate -> RemoteNote.IsNewer
+            dateModified == localNote.modifiedDateStrict -> RemoteNote.IsSame
+            dateModified > localNote.modifiedDateStrict -> RemoteNote.IsNewer
             else -> RemoteNote.IsOutdated
         }
     }

@@ -30,6 +30,7 @@ class AttachmentDialogViewModel @Inject constructor(
                         else it
                     },
                     modifiedDate = Instant.now().epochSecond,
+                    modifiedDateStrict = Instant.now().epochSecond,
                 ),
             )
         }

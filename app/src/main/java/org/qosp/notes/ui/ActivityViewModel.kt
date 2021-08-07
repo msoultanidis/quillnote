@@ -101,63 +101,70 @@ class ActivityViewModel @Inject constructor(
     fun archiveNotes(vararg notes: Note) = update(*notes) { note ->
         note.copy(
             isArchived = true,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
     fun unarchiveNotes(vararg notes: Note) = update(*notes) { note ->
         note.copy(
             isArchived = false,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
     fun showNotes(vararg notes: Note) = update(*notes) { note ->
         note.copy(
             isHidden = false,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
     fun hideNotes(vararg notes: Note) = update(*notes) { note ->
         note.copy(
             isHidden = true,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
     fun pinNotes(vararg notes: Note) = update(*notes) { note ->
         note.copy(
             isPinned = !note.isPinned,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
     fun moveNotes(notebookId: Long?, vararg notes: Note) = update(*notes) { note ->
         note.copy(
             notebookId = notebookId,
-            modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
     fun makeNotesSyncable(vararg notes: Note) = update(*notes) { note ->
         note.copy(
             isLocalOnly = false,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
     fun makeNotesLocal(vararg notes: Note) = update(*notes) { note ->
         note.copy(
             isLocalOnly = true,
-        )
+            modifiedDateStrict = Instant.now().epochSecond,
+            )
     }
 
     fun disableMarkdown(vararg notes: Note) = update(*notes) { note ->
         note.copy(
             isMarkdownEnabled = false,
-            modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
     fun enableMarkdown(vararg notes: Note) = update(*notes) { note ->
         note.copy(
             isMarkdownEnabled = true,
-            modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
@@ -167,6 +174,7 @@ class ActivityViewModel @Inject constructor(
             id = 0L,
             creationDate = Instant.now().epochSecond,
             modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
             deletionDate = if (note.isDeleted) Instant.now().epochSecond else null
         )
 

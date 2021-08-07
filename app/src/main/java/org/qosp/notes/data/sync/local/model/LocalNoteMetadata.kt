@@ -30,7 +30,7 @@ data class LocalNoteMetadata(
     val reminders: List<Reminder> = emptyList(),
 ) {
     override fun toString(): String {
-        return "\n\n$METADATA_START\n${Json.encodeToString(this)}\n$METADATA_END"
+        return "$METADATA_START\n${Json.encodeToString(this)}\n$METADATA_END"
     }
 }
 

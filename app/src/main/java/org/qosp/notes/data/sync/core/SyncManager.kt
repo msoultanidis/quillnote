@@ -29,16 +29,12 @@ class SyncManager(
             CloudService.NEXTCLOUD -> {
                 configFactory
                     .createNextcloudConfig()
-                    .map { config ->
-                        SyncPrefs(true, nextcloudManager, prefs.syncMode, config)
-                    }
+                    .map { config -> SyncPrefs(true, nextcloudManager, prefs.syncMode, config) }
             }
             CloudService.LOCAL -> {
                 configFactory
                     .createLocalConfig()
-                    .map { config ->
-                        SyncPrefs(true, localSyncProvider, prefs.syncMode, config)
-                    }
+                    .map { config -> SyncPrefs(true, localSyncProvider, prefs.syncMode, config) }
             }
         }
     }
@@ -49,49 +45,49 @@ class SyncManager(
     private val actor = syncActor.launchIn(syncingScope)
 
     suspend fun sync(): Response<Any> {
-        return sendMessage { provider, config -> SyncActor.Sync(provider, config) }
+        return sendMessage { provider, config -> Message.Sync(provider, config) }
     }
 
     suspend fun createNote(note: Note): Response<RemoteNote> {
-        return sendMessage { provider, config -> SyncActor.CreateNote(note, provider, config) }
+        return sendMessage { provider, config -> Message.CreateNote(note, provider, config) }
     }
 
     suspend fun deleteNotes(vararg notes: Note): Response<Any> {
-        return sendMessage { provider, config -> SyncActor.DeleteNotes(notes.toList(), provider, config) }
+        return sendMessage { provider, config -> Message.DeleteNotes(notes.toList(), provider, config) }
     }
 
     suspend fun deleteNote(note: Note): Response<RemoteNote> {
-        return sendMessage { provider, config -> SyncActor.DeleteNote(note, provider, config) }
+        return sendMessage { provider, config -> Message.DeleteNote(note, provider, config) }
     }
 
     suspend fun moveNoteToBin(note: Note): Response<RemoteNote> {
-        return sendMessage { provider, config -> SyncActor.MoveNoteToBin(note, provider, config) }
+        return sendMessage { provider, config -> Message.MoveNoteToBin(note, provider, config) }
     }
 
     suspend fun restoreNote(note: Note): Response<RemoteNote> {
-        return sendMessage { provider, config -> SyncActor.RestoreNote(note, provider, config) }
+        return sendMessage { provider, config -> Message.RestoreNote(note, provider, config) }
     }
 
     suspend fun updateNote(note: Note): Response<RemoteNote> {
-        return sendMessage { provider, config -> SyncActor.UpdateNote(note, provider, config) }
+        return sendMessage { provider, config -> Message.UpdateNote(note, provider, config) }
     }
 
     suspend fun updateOrCreate(note: Note): Response<RemoteNote> {
-        return sendMessage { provider, config -> SyncActor.UpdateOrCreateNote(note, provider, config) }
+        return sendMessage { provider, config -> Message.UpdateOrCreateNote(note, provider, config) }
     }
 
     suspend fun isServerCompatible(customConfig: ProviderConfig? = null): Response<Any> {
-        return sendMessage(customConfig) { provider, config -> SyncActor.IsServerCompatible(provider, config) }
+        return sendMessage(customConfig) { provider, config -> Message.IsServerCompatible(provider, config) }
     }
 
     suspend fun authenticate(customConfig: ProviderConfig? = null): Response<Any> {
-        return sendMessage(customConfig) { provider, config -> SyncActor.Authenticate(provider, config) }
+        return sendMessage(customConfig) { provider, config -> Message.Authenticate(provider, config) }
     }
 
 
     private suspend inline fun <R> sendMessage(
         customConfig: ProviderConfig? = null,
-        crossinline block: suspend (SyncProvider, ProviderConfig) -> SyncActor.Message,
+        crossinline block: suspend (SyncProvider, ProviderConfig) -> Message,
     ): Response<R> {
         return ifSyncing(customConfig) { provider, config ->
             val message = block(provider, config)

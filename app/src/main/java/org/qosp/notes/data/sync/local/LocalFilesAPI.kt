@@ -1,24 +1,29 @@
 package org.qosp.notes.data.sync.local
 
 import android.content.Context
+import android.database.Cursor
 import android.net.Uri
+import android.provider.DocumentsContract
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import org.qosp.notes.data.model.IdMapping
 import org.qosp.notes.data.sync.local.model.LocalNote
 import org.qosp.notes.data.sync.local.model.LocalNoteMetadata
 import org.qosp.notes.data.sync.local.model.METADATA_END
 import org.qosp.notes.data.sync.local.model.METADATA_START
-import java.io.OutputStreamWriter
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class LocalFilesAPI(private val context: Context) {
-    fun deleteNoteFile(note: LocalNote) {
-        note.extras
-            ?.let { DocumentFile.fromSingleUri(context, Uri.parse(it)) }
-            ?.delete()
+    fun deleteNoteFile(note: LocalNote, config: LocalProviderConfig) {
+        getAllNoteFiles(config)
+            .filter { getNoteFromFile(it, config)?.id == note.metadata?.id }
+            .forEach { it.delete() }
     }
 
     fun createNoteFile(note: LocalNote, config: LocalProviderConfig): DocumentFile {
@@ -46,7 +51,10 @@ class LocalFilesAPI(private val context: Context) {
         val noteFile = notebookDir.createFile("text/markdown", filename) ?: throw Exception("Note was not created.")
 
         context.contentResolver.openOutputStream(noteFile.uri)?.use { out ->
-            val serializedMetadata = note.metadata?.toString().orEmpty()
+            val serializedMetadata = note.metadata
+                ?.toString()
+                ?.let { if (note.content.isEmpty()) it else "\n$it"}
+                .orEmpty()
             val fileContents = "${note.content}$serializedMetadata"
             out.write(fileContents.toByteArray())
         }
@@ -80,7 +88,7 @@ class LocalFilesAPI(private val context: Context) {
             title = title,
             metadata = metadata,
             notebookName = notebookName,
-            dateModified = lastModified(file, context) / 1000,
+            dateModified = file.lastModified(context) / 1000,
             extras = file.uri.toString(),
         )
     }
@@ -91,7 +99,7 @@ class LocalFilesAPI(private val context: Context) {
             .map { file ->
                 when {
                     file.isNoteFile -> listOfNotNull(file)
-                    file.isDirectory -> file.listFiles().filter { it.isNoteFile }
+                    file.isDirectory && file.name?.startsWith(".") == false -> file.listFiles().filter { it.isNoteFile }
                     else -> emptyList()
                 }
             }
@@ -104,45 +112,57 @@ class LocalFilesAPI(private val context: Context) {
             .toList()
     }
 
-    fun String.replaceLast(regex: String, replacement: String): String {
+    fun appendMetadataToFile(note: LocalNote, metadata: LocalNoteMetadata, config: LocalProviderConfig): LocalNote {
+        val uri = note.extras?.let { Uri.parse(it) } ?: return note
+        DocumentsContract.deleteDocument(context.contentResolver, uri)
+        val newUri = createNoteFile(note.copy(metadata = metadata), config)
+        return note.copy(metadata = metadata, extras = newUri.toString())
+    }
+
+    fun updateNote(note: LocalNote, config: LocalProviderConfig): LocalNote {
+        deleteNoteFile(note, config)
+        val uri = createNoteFile(note, config)
+
+        return note.copy(extras = uri.toString())
+    }
+
+    private val DocumentFile.isNoteFile get() = isFile && type?.startsWith("text") == true
+
+    private fun DocumentFile.lastModified(context: Context): Long {
+        val cursor: Cursor? = context.contentResolver.query(uri, null, null, null, null)
+        return cursor.use { cursor ->
+            if (cursor?.moveToFirst() == true)
+                cursor.getLong(cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_LAST_MODIFIED))
+            else 0
+        }
+    }
+
+    private fun InputStream.readAllText(): String {
+        val stringBuilder = StringBuilder()
+        BufferedReader(InputStreamReader(this,
+            Charset.forName(StandardCharsets.UTF_8.name()))).use { reader ->
+            var c = 0
+            while (reader.read().also { c = it } != -1) {
+                stringBuilder.append(c.toChar())
+            }
+        }
+
+        return stringBuilder.toString()
+    }
+
+    private fun String.replaceLast(regex: String, replacement: String): String {
         val pattern: Pattern = Pattern.compile(regex)
         val matcher: Matcher = pattern.matcher(this)
+
         if (!matcher.find()) {
             return this
         }
         var lastMatchStart = 0
-        do {
-            lastMatchStart = matcher.start()
-        } while (matcher.find())
+        do { lastMatchStart = matcher.start() } while (matcher.find())
         matcher.find(lastMatchStart)
         val sb = StringBuffer(length)
         matcher.appendReplacement(sb, replacement)
         matcher.appendTail(sb)
         return sb.toString()
     }
-
-    fun appendMetadataToFile(note: LocalNote, metadata: LocalNoteMetadata) {
-        val uri = note.extras?.let { Uri.parse(it) } ?: return
-
-        context.contentResolver.openOutputStream(uri, "wt")?.use { out ->
-            out.write("${note.content}$metadata".toByteArray())
-        }
-    }
-
-    fun updateNote(note: LocalNote, mapping: IdMapping, config: LocalProviderConfig): LocalNote {
-        val uri = note.extras?.let { Uri.parse(it) } ?: throw Exception("Could not parse uri")
-        val oldFile = DocumentFile.fromSingleUri(context, uri) ?: throw Exception("Could not find file")
-
-        if (note.title != oldFile.name) {
-            oldFile.renameTo(note.title)
-        }
-
-        context.contentResolver.openOutputStream(uri, "wt")?.use { out ->
-            out.write("${note.content}${note.metadata?.toString().orEmpty()}".toByteArray())
-        }
-
-        return note
-    }
-
-    val DocumentFile.isNoteFile get() = isFile && type?.startsWith("text") == true
 }

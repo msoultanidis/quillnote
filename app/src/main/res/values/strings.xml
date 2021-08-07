@@ -265,6 +265,9 @@
     <!-- App shortcuts -->
     <string name="shortcut_take_note">Take a note</string>
     <string name="shortcut_make_list">Make a list</string>
+    <string name="preferences_cloud_service_local">Local syncing</string>
+    <string name="preferences_local_sync_choose_directory">Choose directory</string>
+    <string name="preferences_local_choose_directory">Choose a folder with which Quillnote will sync.</string>
 
     <plurals name="more_items">
         <item quantity="one">+%d item</item>

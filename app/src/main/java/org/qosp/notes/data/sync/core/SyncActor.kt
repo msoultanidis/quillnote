@@ -27,9 +27,11 @@ class SyncActor(
             for (msg in channel) {
                 with(msg) {
                     val result = when (this) {
-                        is CreateNote -> createNote(note, provider, config)
-                        is UpdateNote -> {
-                            if (note.modifiedDate <= lastSyncFinished) {
+                        is Message.CreateNote -> {
+                            createNote(note, provider, config)
+                        }
+                        is Message.UpdateNote -> {
+                            if (note.modifiedDateStrict <= lastSyncFinished) {
                                 MutationWhileSyncing()
                             } else {
                                 ifMappingExists(note, config.provider) {
@@ -37,10 +39,10 @@ class SyncActor(
                                 }
                             }
                         }
-                        is UpdateOrCreateNote -> {
+                        is Message.UpdateOrCreateNote -> {
                             val mapping = idMappingRepository.getByLocalIdAndProvider(note.id, config.provider)
                             if (mapping != null) {
-                                if (note.modifiedDate <= lastSyncFinished) {
+                                if (note.modifiedDateStrict <= lastSyncFinished) {
                                     MutationWhileSyncing()
                                 } else {
                                     ifMappingExists(note, config.provider) {
@@ -51,25 +53,31 @@ class SyncActor(
                                 createNote(note, provider, config)
                             }
                         }
-                        is DeleteNote -> ifMappingExists(note, config.provider) {
+                        is Message.DeleteNote -> ifMappingExists(note, config.provider) {
                             deleteNote(note, it, provider, config)
                         }
-                        is DeleteNotes -> {
+                        is Message.DeleteNotes -> {
                             deleteNotes(notes, provider, config)
                         }
-                        is MoveNoteToBin -> ifMappingExists(note, config.provider) {
+                        is Message.MoveNoteToBin -> ifMappingExists(note, config.provider) {
                             moveNoteToBin(note, it, provider, config)
                         }
-                        is RestoreNote -> restoreNote(note, provider, config)
-                        is Sync -> {
+                        is Message.RestoreNote -> {
+                            restoreNote(note, provider, config)
+                        }
+                        is Message.Sync -> {
                             sync(provider, config).also {
                                 if (it is Success) {
                                     lastSyncFinished = Instant.now().epochSecond
                                 }
                             }
                         }
-                        is Authenticate -> authenticate(provider, config)
-                        is IsServerCompatible -> isServerCompatible(provider, config)
+                        is Message.Authenticate -> {
+                            authenticate(provider, config)
+                        }
+                        is Message.IsServerCompatible -> {
+                            isServerCompatible(provider, config)
+                        }
                     }
 
                     deferred.complete(result)
@@ -157,15 +165,15 @@ class SyncActor(
         }
     }
 
-    private suspend fun authenticate(provider: SyncProvider, config: ProviderConfig): Response<Any> {
+    private suspend fun authenticate(provider: SyncProvider, config: ProviderConfig): Response<Unit> {
         return provider.authenticate(config)
     }
 
-    private suspend fun isServerCompatible(provider: SyncProvider, config: ProviderConfig): Response<Any> {
+    private suspend fun isServerCompatible(provider: SyncProvider, config: ProviderConfig): Response<Unit> {
         return provider.isServerCompatible(config)
     }
 
-    private suspend fun sync(provider: SyncProvider, config: ProviderConfig): Response<Any> {
+    private suspend fun sync(provider: SyncProvider, config: ProviderConfig): Response<Nothing> {
         suspend fun RemoteNote.asLocalNote() = with(provider) { toLocalNote() }
 
         val timeSyncStarted = Instant.now().epochSecond
@@ -184,6 +192,7 @@ class SyncActor(
         idMappingRepository.deleteIfIdsNotIn(
             localIds = localNotes.keys.toList() - SyncProvider.NOT_SET_ID,
             remoteIds = remoteNotes.keys.toList() - SyncProvider.NOT_SET_ID,
+            provider = config.provider,
         )
 
         val remoteIdsToBeDeleted: List<Long>
@@ -229,33 +238,43 @@ class SyncActor(
         idMappingRepository.deleteMappingsForNotes(config.provider, *notesToBeMovedToBin.toTypedArray())
 
         // Persist new notes created remotely
-        remoteNotes.values.flatten().forEach { remoteNote ->
-            val localNote = remoteNote.asLocalNote().let { it.copy(id = noteRepository.insertNote(it)) }
-            if (remoteNote.id == SyncProvider.NOT_SET_ID) provider.assignIdToNote(remoteNote, localNote.id, config)
-            idMappingRepository.createMappingForNote(localNote, remoteNote)
-        }
+        remoteNotes.values
+            .flatten()
+            .forEach { remoteNote ->
+                val localNote = remoteNote
+                    .asLocalNote()
+                    .let { it.copy(id = noteRepository.insertNote(it)) }
+
+                val remoteNote = when (remoteNote.id) {
+                    SyncProvider.NOT_SET_ID -> provider
+                        .assignIdToNote(remoteNote, localNote, config)
+                        .bodyOrElse { return@forEach }
+                    else -> remoteNote
+                }
+                idMappingRepository.createMappingForNote(localNote, remoteNote)
+            }
 
 
         // Upload new local notes
-        localNotes.values.flatten().forEach {
-            createNote(it, provider, config)
-        }
+        localNotes.values
+            .flatten()
+            .forEach { createNote(it, provider, config) }
 
         return Success()
     }
+}
 
-    sealed class Message(val provider: SyncProvider, val config: ProviderConfig) {
-        val deferred: CompletableDeferred<Response<*>> = CompletableDeferred()
-        open val note: Note? = null
-    }
-    class CreateNote(override val note: Note, provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
-    class UpdateNote(override val note: Note, provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
-    class UpdateOrCreateNote(override val note: Note, provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
-    class DeleteNote(override val note: Note, provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
-    class DeleteNotes(val notes: List<Note>, provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
-    class RestoreNote(override val note: Note, provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
-    class MoveNoteToBin(override val note: Note, provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
-    class Sync(provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
-    class Authenticate(provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
-    class IsServerCompatible(provider: SyncProvider, config: ProviderConfig) : Message(provider, config)
+sealed class Message {
+    val deferred: CompletableDeferred<Response<*>> = CompletableDeferred()
+
+    class CreateNote(val note: Note, val provider: SyncProvider, val config: ProviderConfig) : Message()
+    class UpdateNote(val note: Note, val provider: SyncProvider, val config: ProviderConfig) : Message()
+    class UpdateOrCreateNote(val note: Note, val provider: SyncProvider, val config: ProviderConfig) : Message()
+    class DeleteNote(val note: Note, val provider: SyncProvider, val config: ProviderConfig) : Message()
+    class DeleteNotes(val notes: List<Note>, val provider: SyncProvider, val config: ProviderConfig) : Message()
+    class RestoreNote(val note: Note, val provider: SyncProvider, val config: ProviderConfig) : Message()
+    class MoveNoteToBin(val note: Note, val provider: SyncProvider, val config: ProviderConfig) : Message()
+    class Sync(val provider: SyncProvider, val config: ProviderConfig) : Message()
+    class Authenticate(val provider: SyncProvider, val config: ProviderConfig) : Message()
+    class IsServerCompatible(val provider: SyncProvider, val config: ProviderConfig) : Message()
 }

@@ -6,7 +6,6 @@ import java.lang.Exception
 sealed class Response<T>(val message: String? = null) {
     companion object {
         inline fun <T> from(block: () -> T): Response<T> {
-            return Success(block())
             return try {
                 Success(block())
             } catch (e: Exception) {
@@ -28,8 +27,6 @@ sealed class Response<T>(val message: String? = null) {
 inline fun <T> Response<T>.bodyOrElse(block: (Response<T>) -> T): T {
     return if (this is Success && body != null) body else block(this)
 }
-
-
 
 class Success<T>(val body: T? = null) : Response<T>()
 

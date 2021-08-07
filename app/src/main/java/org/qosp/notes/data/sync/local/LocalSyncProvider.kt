@@ -3,7 +3,6 @@ package org.qosp.notes.data.sync.local
 import kotlinx.coroutines.flow.first
 import org.qosp.notes.data.model.IdMapping
 import org.qosp.notes.data.model.Note
-import org.qosp.notes.data.model.NoteColor
 import org.qosp.notes.data.model.Notebook
 import org.qosp.notes.data.repo.NotebookRepository
 import org.qosp.notes.data.sync.core.InvalidConfig
@@ -11,12 +10,10 @@ import org.qosp.notes.data.sync.core.OperationNotSupported
 import org.qosp.notes.data.sync.core.ProviderConfig
 import org.qosp.notes.data.sync.core.RemoteNote
 import org.qosp.notes.data.sync.core.Response
-import org.qosp.notes.data.sync.core.Success
 import org.qosp.notes.data.sync.core.SyncProvider
 import org.qosp.notes.data.sync.local.model.LocalNote
 import org.qosp.notes.data.sync.local.model.LocalNoteMetadata
 import org.qosp.notes.data.sync.local.model.extractMetadata
-import java.time.Instant
 
 class LocalSyncProvider(
     private val localFilesAPI: LocalFilesAPI,
@@ -50,14 +47,14 @@ class LocalSyncProvider(
     override suspend fun deleteNote(note: Note, config: ProviderConfig, mapping: IdMapping): Response<RemoteNote> {
         return withConfig(config) {
             Response.from {
-                note.toRemoteNote(old = LocalNote(extras = mapping.extras, metadata = LocalNoteMetadata(id = mapping.remoteNoteId))).also {
-                    localFilesAPI.deleteNoteFile(it)
+                note.toRemoteNote(LocalNote(extras = mapping.extras, metadata = LocalNoteMetadata(id = mapping.remoteNoteId))).also {
+                    localFilesAPI.deleteNoteFile(it, this)
                 }
             }
         }
     }
 
-    override suspend fun deleteByRemoteId(config: ProviderConfig, vararg remoteIds: Long): Response<Any> {
+    override suspend fun deleteByRemoteId(config: ProviderConfig, vararg remoteIds: Long): Response<Unit> {
         return withConfig(config) {
             Response.from {
                 localFilesAPI.getAllNoteFiles(this)
@@ -70,19 +67,23 @@ class LocalSyncProvider(
     override suspend fun updateNote(note: Note, config: ProviderConfig, mapping: IdMapping): Response<RemoteNote> {
         return withConfig(config) {
             Response.from {
-                localFilesAPI.updateNote(note.toRemoteNote(old = LocalNote(extras = mapping.extras, metadata = LocalNoteMetadata(id = mapping.remoteNoteId))), mapping, this)
+                localFilesAPI.updateNote(
+                    note = note.toRemoteNote(old = LocalNote(extras = mapping.extras)),
+                    config = this,
+                )
             }
         }
     }
 
-    override suspend fun assignIdToNote(remoteNote: RemoteNote, id: Long, config: ProviderConfig): Response<Any> {
+    override suspend fun assignIdToNote(remoteNote: RemoteNote, note: Note, config: ProviderConfig): Response<RemoteNote> {
         if (remoteNote !is LocalNote) return InvalidConfig()
 
         return withConfig(config) {
             Response.from {
                 localFilesAPI.appendMetadataToFile(
                     remoteNote,
-                    LocalNoteMetadata(id = id),
+                    note.extractMetadata(),
+                    this,
                 )
             }
         }
@@ -98,11 +99,11 @@ class LocalSyncProvider(
         return OperationNotSupported()
     }
 
-    override suspend fun authenticate(config: ProviderConfig): Response<Any> {
+    override suspend fun authenticate(config: ProviderConfig): Response<Unit> {
         return OperationNotSupported()
     }
 
-    override suspend fun isServerCompatible(config: ProviderConfig): Response<Any> {
+    override suspend fun isServerCompatible(config: ProviderConfig): Response<Unit> {
         return OperationNotSupported()
     }
 
@@ -116,6 +117,7 @@ class LocalSyncProvider(
                 content = content,
                 notebookId = getNotebookIdForCategory(notebookName),
                 modifiedDate = dateModified,
+                modifiedDateStrict = dateModified,
                 isPinned = metadata?.isPinned ?: it.isPinned,
                 isHidden = metadata?.isHidden ?: it.isHidden,
                 isDeleted = metadata?.isDeleted ?: it.isDeleted,
@@ -135,10 +137,10 @@ class LocalSyncProvider(
 
     override suspend fun Note.toRemoteNote(old: RemoteNote?): LocalNote {
         return LocalNote(
-            title = title,
+            title = title.sanitizeFileName(),
             content = content,
             notebookName = getCategoryFromNotebookId(notebookId),
-            dateModified = modifiedDate,
+            dateModified = modifiedDateStrict,
             metadata = extractMetadata(),
             extras = old?.extras,
         )
@@ -155,6 +157,12 @@ class LocalSyncProvider(
 
     private suspend fun getCategoryFromNotebookId(notebookId: Long?): String {
         return notebookId?.let { notebookRepository.getById(it).first()?.name }.orEmpty()
+    }
+
+
+    private fun String.sanitizeFileName(): String {
+        val reservedCharacters = setOf('|', '\\', '?', '*', '<', '\"', ':', '>', '[', ']','$', '`','´', '\n')
+        return filterNot { it in reservedCharacters }
     }
 
 }

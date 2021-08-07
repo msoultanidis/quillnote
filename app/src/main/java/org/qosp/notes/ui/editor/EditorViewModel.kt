@@ -93,6 +93,7 @@ class EditorViewModel @Inject constructor(
         note.copy(
             title = title,
             modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
@@ -100,13 +101,14 @@ class EditorViewModel @Inject constructor(
         note.copy(
             content = content,
             modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
     fun setColor(color: NoteColor) = update { note ->
         note.copy(
             color = color,
-            modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
@@ -116,6 +118,7 @@ class EditorViewModel @Inject constructor(
                 .filterNot { it.path == attachment.path }
                 .toMutableList(),
             modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
@@ -123,6 +126,7 @@ class EditorViewModel @Inject constructor(
         note.copy(
             attachments = note.attachments + attachments,
             modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
@@ -130,6 +134,7 @@ class EditorViewModel @Inject constructor(
         note.copy(
             taskList = list,
             modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
@@ -139,6 +144,7 @@ class EditorViewModel @Inject constructor(
             isList = true,
             taskList = note.stringToTaskList(),
             modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 
@@ -148,6 +154,7 @@ class EditorViewModel @Inject constructor(
             isList = false,
             taskList = listOf(),
             modifiedDate = Instant.now().epochSecond,
+            modifiedDateStrict = Instant.now().epochSecond,
         )
     }
 

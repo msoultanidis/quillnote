@@ -33,7 +33,7 @@ fun ConfigFactory.createNextcloudConfig(): Flow<NextcloudConfig?> {
         username.flatMapLatest { username ->
             password.map { password ->
                 NextcloudConfig(url, username, password)
-                    .takeUnless { url.isBlank() or username.isBlank() or password.isBlank() }
+                    .takeUnless { url.isBlank() || username.isBlank() || password.isBlank() }
             }
         }
     }
