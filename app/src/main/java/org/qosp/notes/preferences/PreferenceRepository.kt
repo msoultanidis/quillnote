@@ -33,6 +33,7 @@ class PreferenceRepository(
                 AppPreferences(
                     layoutMode = prefs.getEnum(),
                     themeMode = prefs.getEnum(),
+                    darkThemeMode = prefs.getEnum(),
                     colorScheme = prefs.getEnum(),
                     sortMethod = prefs.getEnum(),
                     backupStrategy = prefs.getEnum(),
