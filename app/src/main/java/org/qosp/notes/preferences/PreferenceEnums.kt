@@ -17,6 +17,11 @@ enum class ThemeMode(override val nameResource: Int, val mode: Int) : HasNameRes
     LIGHT(R.string.preferences_theme_mode_light, AppCompatDelegate.MODE_NIGHT_NO),
 }
 
+enum class DarkThemeMode(override val nameResource: Int, val styleResource: Int?) : HasNameResource, EnumPreference by key("dark_theme_mode") {
+    STANDARD(R.string.preferences_theme_dark_mode_standard, null) { override val isDefault = true },
+    BLACK(R.string.preferences_theme_dark_mode_black, R.style.DarkBlack),
+}
+
 enum class ColorScheme(
     override val nameResource: Int,
     val styleResource: Int,

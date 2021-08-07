@@ -46,6 +46,13 @@
                     app:iconSrc="@drawable/ic_dark_mode"/>
 
             <org.qosp.notes.ui.utils.views.PreferenceView
+                    android:id="@+id/setting_dark_theme_mode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:text="@string/preferences_dark_theme_mode"
+                    app:iconSrc="@drawable/ic_dark_mode_variant"/>
+
+            <org.qosp.notes.ui.utils.views.PreferenceView
                     android:id="@+id/setting_color_scheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

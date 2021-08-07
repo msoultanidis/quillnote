@@ -17,6 +17,10 @@
     <string name="preferences_theme_mode_light">Light</string>
     <string name="preferences_theme_mode_system">Follow system</string>
 
+    <string name="preferences_dark_theme_mode">Dark theme mode</string>
+    <string name="preferences_theme_dark_mode_standard">Standard</string>
+    <string name="preferences_theme_dark_mode_black">Black</string>
+
     <string name="preferences_header_view">View</string>
     <string name="preferences_layout_mode">Layout mode</string>
     <string name="preferences_layout_mode_grid">Grid</string>
