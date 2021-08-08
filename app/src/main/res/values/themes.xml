@@ -45,6 +45,17 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="DarkBlack">
+        <item name="colorBackground">#000</item>
+
+        <item name="colorSurface">#1B1B1B</item>
+        <item name="elevationOverlayEnabled">false</item>
+
+        <item name="colorNoteDefault">#000</item>
+        <item name="colorDrawerBackground">#191919</item>
+        <item name="colorBottomAppBarBackground">#000</item>
+    </style>
+
     <style name="Blue">
         <item name="colorPrimary">#2196f3</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>

@@ -42,6 +42,7 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
         setupPreferenceObservers()
         setupColorSchemeListener()
         setupThemeModeListener()
+        setupDarkThemeModeListener()
         setupLayoutModeListener()
         setupSortMethodListener()
         setupGroupNotesWithoutNotebookListener()
@@ -77,6 +78,7 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
                 }
                 binding.settingColorScheme.subText = getString(colorScheme.nameResource)
                 binding.settingThemeMode.subText = getString(themeMode.nameResource)
+                binding.settingDarkThemeMode.subText = getString(darkThemeMode.nameResource)
                 binding.settingLayoutMode.subText = getString(layoutMode.nameResource)
                 binding.settingLayoutMode.setIcon(
                     when (layoutMode) {
@@ -123,6 +125,15 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
                 if (selected.mode != AppCompatDelegate.getDefaultNightMode()) {
                     AppCompatDelegate.setDefaultNightMode(selected.mode)
                 }
+            }
+        }
+    }
+
+    private fun setupDarkThemeModeListener() = binding.settingDarkThemeMode.setOnClickListener {
+        showPreferenceDialog(R.string.preferences_dark_theme_mode, appPreferences.darkThemeMode) { selected ->
+            lifecycleScope.launch {
+                model.setPreference(selected)
+                activity?.recreate()
             }
         }
     }
