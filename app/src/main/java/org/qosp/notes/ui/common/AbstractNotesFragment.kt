@@ -32,13 +32,18 @@ import io.noties.markwon.Markwon
 import kotlinx.coroutines.launch
 import org.qosp.notes.R
 import org.qosp.notes.data.model.Note
-import org.qosp.notes.data.sync.core.*
+import org.qosp.notes.data.sync.core.BaseResult
+import org.qosp.notes.data.sync.core.ServerNotSupported
+import org.qosp.notes.data.sync.core.Unauthorized
 import org.qosp.notes.databinding.LayoutNoteBinding
 import org.qosp.notes.preferences.LayoutMode
 import org.qosp.notes.ui.common.recycler.NoteRecyclerAdapter
 import org.qosp.notes.ui.common.recycler.NoteRecyclerListener
 import org.qosp.notes.ui.common.recycler.onBackPressedHandler
-import org.qosp.notes.ui.utils.*
+import org.qosp.notes.ui.utils.collect
+import org.qosp.notes.ui.utils.launch
+import org.qosp.notes.ui.utils.liftAppBarOnScroll
+import org.qosp.notes.ui.utils.shareNote
 import org.qosp.notes.ui.utils.views.BottomSheet
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -147,7 +152,10 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
             }
         }
 
-        recyclerAdapter = NoteRecyclerAdapter(listener, markwon).apply {
+        recyclerAdapter = NoteRecyclerAdapter(
+            listener = listener,
+            markwon = markwon,
+        ).apply {
             stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
             showHiddenNotes = this@AbstractNotesFragment.showHiddenNotes
 

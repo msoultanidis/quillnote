@@ -8,7 +8,7 @@
         android:checkable="true"
         app:checkedIcon="@null"
         app:cardBackgroundColor="?attr/colorNoteDefault"
-        app:strokeWidth="2dp"
+        app:strokeWidth="1dp"
         app:strokeColor="@color/state_selected_note"
         app:cardElevation="4dp"
         app:cardCornerRadius="6dp">

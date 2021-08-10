@@ -42,7 +42,7 @@ open class BaseActivity : AppCompatActivity() {
             }
 
             val isAutoDark =
-                themeMode == ThemeMode.SYSTEM.mode && resources.configuration.uiMode == Configuration.UI_MODE_NIGHT_YES
+                themeMode == ThemeMode.SYSTEM.mode && (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 
             if (themeMode == ThemeMode.DARK.mode || isAutoDark) {
                 darkThemeModeStyle?.let {

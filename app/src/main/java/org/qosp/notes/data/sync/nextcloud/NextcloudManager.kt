@@ -7,13 +7,21 @@ import org.qosp.notes.data.model.Notebook
 import org.qosp.notes.data.repo.IdMappingRepository
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.data.repo.NotebookRepository
-import org.qosp.notes.data.sync.core.*
+import org.qosp.notes.data.sync.core.ApiError
+import org.qosp.notes.data.sync.core.BaseResult
+import org.qosp.notes.data.sync.core.GenericError
+import org.qosp.notes.data.sync.core.InvalidConfig
+import org.qosp.notes.data.sync.core.ProviderConfig
+import org.qosp.notes.data.sync.core.ServerNotSupported
+import org.qosp.notes.data.sync.core.ServerNotSupportedException
+import org.qosp.notes.data.sync.core.Success
+import org.qosp.notes.data.sync.core.SyncProvider
+import org.qosp.notes.data.sync.core.Unauthorized
 import org.qosp.notes.data.sync.nextcloud.model.NextcloudNote
 import org.qosp.notes.data.sync.nextcloud.model.asNewLocalNote
 import org.qosp.notes.data.sync.nextcloud.model.asNextcloudNote
 import org.qosp.notes.preferences.CloudService
 import retrofit2.HttpException
-import java.lang.Exception
 
 class NextcloudManager(
     private val nextcloudAPI: NextcloudAPI,

@@ -5,7 +5,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.qosp.notes.data.AppDatabase
-import org.qosp.notes.data.repo.*
+import org.qosp.notes.data.repo.IdMappingRepository
+import org.qosp.notes.data.repo.NoteRepository
+import org.qosp.notes.data.repo.NotebookRepository
+import org.qosp.notes.data.repo.ReminderRepository
+import org.qosp.notes.data.repo.TagRepository
 import org.qosp.notes.data.sync.core.SyncManager
 import javax.inject.Named
 import javax.inject.Singleton

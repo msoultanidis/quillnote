@@ -8,7 +8,12 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.StrictMode
 import androidx.core.content.ContextCompat
 import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.*
+import androidx.work.Configuration
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.decode.GifDecoder

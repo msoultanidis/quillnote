@@ -20,7 +20,10 @@ import org.qosp.notes.ui.common.recycler.onBackPressedHandler
 import org.qosp.notes.ui.notebooks.dialog.EditNotebookDialog
 import org.qosp.notes.ui.notebooks.recycler.NotebooksRecyclerAdapter
 import org.qosp.notes.ui.notebooks.recycler.NotebooksRecyclerListener
-import org.qosp.notes.ui.utils.*
+import org.qosp.notes.ui.utils.collect
+import org.qosp.notes.ui.utils.liftAppBarOnScroll
+import org.qosp.notes.ui.utils.navigateSafely
+import org.qosp.notes.ui.utils.viewBinding
 import org.qosp.notes.ui.utils.views.BottomSheet
 
 @AndroidEntryPoint

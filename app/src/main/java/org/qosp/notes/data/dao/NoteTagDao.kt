@@ -1,6 +1,12 @@
 package org.qosp.notes.data.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.RewriteQueriesToDropUnusedColumns
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.model.NoteTagJoin
