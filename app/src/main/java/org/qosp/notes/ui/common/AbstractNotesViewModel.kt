@@ -12,7 +12,10 @@ import me.msoul.datastore.defaultOf
 import org.qosp.notes.data.model.Note
 import org.qosp.notes.data.sync.core.Success
 import org.qosp.notes.data.sync.core.SyncManager
-import org.qosp.notes.preferences.*
+import org.qosp.notes.preferences.LayoutMode
+import org.qosp.notes.preferences.NoteDeletionTime
+import org.qosp.notes.preferences.PreferenceRepository
+import org.qosp.notes.preferences.SortMethod
 
 abstract class AbstractNotesViewModel(
     protected val preferenceRepository: PreferenceRepository,
@@ -33,7 +36,7 @@ abstract class AbstractNotesViewModel(
     suspend fun isSyncingEnabled(): Boolean = syncManager.ifSyncing { _, _ -> Success } == Success
 
     data class Data(
-        val notes: List<Note> = listOf(),
+        val notes: List<Note> = emptyList(),
         val sortMethod: SortMethod = defaultOf(),
         val layoutMode: LayoutMode = defaultOf(),
         val noteDeletionTimeInDays: Long = defaultOf<NoteDeletionTime>().toDays(),

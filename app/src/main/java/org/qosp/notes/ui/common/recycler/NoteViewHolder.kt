@@ -11,13 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import io.noties.markwon.Markwon
 import org.commonmark.node.Code
 import org.qosp.notes.R
-import org.qosp.notes.data.model.*
+import org.qosp.notes.data.model.Attachment
+import org.qosp.notes.data.model.Note
+import org.qosp.notes.data.model.NoteColor
+import org.qosp.notes.data.model.Tag
 import org.qosp.notes.databinding.LayoutNoteBinding
 import org.qosp.notes.ui.attachments.recycler.AttachmentViewHolder
 import org.qosp.notes.ui.attachments.recycler.AttachmentsAdapter
 import org.qosp.notes.ui.attachments.recycler.AttachmentsPreviewGridManager
 import org.qosp.notes.ui.editor.markdown.applyTo
 import org.qosp.notes.ui.tasks.TasksAdapter
+import org.qosp.notes.ui.utils.dp
 import org.qosp.notes.ui.utils.ellipsize
 import org.qosp.notes.ui.utils.resId
 
@@ -31,6 +35,9 @@ class NoteViewHolder(
 
     private val tasksAdapter = TasksAdapter(true, null, markwon)
     private val attachmentsAdapter = AttachmentsAdapter(null, true)
+
+    private val defaultStrokeWidth = 1.dp(context)
+    private val selectedStrokeWidth = 2.dp(context)
 
     init {
         binding.recyclerAttachments.apply {
@@ -177,5 +184,6 @@ class NoteViewHolder(
 
     override fun onSelectedStatusChanged(isSelected: Boolean) {
         binding.root.isChecked = isSelected
+        binding.root.strokeWidth = if (isSelected) selectedStrokeWidth else defaultStrokeWidth
     }
 }

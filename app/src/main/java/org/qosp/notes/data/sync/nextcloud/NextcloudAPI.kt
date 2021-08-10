@@ -2,11 +2,20 @@ package org.qosp.notes.data.sync.nextcloud
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.jsonObject
 import okhttp3.ResponseBody
 import org.qosp.notes.data.sync.nextcloud.model.NextcloudCapabilities
 import org.qosp.notes.data.sync.nextcloud.model.NextcloudNote
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Headers
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Url
 
 const val baseURL = "index.php/apps/notes/api/v1/"
 

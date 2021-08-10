@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import me.msoul.datastore.EnumPreference
 import org.qosp.notes.data.sync.core.SyncManager
-import org.qosp.notes.preferences.*
+import org.qosp.notes.preferences.PreferenceRepository
 import javax.inject.Inject
 
 @HiltViewModel

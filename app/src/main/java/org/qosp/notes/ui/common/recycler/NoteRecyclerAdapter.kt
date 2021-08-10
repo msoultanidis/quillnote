@@ -28,7 +28,13 @@ class NoteRecyclerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = LayoutNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NoteViewHolder(binding, listener, parent.context, searchMode, markwon)
+        return NoteViewHolder(
+            binding = binding,
+            listener = listener,
+            context = parent.context,
+            searchMode = searchMode,
+            markwon = markwon,
+        )
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int, payloads: MutableList<Any>) {

@@ -20,7 +20,10 @@ import org.qosp.notes.ui.common.recycler.onBackPressedHandler
 import org.qosp.notes.ui.tags.dialog.EditTagDialog
 import org.qosp.notes.ui.tags.recycler.TagsRecyclerAdapter
 import org.qosp.notes.ui.tags.recycler.TagsRecyclerListener
-import org.qosp.notes.ui.utils.*
+import org.qosp.notes.ui.utils.collect
+import org.qosp.notes.ui.utils.liftAppBarOnScroll
+import org.qosp.notes.ui.utils.navigateSafely
+import org.qosp.notes.ui.utils.viewBinding
 import org.qosp.notes.ui.utils.views.BottomSheet
 
 @AndroidEntryPoint

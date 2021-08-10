@@ -20,7 +20,13 @@ import io.noties.markwon.Markwon
 import org.qosp.notes.R
 import org.qosp.notes.data.model.NoteTask
 import org.qosp.notes.databinding.LayoutTaskBinding
-import org.qosp.notes.ui.utils.*
+import org.qosp.notes.ui.utils.applyMask
+import org.qosp.notes.ui.utils.dp
+import org.qosp.notes.ui.utils.ellipsize
+import org.qosp.notes.ui.utils.getDrawableCompat
+import org.qosp.notes.ui.utils.hideKeyboard
+import org.qosp.notes.ui.utils.requestFocusAndKeyboard
+import org.qosp.notes.ui.utils.resolveAttribute
 
 class TaskViewHolder(
     private val context: Context,

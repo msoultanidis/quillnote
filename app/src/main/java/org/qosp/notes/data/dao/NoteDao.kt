@@ -1,12 +1,28 @@
 package org.qosp.notes.data.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.RawQuery
+import androidx.room.Transaction
+import androidx.room.Update
 import androidx.sqlite.db.SimpleSQLiteQuery
 import kotlinx.coroutines.flow.Flow
-import org.qosp.notes.data.model.*
+import org.qosp.notes.data.model.Note
+import org.qosp.notes.data.model.NoteEntity
+import org.qosp.notes.data.model.NoteTagJoin
+import org.qosp.notes.data.model.Reminder
+import org.qosp.notes.data.model.Tag
 import org.qosp.notes.preferences.CloudService
 import org.qosp.notes.preferences.SortMethod
-import org.qosp.notes.preferences.SortMethod.*
+import org.qosp.notes.preferences.SortMethod.CREATION_ASC
+import org.qosp.notes.preferences.SortMethod.CREATION_DESC
+import org.qosp.notes.preferences.SortMethod.MODIFIED_ASC
+import org.qosp.notes.preferences.SortMethod.MODIFIED_DESC
+import org.qosp.notes.preferences.SortMethod.TITLE_ASC
+import org.qosp.notes.preferences.SortMethod.TITLE_DESC
 
 @Dao
 interface NoteDao {

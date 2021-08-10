@@ -8,9 +8,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.qosp.notes.data.sync.core.*
+import org.qosp.notes.data.sync.core.BaseResult
+import org.qosp.notes.data.sync.core.Success
+import org.qosp.notes.data.sync.core.SyncManager
 import org.qosp.notes.data.sync.nextcloud.NextcloudConfig
-import org.qosp.notes.preferences.*
+import org.qosp.notes.preferences.PreferenceRepository
 import javax.inject.Inject
 
 @HiltViewModel

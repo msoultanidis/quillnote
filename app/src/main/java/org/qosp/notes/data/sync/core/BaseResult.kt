@@ -1,7 +1,5 @@
 package org.qosp.notes.data.sync.core
 
-import java.lang.Exception
-
 sealed class BaseResult(val message: String? = null)
 
 object Success : BaseResult()

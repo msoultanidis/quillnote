@@ -53,7 +53,9 @@
 
         <item name="colorNoteDefault">#000</item>
         <item name="colorDrawerBackground">#191919</item>
-        <item name="colorBottomAppBarBackground">#000</item>
+        <item name="colorBottomAppBarBackground">#121212</item>
+        <item name="android:navigationBarColor">#090909</item>
+
     </style>
 
     <style name="Blue">

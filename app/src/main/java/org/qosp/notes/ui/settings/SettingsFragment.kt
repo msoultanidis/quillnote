@@ -11,10 +11,21 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.qosp.notes.R
 import org.qosp.notes.databinding.FragmentSettingsBinding
-import org.qosp.notes.preferences.*
+import org.qosp.notes.preferences.AppPreferences
+import org.qosp.notes.preferences.CloudService
+import org.qosp.notes.preferences.DarkThemeMode
+import org.qosp.notes.preferences.DateFormat
+import org.qosp.notes.preferences.LayoutMode
+import org.qosp.notes.preferences.ThemeMode
+import org.qosp.notes.preferences.TimeFormat
 import org.qosp.notes.ui.MainActivity
 import org.qosp.notes.ui.common.BaseFragment
-import org.qosp.notes.ui.utils.*
+import org.qosp.notes.ui.utils.RestoreNotesContract
+import org.qosp.notes.ui.utils.collect
+import org.qosp.notes.ui.utils.launch
+import org.qosp.notes.ui.utils.liftAppBarOnScroll
+import org.qosp.notes.ui.utils.navigateSafely
+import org.qosp.notes.ui.utils.viewBinding
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -121,9 +132,13 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
     private fun setupThemeModeListener() = binding.settingThemeMode.setOnClickListener {
         showPreferenceDialog(R.string.preferences_theme_mode, appPreferences.themeMode) { selected ->
             lifecycleScope.launch {
-                model.setPreference(selected)
+                model.setPreferenceSuspending(selected)
                 if (selected.mode != AppCompatDelegate.getDefaultNightMode()) {
                     AppCompatDelegate.setDefaultNightMode(selected.mode)
+
+                    if (selected != ThemeMode.LIGHT && appPreferences.darkThemeMode == DarkThemeMode.BLACK) {
+                        activity?.recreate()
+                    }
                 }
             }
         }
@@ -132,7 +147,7 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
     private fun setupDarkThemeModeListener() = binding.settingDarkThemeMode.setOnClickListener {
         showPreferenceDialog(R.string.preferences_dark_theme_mode, appPreferences.darkThemeMode) { selected ->
             lifecycleScope.launch {
-                model.setPreference(selected)
+                model.setPreferenceSuspending(selected)
                 activity?.recreate()
             }
         }

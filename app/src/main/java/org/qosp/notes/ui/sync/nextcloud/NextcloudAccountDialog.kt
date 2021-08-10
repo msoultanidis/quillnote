@@ -11,7 +11,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.qosp.notes.R
-import org.qosp.notes.data.sync.core.*
+import org.qosp.notes.data.sync.core.NoConnectivity
+import org.qosp.notes.data.sync.core.ServerNotSupported
+import org.qosp.notes.data.sync.core.Success
+import org.qosp.notes.data.sync.core.SyncManager
+import org.qosp.notes.data.sync.core.Unauthorized
 import org.qosp.notes.databinding.DialogNextcloudAccountBinding
 import org.qosp.notes.ui.common.BaseDialog
 import org.qosp.notes.ui.common.setButton
