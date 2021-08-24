@@ -110,8 +110,10 @@ abstract class ExtendedListAdapter<T, VH : RecyclerView.ViewHolder?>(
 
         for (pos in 0 until itemCount) {
             val itemId = getItemId(pos)
-            val isAdded = _selectedItemIds.add(itemId)
-            if (isAdded) onItemSelectedStatusChanged(itemId)
+            if (!_selectedItemIds.contains(itemId)) {
+                _selectedItemIds.add(itemId)
+                onItemSelectedStatusChanged(itemId)
+            }
         }
 
         onSelectionChanged()
