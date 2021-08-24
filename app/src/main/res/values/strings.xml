@@ -241,7 +241,7 @@
     <string name="notification_backup_failed">Backup failed</string>
     <string name="notification_restoring_notes">Restoring your notes…</string>
     <string name="notification_restore_complete">Restore completed</string>
-    <string name="notification_restore_failed">Restore failed</string>
+    <string name="notification_restore_failed">başarısız</string>
 
 
     <!-- Notification channels -->
