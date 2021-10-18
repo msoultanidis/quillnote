@@ -91,6 +91,7 @@ class NoteViewHolder(
 
     private fun setTitle(note: Note) {
         binding.textViewTitle.text = note.title.ifEmpty { context.getString(R.string.indicator_untitled) }
+        binding.textViewTitle.isVisible = note.title.isNotEmpty()
     }
 
     private fun setContent(note: Note) = with(binding) {
