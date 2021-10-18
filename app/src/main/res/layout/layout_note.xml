@@ -17,7 +17,7 @@
             android:id="@+id/linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="@dimen/card_note_padding"
             android:orientation="vertical"
             android:background="?attr/colorNoteDefault">
 
