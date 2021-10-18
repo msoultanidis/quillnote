@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.ContextThemeWrapper
 import android.widget.TextView
 import androidx.core.view.ViewCompat
+import androidx.core.view.children
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -81,17 +82,30 @@ class NoteViewHolder(
         }
     }
 
+    private fun updateTitleLayout() {
+        var childrenVisible = false
+        for (child in binding.layoutNoteTitle.children) {
+            if (child.isVisible) {
+                childrenVisible = true
+                break
+            }
+        }
+        binding.layoutNoteTitle.isVisible = childrenVisible
+    }
+
     private fun updateIndicatorIcons(note: Note, hasReminders: Boolean) = with(binding) {
         indicatorNoteHidden.isVisible = note.isHidden && !searchMode
         indicatorPinned.isVisible = note.isPinned && !searchMode
         indicatorHasReminder.isVisible = hasReminders
         indicatorDeleted.isVisible = note.isDeleted && searchMode
         indicatorArchived.isVisible = note.isArchived && searchMode
+        updateTitleLayout()
     }
 
     private fun setTitle(note: Note) {
         binding.textViewTitle.text = note.title.ifEmpty { context.getString(R.string.indicator_untitled) }
         binding.textViewTitle.isVisible = note.title.isNotEmpty()
+        updateTitleLayout()
     }
 
     private fun setContent(note: Note) = with(binding) {
