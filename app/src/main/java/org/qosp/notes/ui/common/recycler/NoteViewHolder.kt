@@ -83,14 +83,7 @@ class NoteViewHolder(
     }
 
     private fun updateTitleLayout() {
-        var childrenVisible = false
-        for (child in binding.layoutNoteTitle.children) {
-            if (child.isVisible) {
-                childrenVisible = true
-                break
-            }
-        }
-        binding.layoutNoteTitle.isVisible = childrenVisible
+        binding.layoutNoteTitle.isVisible = binding.layoutNoteTitle.children.any { it.isVisible }
     }
 
     private fun updateIndicatorIcons(note: Note, hasReminders: Boolean) = with(binding) {
