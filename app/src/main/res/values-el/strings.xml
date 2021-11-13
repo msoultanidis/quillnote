@@ -216,6 +216,9 @@
     <string name="hint_number_columns">Αριθμός στηλών</string>
     <string name="hint_number_rows">Αριθμός σειρών</string>
     <string name="message_cannot_preview_table">Δεν είναι δυνατή η προεπισκόπηση του πίνακα.</string>
+    <string name="preferences_dark_theme_mode">Απόχρωση σκούρου θέματος</string>
+    <string name="preferences_theme_dark_mode_standard">Κανονική</string>
+    <string name="preferences_theme_dark_mode_black">Μάυρη</string>
 
     <plurals name="more_items">
         <item quantity="one">+%d στοιχείο</item>
