@@ -50,7 +50,7 @@ class App : Application(), ImageLoaderFactory, Configuration.Provider {
                     .build()
             }
             .componentRegistry {
-                if (SDK_INT >= 28) add(ImageDecoderDecoder()) else add(GifDecoder())
+                if (SDK_INT >= 28) add(ImageDecoderDecoder(applicationContext)) else add(GifDecoder())
             }
             .build()
     }
@@ -72,7 +72,7 @@ class App : Application(), ImageLoaderFactory, Configuration.Provider {
             NotificationChannel(
                 REMINDERS_CHANNEL_ID,
                 getString(R.string.notifications_channel_reminders),
-                NotificationManager.IMPORTANCE_MAX
+                NotificationManager.IMPORTANCE_HIGH
             ),
             NotificationChannel(
                 BACKUPS_CHANNEL_ID,

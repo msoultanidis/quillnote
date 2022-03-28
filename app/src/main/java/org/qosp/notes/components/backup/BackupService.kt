@@ -75,7 +75,7 @@ class BackupService : LifecycleService() {
         val job = lifecycleScope.launch(Dispatchers.IO, block = block)
         job.invokeOnCompletion {
             if (jobs.all { it.isCompleted }) {
-                ServiceCompat.stopForeground(this, STOP_FOREGROUND_DETACH)
+                ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
                 stopSelf()
             }
             jobs.remove(job)

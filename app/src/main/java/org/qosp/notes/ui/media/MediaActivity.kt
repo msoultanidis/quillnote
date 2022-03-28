@@ -247,7 +247,7 @@ class MediaActivity : BaseActivity() {
         // Bind to the music service so we can stop it if it's playing
         bindToMusicService(foreground = false)
 
-        exoPlayer = SimpleExoPlayer.Builder(this@MediaActivity).build()
+        exoPlayer = ExoPlayer.Builder(this@MediaActivity).build()
         videoView.player = exoPlayer
         videoView.setControllerVisibilityListener {
             toolbar.isVisible = it == PlayerControlView.VISIBLE

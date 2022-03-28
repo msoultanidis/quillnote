@@ -94,12 +94,19 @@ class ExtendedEditText : AppCompatEditText {
     }
 
     override fun addTextChangedListener(watcher: TextWatcher?) {
-        if (watcher != null) textWatchers.add(watcher)
+        // Crashes if textWatcher is null during instantiation
+        if (textWatchers != null) {
+            if (watcher != null) textWatchers.add(watcher)
+        }
         super.addTextChangedListener(watcher)
     }
 
     override fun removeTextChangedListener(watcher: TextWatcher?) {
-        if (watcher != null) textWatchers.remove(watcher)
+        // Crashes if textWatcher is null during instantiation
+        if (textWatchers != null) {
+            if (watcher != null) textWatchers.remove(watcher)
+        }
+
         super.removeTextChangedListener(watcher)
     }
 

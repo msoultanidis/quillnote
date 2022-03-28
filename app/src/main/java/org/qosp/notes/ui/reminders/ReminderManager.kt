@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +21,8 @@ class ReminderManager(
     private val reminderRepository: ReminderRepository,
 ) {
     private fun requestBroadcast(reminderId: Long, noteId: Long, flag: Int = PendingIntent.FLAG_UPDATE_CURRENT): PendingIntent? {
+        val defaultFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+
         val notificationIntent = Intent(context, ReminderReceiver::class.java).apply {
             putExtras(
                 bundleOf(
@@ -33,12 +36,13 @@ class ReminderManager(
             context,
             reminderId.toInt(),
             notificationIntent,
-            flag
+            flag or defaultFlag
         )
     }
 
     fun isReminderSet(reminderId: Long, noteId: Long): Boolean {
-        return requestBroadcast(reminderId, noteId, PendingIntent.FLAG_NO_CREATE) != null
+        val defaultFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        return requestBroadcast(reminderId, noteId, PendingIntent.FLAG_NO_CREATE or defaultFlag) != null
     }
 
     fun schedule(reminderId: Long, dateTime: Long, noteId: Long) {
@@ -56,7 +60,8 @@ class ReminderManager(
 
     fun cancel(reminderId: Long, noteId: Long, keepIntent: Boolean = false) {
         val alarmManager = ContextCompat.getSystemService(context, AlarmManager::class.java) ?: return
-        val broadcast = requestBroadcast(reminderId, noteId, PendingIntent.FLAG_NO_CREATE) ?: return
+        val defaultFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        val broadcast = requestBroadcast(reminderId, noteId, PendingIntent.FLAG_NO_CREATE or defaultFlag) ?: return
         alarmManager.cancel(broadcast)
         if (!keepIntent) broadcast.cancel()
     }

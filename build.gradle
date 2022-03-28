@@ -1,18 +1,18 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = '1.5.31'
-    ext.hilt_version = "2.40"
-    ext.nav_version = "2.3.5"
-    ext.material_version = "1.4.0"
-    ext.room_version = "2.3.0"
-    ext.lifecycle_version = "2.4.0"
+    ext.hilt_version = "2.41"
+    ext.nav_version = "2.4.1"
+    ext.material_version = "1.5.0"
+    ext.room_version = "2.4.2"
+    ext.lifecycle_version = "2.4.1"
     ext.datastore_version = "1.0.0"
     ext.markwon_version = "4.6.2"
-    ext.work_version = "2.7.0"
+    ext.work_version = "2.7.1"
     ext.coil_version = "1.4.0"
     ext.leakcanary_version = "2.7"
     ext.photoview_version = "2.3.0"
-    ext.exoplayer_version = "2.16.0"
+    ext.exoplayer_version = "2.17.1"
     ext.retrofit_version = "2.9.0"
 
     repositories {

@@ -109,9 +109,13 @@ class NoteViewHolder(
         textViewContent.ellipsize()
 
         if (note.isMarkdownEnabled && note.content.isNotBlank()) {
-            markwon.applyTo(textViewContent, note.content) {
-                maximumTableColumns = 4
-                tableReplacement = { Code(context.getString(R.string.message_cannot_preview_table)) }
+            try {
+                markwon.applyTo(textViewContent, note.content) {
+                    maximumTableColumns = 4
+                    tableReplacement = { Code(context.getString(R.string.message_cannot_preview_table)) }
+                }
+            } catch(e: Throwable) {
+                textViewContent.text = ""
             }
         } else {
             textViewContent.text = note.content

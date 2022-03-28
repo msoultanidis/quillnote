@@ -1,6 +1,8 @@
 package org.qosp.notes.di
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -14,6 +16,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.qosp.notes.preferences.PreferenceRepository
+import java.io.File
+import java.security.KeyStore
 import javax.inject.Singleton
 
 val Context.dataStore by preferencesDataStore("preferences")
@@ -39,18 +43,47 @@ object PreferencesModule {
     @Provides
     @Singleton
     fun provideEncryptedSharedPreferences(@ApplicationContext context: Context): FlowSharedPreferences {
-        val masterKey = MasterKey.Builder(context)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        val filename = "encrypted_prefs"
 
-        return FlowSharedPreferences(
-            EncryptedSharedPreferences.create(
+        fun createEncryptedSharedPreferences(context: Context): SharedPreferences {
+            val masterKey = MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
+
+            return EncryptedSharedPreferences.create(
                 context,
-                "encrypted_prefs",
+                filename,
                 masterKey,
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                 EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
+        }
+
+        @SuppressLint("ApplySharedPref")
+        fun deleteSharedPreferencesFileAndMasterKey(context: Context) {
+            try {
+                val keyStore = KeyStore.getInstance("AndroidKeyStore")
+                val appStorageDir = context.filesDir?.parent ?: return
+                val prefsFile = File("$appStorageDir/shared_prefs/$filename.xml")
+
+                context.getSharedPreferences(filename, Context.MODE_PRIVATE)
+                    .edit()
+                    .clear()
+                    .commit()
+
+                keyStore.load(null)
+                keyStore.deleteEntry(MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+                prefsFile.delete()
+            } catch (e: Throwable) {}
+        }
+
+        return FlowSharedPreferences(
+            try {
+                createEncryptedSharedPreferences(context)
+            } catch (e: Throwable) {
+                deleteSharedPreferencesFileAndMasterKey(context)
+                createEncryptedSharedPreferences(context)
+            }
         )
     }
 }

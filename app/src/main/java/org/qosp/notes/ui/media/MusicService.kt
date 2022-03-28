@@ -10,6 +10,7 @@ import android.media.MediaPlayer
 import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.os.Parcelable
 import android.os.PowerManager
@@ -112,7 +113,7 @@ class MusicServiceBinder(
         }
     }
 
-    private val focusRequest = AudioFocusRequestCompat.Builder(AudioManager.AUDIOFOCUS_GAIN).run {
+    private val focusRequest = AudioFocusRequestCompat.Builder(AudioManagerCompat.AUDIOFOCUS_GAIN).run {
         setAudioAttributes(
             AudioAttributesCompat.Builder().run {
                 setUsage(AudioAttributesCompat.USAGE_MEDIA)
@@ -200,10 +201,12 @@ class MusicServiceBinder(
         action: MusicService.IntentAction,
         extras: List<Pair<String, Any>> = listOf()
     ): PendingIntent {
+        val defaultFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+
         return PendingIntent.getService(
             applicationContext, 0,
             getIntentForAction(action, extras),
-            0,
+            defaultFlag,
         )
     }
 

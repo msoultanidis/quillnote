@@ -13,12 +13,14 @@ import org.qosp.notes.data.model.Attachment
 import java.io.File
 
 fun getAttachmentFilename(context: Context, uri: Uri): String? {
-    return context.contentResolver
-        .query(uri, null, null, null, null)?.use { cursor ->
-            val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            cursor.moveToFirst()
-            cursor.getString(nameIndex)
-        }
+    return try {
+        context.contentResolver
+            .query(uri, null, null, null, null)?.use { cursor ->
+                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                cursor.moveToFirst()
+                cursor.getString(nameIndex)
+            }
+    } catch (e: Throwable) { null }
 }
 
 fun Attachment.uri(context: Context) = getAttachmentUri(context, path)

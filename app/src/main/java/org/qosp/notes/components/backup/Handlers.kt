@@ -32,7 +32,7 @@ sealed interface AttachmentHandler {
         val attachmentsMap = mutableMapOf<String, Uri>()
         private val count = mutableMapOf<String, Int>()
 
-        override fun handle(old: Attachment): Attachment {
+        override fun handle(old: Attachment): Attachment? {
             val uri = Uri.parse(old.path)
             val existingFile = attachmentsMap
                 .filterValues { it == uri }
@@ -40,7 +40,7 @@ sealed interface AttachmentHandler {
                 .firstOrNull()
 
             if (existingFile == null) {
-                var fileName = getAttachmentFilename(context, uri) ?: ""
+                var fileName = getAttachmentFilename(context, uri) ?: return null
 
                 when {
                     !attachmentsMap.containsKey(fileName) -> count[fileName] = 0
