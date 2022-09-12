@@ -71,7 +71,7 @@
     <string name="preferences_header_syncing">Синхронизация</string>
     <string name="preferences_go_to_sync_settings">Настройки синхронизации</string>
     <string name="preferences_currently_syncing_with">Синхронизируемся с %s</string>
-    <string name="preferences_currently_not_syncing">Синхронизация не ведётся</string></string>
+    <string name="preferences_currently_not_syncing">Синхронизация не ведётся</string>
     <string name="preferences_cloud_service">Служба синхронизации</string>
     <string name="preferences_cloud_service_disabled">Отключена</string>
     <string name="preferences_cloud_service_nextcloud">Nextcloud</string>
@@ -199,7 +199,7 @@
 
     <!-- Editor -->
     <string name="editor_hint_title">Заголовок</string>
-    <string name="editor_hint_content">Take a note!</string>
+    <string name="editor_hint_content">Создать заметку!</string>
     <string name="action_add_task">Задача</string>
     <string name="action_convert_to_note">Преобразовать в заметку</string>
     <string name="action_convert_to_list">Преобразовать в список</string>
@@ -213,7 +213,7 @@
     <string name="action_insert_heading">Добавить заголовком</string>
     <string name="action_insert_quote">Добавить цитированием</string>
     <string name="action_insert_code">Добавить как код</string>
-    <string name="indicator_note_date">Создано в %1$s\nПоследняя правка %2$s</string>
+    <string name="indicator_note_date">Создано %1$s\nПоследняя правка %2$s</string>
     <string name="indicator_restored_notes">Восстановленные заметки</string>
     <string name="indicator_restored_note">Восстановленная заметка</string>
     <string name="indicator_archived_notes">Архивированные заметки</string>
@@ -271,21 +271,25 @@
 
     <plurals name="more_items">
         <item quantity="one">+%d эл-т</item>
-        <item quantity="other">+%d эл-тов</item>
+        <item quantity="few">+%d эл-та</item>
+        <item quantity="many">+%d эл-тов</item>
     </plurals>
 
     <plurals name="selected_notes">
         <item quantity="one">Выбрана %d заметка</item>
-        <item quantity="other">Выбрано %d заметок</item>
+        <item quantity="few">Выбрано %d заметки</item>
+        <item quantity="many">Выбрано %d заметок</item>
     </plurals>
 
     <plurals name="selected_notebooks">
         <item quantity="one">Выбран %d блокнот</item>
-        <item quantity="other">Выбрано %d блокнотов</item>
+        <item quantity="few">Выбрано %d блокнота</item>
+        <item quantity="many">Выбрано %d блокнотов</item>
     </plurals>
 
     <plurals name="selected_tags">
         <item quantity="one">Выбрана %d метка</item>
-        <item quantity="other">Выбрано %d меток</item>
+        <item quantity="few">Выбраны %d метки</item>
+        <item quantity="many">Выбрано %d меток</item>
     </plurals>
 </resources>
