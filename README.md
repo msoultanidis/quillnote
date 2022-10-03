@@ -1,5 +1,9 @@
 # Quillnote
 
+# Fork Notes
+I will try to continue the project because i loved the app and i am using it.
+I will try to find and merge all the merge requests that done by users either on the main project or at the forks of the project.
+
 
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="256"/><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="256"/><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="256"/>
 
