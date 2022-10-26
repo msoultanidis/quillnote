@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import org.qosp.notes.data.repo.IdMappingRepository
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.data.repo.NotebookRepository
@@ -30,7 +30,7 @@ object NextcloudModule {
                 Json {
                     ignoreUnknownKeys = true
                 }
-                    .asConverterFactory(MediaType.get("application/json"))
+                    .asConverterFactory("application/json".toMediaType())
             )
             .build()
             .create()
