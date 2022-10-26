@@ -88,9 +88,6 @@
     <string name="preferences_background_sync_enabled">Habilitado</string>
     <string name="preferences_background_sync_disabled">Desabilitado</string>
     <string name="preferences_new_notes_synchronizable">Novas anotações sincronizáveis</string>
-    <string name="preferences_dark_theme_mode">Modo de tema escuro</string>
-    <string name="preferences_theme_dark_mode_standard">Padrão</string>
-    <string name="preferences_theme_dark_mode_black">Preto</string>
 
 
     <!-- About -->
