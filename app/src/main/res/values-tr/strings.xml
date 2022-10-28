@@ -78,9 +78,9 @@
     <string name="preferences_sync_experimental_warning">Senkronize şu anda tamamlanmamış.\nHatalarla karşı karşıya gelebilirsin.</string>
     <string name="preferences_nextcloud_limited_features">Nextcloud Notları etiket, eklenti, hatırlatıcı, görev listesi vb. özellikleri desteklemiyor.</string>
     <string name="preferences_nextcloud_account">Nextcloud hesabı</string>
-    <string name="preferences_nextcloud_instance_url">Nextcloud URL'i</string>
+    <string name="preferences_nextcloud_instance_url">Nextcloud URL\'i</string>
     <string name="preferences_nextcloud_set_your_credentials">Kullanıcı bilgilerini ayarla</string>
-    <string name="preferences_nextcloud_set_server_url">Sunucu'nun\'s URL'sini ayarla</string>
+    <string name="preferences_nextcloud_set_server_url">Sunucu\'nun\'s URL\'sini ayarla</string>
     <string name="preferences_sync_on_wifi">Wi-Fi</string>
     <string name="preferences_sync_on_wifi_data">Wi-Fi veya Veri</string>
     <string name="preferences_sync_when_on">Açık iken senkronizasyon et</string>
@@ -167,7 +167,7 @@
     <string name="empty_bin_warning_text">Silinmiş notların burada görünecek.</string>
     <string name="indicator_deleted_note_cannot_be_edited">Çöp kutusundaki notlar değiştirilemez.</string>
     <string name="indicator_deleted_empty">Silinmiş notların burada %1$d gün görünecek.</string>
-    <string name="indicator_bin_disabled">Notlar anında silinecek olarak ayarlı.\nBunu ayarlar'dan değiştirebilirsiniz.</string>
+    <string name="indicator_bin_disabled">Notlar anında silinecek olarak ayarlı.\nBunu ayarlar\'dan değiştirebilirsiniz.</string>
     <string name="indicator_deleted_notes_permanently">Notlar kalıcı olarak silindi.</string>
     <string name="indicator_deleted_note_permanently">Not kalıcı olarak silindi.</string>
 
@@ -206,15 +206,15 @@
     <string name="action_convert_to_list">Listeye dönüştür</string>
     <string name="action_do_not_sync">Senkronize etme</string>
     <string name="action_change_color">Renk değiştir</string>
-    <string name="action_enable_markdown">Markdown'ı aç</string>
-    <string name="action_disable_markdown">Markdown'ı kapat</string>
+    <string name="action_enable_markdown">Markdown\'ı aç</string>
+    <string name="action_disable_markdown">Markdown\'ı kapat</string>
     <string name="action_insert_bold_text">Kalın markdown ekle</string>
     <string name="action_insert_italics">İtalik markdown ekle</string>
     <string name="action_insert_strikethrough">Üstü çizili markdown ekle</string>
     <string name="action_insert_heading">Başlık ekle</string>
     <string name="action_insert_quote">Tırnak işareti ekle</string>
     <string name="action_insert_code">Kod kutusu ekle</string>
-    <string name="indicator_note_date">%1$s'de oluşturuldu\nEn son %2$s'de değiştirildi</string>
+    <string name="indicator_note_date">%1$s\'de oluşturuldu\nEn son %2$s\'de değiştirildi</string>
     <string name="indicator_restored_notes">Notlar geri yüklendi</string>
     <string name="indicator_restored_note">Not geri yüklendi</string>
     <string name="indicator_archived_notes">Notlar arşivlendi</string>
@@ -250,7 +250,7 @@
     <string name="notifications_channel_playback">Medya oynatma</string>
 
     <!-- Syncing -->
-    <string name="message_not_valid_https">Bu geçerli bir HTTPS url'si değil.</string>
+    <string name="message_not_valid_https">Bu geçerli bir HTTPS url\'si değil.</string>
     <string name="indicator_nextcloud_currently_logged_in_as"><b>%s</b> olarak giriş yapılı.</string>
     <string name="indicator_nextcloud_currently_not_logged_in">Oturum yok.</string>
     <string name="action_nextcloud_authenticate">Kimlik doğrula</string>
@@ -262,7 +262,7 @@
     <string name="message_server_not_compatible">Sunucu versiyonu bu uygulama ile uyumlu değil.</string>
     <string name="message_internet_not_available">İnternet bağlanıtısı mevcut değil.</string>
     <string name="message_credentials_cannot_be_blank">Kullanıcı bilgileri boş olamaz.</string>
-    <string name="preference_nextcloud_clear_credentials">Kullanıcı bilgilerini ve server URL'sini temizle</string>
+    <string name="preference_nextcloud_clear_credentials">Kullanıcı bilgilerini ve server URL\'sini temizle</string>
     <string name="notification_media_play_pause">Oynat / Duraklat</string>
     <string name="notification_media_stop">Dur</string>
 

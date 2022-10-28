@@ -48,7 +48,7 @@
     <string name="preferences_time_format">Величінь часу</string>
 
     <string name="preferences_header_other">Інше</string>
-    <string name="preferences_group_notes_without_notebook">Об'єднувати нотатки котрих немає у жодному записнику, в окремий записник</string>
+    <string name="preferences_group_notes_without_notebook">Об\'єднувати нотатки котрих немає у жодному записнику, в окремий записник</string>
     <string name="preferences_open_media_in">Відтворювати медія за допомогою</string>
     <string name="preferences_open_media_in_internal">Вбудованого програвача</string>
     <string name="preferences_open_media_in_external"> Зовнішнього програвача</string>
@@ -83,7 +83,7 @@
     <string name="preferences_nextcloud_set_server_url">Вказати адресу сервера</string>
     <string name="preferences_sync_on_wifi">Wi-Fi</string>
     <string name="preferences_sync_on_wifi_data">Wi-Fi чи мобільна мережа</string>
-    <string name="preferences_sync_when_on">Синхронізувати коли під'єднані до</string>
+    <string name="preferences_sync_when_on">Синхронізувати коли під\'єднані до</string>
     <string name="preferences_background_sync">Синхронізація на фоні</string>
     <string name="preferences_background_sync_enabled">Увімкнено</string>
     <string name="preferences_background_sync_disabled">Вимкнено</string>
@@ -107,9 +107,9 @@
     <string name="yes">Так</string>
     <string name="no">Ні</string>
     <string name="ok">Добре</string>
-    <string name="indicator_notes_empty">Ваші нотатки з'являться ось тут.</string>
+    <string name="indicator_notes_empty">Ваші нотатки з\'являться ось тут.</string>
     <string name="indicator_untitled">Без назви</string>
-    <string name="hint_username">Ім'я користувача</string>
+    <string name="hint_username">Ім\'я користувача</string>
     <string name="hint_password">Пароль</string>
     <string name="action_save">Зберегти</string>
     <string name="action_cancel">Відмінити</string>
@@ -152,13 +152,13 @@
     <string name="notebooks_unassigned">Без записника</string>
     <string name="indicator_notebook_empty">У вас немає жодного записника.</string>
     <string name="action_create_notebook">Створити записник</string>
-    <string name="action_rename_notebook">Вказати нове ім'я</string>
+    <string name="action_rename_notebook">Вказати нове ім\'я</string>
     <string name="action_new_notebook">Новий записник</string>
-    <string name="indicator_notebook_already_exists">Записник з ім'ям %1$s вже існує.</string>
+    <string name="indicator_notebook_already_exists">Записник з ім\'ям %1$s вже існує.</string>
 
 
     <!-- Archive -->
-    <string name="indicator_archive_empty">Ваші архівовані нотатки з'являтимуться ось тут.</string>
+    <string name="indicator_archive_empty">Ваші архівовані нотатки з\'являтимуться ось тут.</string>
 
 
     <!-- Deleted -->
@@ -194,7 +194,7 @@
     <!-- Search -->
     <string name="search_hint">Пошук…</string>
     <string name="action_search">Пошук</string>
-    <string name="indicator_search_empty">Результати пошуку з'являться ось тут.</string>
+    <string name="indicator_search_empty">Результати пошуку з\'являться ось тут.</string>
     <string name="indicator_no_results_found">Нічого не знайдено.</string>
 
 
@@ -255,9 +255,9 @@
     <string name="indicator_nextcloud_currently_not_logged_in">Наразі, входу у Nextcloud не виконано.</string>
     <string name="action_nextcloud_authenticate">Авторизація</string>
     <string name="indicator_offline_account">Локальна обліковка</string>
-    <string name="indicator_connecting">З'єднання…</string>
+    <string name="indicator_connecting">З\'єднання…</string>
     <string name="message_something_went_wrong">Щось пішло не за планом.</string>
-    <string name="message_invalid_credentials">Неможливо авторизуватися на сервері, так як ім'я користувача та пароль не збігаються.</string>
+    <string name="message_invalid_credentials">Неможливо авторизуватися на сервері, так як ім\'я користувача та пароль не збігаються.</string>
     <string name="message_logged_in_successfully">Успішно увійшли в обліковку!</string>
     <string name="message_server_not_compatible">Версія сервера не підтримується цим додатком.</string>
     <string name="message_internet_not_available">Бракує доступу до мережі інтернет.</string>
