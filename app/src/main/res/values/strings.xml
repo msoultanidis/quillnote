@@ -211,6 +211,7 @@
     <string name="action_insert_bold_text">Insert bold markdown</string>
     <string name="action_insert_italics">Insert italics markdown</string>
     <string name="action_insert_strikethrough">Insert strikethrough markdown</string>
+    <string name="action_insert_highlight">Insert highlight markdown</string>
     <string name="action_insert_heading">Insert heading markdown</string>
     <string name="action_insert_quote">Insert quotation markdown</string>
     <string name="action_insert_code">Insert code markdown</string>

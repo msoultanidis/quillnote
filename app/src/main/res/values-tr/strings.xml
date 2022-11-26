@@ -211,6 +211,7 @@
     <string name="action_insert_bold_text">Kalın markdown ekle</string>
     <string name="action_insert_italics">İtalik markdown ekle</string>
     <string name="action_insert_strikethrough">Üstü çizili markdown ekle</string>
+    <string name="action_insert_highlight">Vurgu markdown ekle</string>
     <string name="action_insert_heading">Başlık ekle</string>
     <string name="action_insert_quote">Tırnak işareti ekle</string>
     <string name="action_insert_code">Kod kutusu ekle</string>

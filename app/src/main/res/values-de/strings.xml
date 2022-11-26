@@ -212,6 +212,7 @@
     <string name="action_insert_bold_text">Fettgedrucktes Markdown einfügen</string>
     <string name="action_insert_italics">Kursives Markdown einfügen</string>
     <string name="action_insert_strikethrough">Durchgestrichenes Markdown einfügen</string>
+    <string name="action_insert_highlight">Highlight in Markdown einfügen</string>
     <string name="action_insert_heading">Überschrift in Markdown einfügen</string>
     <string name="action_insert_quote">Zitat in Markdown einfügen</string>
     <string name="action_insert_code">Code in Markdown einfügen</string>

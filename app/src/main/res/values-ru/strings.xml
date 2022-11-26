@@ -210,6 +210,7 @@
     <string name="action_insert_bold_text">Добавить полужирным</string>
     <string name="action_insert_italics">Добавить курсивом</string>
     <string name="action_insert_strikethrough">Добавить перечёркнутым</string>
+    <string name="action_insert_highlight">Вставить уценку выделения</string>
     <string name="action_insert_heading">Добавить заголовком</string>
     <string name="action_insert_quote">Добавить цитированием</string>
     <string name="action_insert_code">Добавить как код</string>

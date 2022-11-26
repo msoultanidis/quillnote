@@ -208,6 +208,7 @@
     <string name="action_insert_bold_text">Wstaw pogrubienie</string>
     <string name="action_insert_italics">Wstaw kursywę</string>
     <string name="action_insert_strikethrough">Wstaw przekreślenie</string>
+    <string name="action_insert_highlight">Wstaw znacznik wyróżnienia</string>
     <string name="action_insert_heading">Wstaw nagłówek</string>
     <string name="action_insert_quote">Wstaw cytat</string>
     <string name="action_insert_code">Wstaw kod</string>

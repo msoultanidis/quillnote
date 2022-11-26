@@ -209,6 +209,7 @@
     <string name="action_insert_bold_text">Inserisci markdown grassetto</string>
     <string name="action_insert_italics">Inserisci markdown corsivo</string>
     <string name="action_insert_strikethrough">Inserisci markdown sottolineato</string>
+    <string name="action_insert_highlight">Insert highlight markdown</string>
     <string name="action_insert_heading">Inserisci markdown titolo</string>
     <string name="action_insert_quote">Inserisci markdown quotazione</string>
     <string name="action_insert_code">Inserisci markdown codice</string>

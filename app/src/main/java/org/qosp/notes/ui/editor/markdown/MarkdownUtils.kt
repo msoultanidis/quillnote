@@ -12,6 +12,7 @@ enum class MarkdownSpan(val value: String) {
     CODE("`"),
     QUOTE(">"),
     HEADING("#"),
+    HIGHLIGHT("=="),
 }
 
 fun ExtendedEditText.insertMarkdown(markdownSpan: MarkdownSpan) {
