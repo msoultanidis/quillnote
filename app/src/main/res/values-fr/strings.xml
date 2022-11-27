@@ -208,6 +208,7 @@
     <string name="action_insert_bold_text">Insérer le markdown de mise en gras</string>
     <string name="action_insert_italics">Insérer le markdown de mise en italique</string>
     <string name="action_insert_strikethrough">Insérer le markdown pour barrer le texte</string>
+    <string name="action_insert_highlight">Insérer le markdown en surbrillance</string>
     <string name="action_insert_heading">Insérer le markdown d\'en-tête</string>
     <string name="action_insert_quote">Insérer le markdown de mise en citation</string>
     <string name="action_insert_code">Insérer le markdown de formatage de code</string>

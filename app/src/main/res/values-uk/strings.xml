@@ -211,6 +211,7 @@
     <string name="action_insert_bold_text">Додати жир</string>
     <string name="action_insert_italics">Додати  курсив</string>
     <string name="action_insert_strikethrough">Додати викреслення</string>
+    <string name="action_insert_highlight">Вставити позначку виділення</string>
     <string name="action_insert_heading">Додати заголовок</string>
     <string name="action_insert_quote">Додати цитату</string>
     <string name="action_insert_code">Додати код</string>

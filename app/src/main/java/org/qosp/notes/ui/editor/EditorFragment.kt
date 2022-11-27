@@ -809,6 +809,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 R.id.action_insert_code -> MarkdownSpan.CODE
                 R.id.action_insert_quote -> MarkdownSpan.QUOTE
                 R.id.action_insert_heading -> MarkdownSpan.HEADING
+                R.id.action_insert_highlight -> MarkdownSpan.HIGHLIGHT
                 R.id.action_insert_link -> {
                     clearFragmentResult(MARKDOWN_DIALOG_RESULT)
                     InsertHyperlinkDialog

@@ -193,6 +193,7 @@
     <string name="action_insert_bold_text">Insertar formato negrita</string>
     <string name="action_insert_italics">Insertar formato cursiva</string>
     <string name="action_insert_strikethrough">Insertar formato tachado</string>
+    <string name="action_insert_highlight">Insertar descuento destacado</string>
     <string name="action_insert_heading">Insertar formato cabecera</string>
     <string name="action_insert_quote">Insertar formato de cita</string>
     <string name="action_insert_code">Insertar formato de código</string>

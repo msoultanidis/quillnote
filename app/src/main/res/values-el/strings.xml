@@ -166,6 +166,7 @@
     <string name="action_insert_bold_text">Εισαγωγή έντονου markdown</string>
     <string name="action_insert_italics">Εισαγωγή italics markdown</string>
     <string name="action_insert_strikethrough">Εισαγωγή strikethrough markdown</string>
+    <string name="action_insert_highlight">Εισαγωγή markdown επισήμανσης</string>
     <string name="action_insert_heading">Εισαγωγή markdown επικεφαλίδας</string>
     <string name="action_insert_quote">Εισαγωγή markdown παράθεσης</string>
     <string name="action_insert_code">Εισαγωγή markdown κώδικα</string>

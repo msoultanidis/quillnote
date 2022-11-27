@@ -211,6 +211,7 @@
     <string name="action_insert_bold_text">Inserir marcador de negrito</string>
     <string name="action_insert_italics">Inserir marcador de itálico</string>
     <string name="action_insert_strikethrough">Inserir marcador de tachado</string>
+    <string name="action_insert_highlight">Inserir marcador de destaque</string>
     <string name="action_insert_heading">Inserir marcador de cabeçalho</string>
     <string name="action_insert_quote">Inserir marcador de citação</string>
     <string name="action_insert_code">Inserir marcador de código</string>

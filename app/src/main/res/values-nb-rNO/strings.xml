@@ -210,6 +210,7 @@
     <string name="action_insert_bold_text">Sett inn fet markdown</string>
     <string name="action_insert_italics">Sett inn skråskriftsmarkdown</string>
     <string name="action_insert_strikethrough">Sett inn gjennomstreket markdown</string>
+    <string name="action_insert_highlight">Sett inn uthevingsmarkering markdown</string>
     <string name="action_insert_heading">Sett inn overskrift-markdown</string>
     <string name="action_insert_quote">Sett inn sitat-markdown</string>
     <string name="action_insert_code">Sett inn kode-markdown</string>
