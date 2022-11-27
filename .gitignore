@@ -13,3 +13,6 @@
 /captures
 .externalNativeBuild
 .cxx
+hs_err_pid*.log
+output-metadata.json
+*.apk
