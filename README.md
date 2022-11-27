@@ -1,26 +1,25 @@
-# Fork Notes
-I will try to continue the project because i loved the app and i am using it.
-I will try to find and merge all the merge requests that done by users either on the main project or at the forks of the project.
+[![Gitter](https://badges.gitter.im/quillpad/community.svg)](https://gitter.im/quillpad/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Android Build Release](https://github.com/quillpad/quillpad/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/quillpad/quillpad/actions/workflows/android.yml)
+# Quillpad
+Quillpad is a fork of an original app called [Quillnote](https://github.com/msoultanidis/quillnote). 
+Quillpad is fully free and open-source. It will never show you ads, ask you for unnecessary permissions or upload your notes anywhere without you knowing.
 
-# Quillnote
-
+Take beautiful markdown notes whenever you feel inspired. Place them in notebooks and tag them accordingly. Stay organized by making task lists, set reminders and keep everything in one place by attaching related files.
 
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="256"/><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="256"/><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="256"/>
 
 
-Take beautiful markdown notes whenever you feel inspired. Place them in notebooks and tag them accordingly. Stay organized by making task lists, set reminders and keep everything in one place by attaching related files.
-
-Quillnote is fully free and open-source. It will never show you ads, ask you for unnecessary permissions or upload your notes anywhere without you knowing.
-
-<a href="https://f-droid.org/packages/org.qosp.notes">
+<a href="https://f-droid.org/packages/io.github.quillpad">
     <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
     alt="Get it on F-Droid"
     height="80">
 </a>
-<a href='https://play.google.com/store/apps/details?id=org.qosp.notes'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="80"/></a>
+<a href='https://play.google.com/store/apps/details?id=io.github.quillpad'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="80"/></a>
+
+
 
 ## Features
-With Quillnote, you can:
+With Quillpad, you can:
 
 - Take notes with Markdown support
 - Make task lists
@@ -37,20 +36,27 @@ With Quillnote, you can:
 - Toggle between Light and Dark mode
 - Choose between multiple color schemes
 
-## License
-```
-Copyright (C) 2021 Michael Soultanidis
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+## Roadmap
+The major features that are currently planned for this app are listed below in a series of milestones. In additional to these major features, there will be bug fixes and other enhancements will be added as we go. 
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+### Milestone 1.5 (General cloud syncing)
+- Store the notes as markdown files in the device. 
+- If the folder chosen is under a cloud storage provider, Android will sync the markdown files with the respective cloud. For e.g. Google Drive, Dropbox and even Nextcloud. Syncing this way to the cloud does not deal with the Nextcloud API.
+- This will be the easiest way for users to sync the notes without having to self-host a NextCloud instance.
+- Update to the latest version of Android API and Dependency Libraries.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-```
+### Milestone 1.6 (Jetpack Compose)
+- Introduce Compose and Kotlin multiplatform. The main app views like the list of notes, edit view and the todo list view will be migrated to Compose. 
+
+### Milestone 1.7 (Desktop App)
+- Introduce desktop app. With the main views available in compose, try making a desktop app with help of Compose for desktop.
+  
+### Milestone 1.8 (iOS App)
+- Try an iOS version since the kotlin multiplatform code does the heavy lifting of notes management and syncing. Leverage the same storage API equivalent in iOS.
+
+### Milestone 2.0 (Encryption)
+- The primary motive to have encryption is not for security. That's secondary
+- Now we have the ability to sync notes using cloud providers like Google Drive and Dropbox. The cloud providers _may_ to go through the notes and _may_ index them and _may_ profile the user. This is the primary reason for the encryption feature. Which means, the notes won't be staying as markdown files, and cannot be edited by other text editors. 
+- Encryption will be optional. The user can switch between having the notes encrypted vs stored them as plain markdown files.
+- The main focus  
