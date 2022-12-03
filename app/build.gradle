@@ -17,7 +17,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 9
-        versionName "1.4.5-dev"
+        versionName "1.4.5"
 
         testInstrumentationRunner "org.qosp.notes.TestRunner"
     }
