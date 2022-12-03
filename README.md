@@ -1,10 +1,12 @@
 [![Gitter](https://badges.gitter.im/quillpad/community.svg)](https://gitter.im/quillpad/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Android Build Release](https://github.com/quillpad/quillpad/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/quillpad/quillpad/actions/workflows/android.yml)
 # Quillpad
-Quillpad is a fork of an original app called [Quillnote](https://github.com/msoultanidis/quillnote). 
 Quillpad is fully free and open-source. It will never show you ads, ask you for unnecessary permissions or upload your notes anywhere without you knowing.
 
 Take beautiful markdown notes whenever you feel inspired. Place them in notebooks and tag them accordingly. Stay organized by making task lists, set reminders and keep everything in one place by attaching related files.
+
+### Fork Info
+Quillpad is a fork of an original app called [Quillnote](https://github.com/msoultanidis/quillnote). The development stopped on the original app and PR backlogs were not cleared up. The community showed much interest in the app for continued development and so this fork was created. https://github.com/msoultanidis/quillnote/issues/177 https://github.com/msoultanidis/quillnote/issues/209
 
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="256"/><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="256"/><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="256"/>
 
