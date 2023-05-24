@@ -144,6 +144,13 @@
                     app:iconSrc="@drawable/ic_notebook"/>
 
             <org.qosp.notes.ui.utils.views.PreferenceView
+                android:id="@+id/setting_move_checked_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text="@string/preferences_move_checked_items"
+                app:iconSrc="@drawable/ic_box_checked_outline"/>
+
+            <org.qosp.notes.ui.utils.views.PreferenceView
                     android:id="@+id/setting_note_deletion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

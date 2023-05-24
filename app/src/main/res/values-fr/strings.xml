@@ -45,6 +45,7 @@
 
     <string name="preferences_header_other">Autre</string>
     <string name="preferences_group_notes_without_notebook">Grouper les notes qui ne sont pas dans un carnet</string>
+    <string name="preferences_move_checked_items">Déplacer les tâches (dé)cochées dans les listes</string>
     <string name="preferences_open_media_in">Ouvrir les médias dans</string>
     <string name="preferences_open_media_in_internal">Lecteur interne</string>
     <string name="preferences_open_media_in_external">Lecteur externe</string>

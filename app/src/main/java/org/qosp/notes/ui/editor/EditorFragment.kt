@@ -1018,6 +1018,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
     }
 
     private fun updateTask(position: Int, content: String? = null, isDone: Boolean? = null) {
+        if (!model.moveCheckedItems) return
         val tasks = tasksAdapter.tasks
         val task = tasks[position].let {
             it.copy(
