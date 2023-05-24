@@ -16,6 +16,7 @@ data class AppPreferences(
     val showDate: ShowDate = defaultOf(),
     val showFabChangeMode: ShowFabChangeMode = defaultOf(),
     val groupNotesWithoutNotebook: GroupNotesWithoutNotebook = defaultOf(),
+    val moveCheckedItems: MoveCheckedItems = defaultOf(),
     val cloudService: CloudService = defaultOf(),
     val syncMode: SyncMode = defaultOf(),
     val backgroundSync: BackgroundSync = defaultOf(),

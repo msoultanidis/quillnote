@@ -102,6 +102,13 @@ enum class GroupNotesWithoutNotebook(
     NO(R.string.no) { override val isDefault = true },
 }
 
+enum class MoveCheckedItems(
+    override val nameResource: Int,
+) : HasNameResource, EnumPreference by key("move_checked_items") {
+    YES(R.string.yes),
+    NO(R.string.no) { override val isDefault = true },
+}
+
 enum class CloudService(override val nameResource: Int) : HasNameResource, EnumPreference by key("cloud_service") {
     DISABLED(R.string.preferences_cloud_service_disabled) { override val isDefault = true },
     NEXTCLOUD(R.string.preferences_cloud_service_nextcloud),
