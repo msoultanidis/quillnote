@@ -46,6 +46,7 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
         setupLayoutModeListener()
         setupSortMethodListener()
         setupGroupNotesWithoutNotebookListener()
+        setupMoveCheckedItemsListener()
         setupOpenMediaInListener()
         setupNoteDeletionTimeListener()
         setupBackupStrategyListener()
@@ -94,6 +95,7 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
                 binding.settingNoteDeletion.subText = getString(noteDeletionTime.nameResource)
 
                 binding.settingGroupNotesWithoutNotebook.subText = getString(groupNotesWithoutNotebook.nameResource)
+                binding.settingMoveCheckedItems.subText = getString(moveCheckedItems.nameResource)
                 binding.settingShowDate.subText = getString(showDate.nameResource)
                 binding.settingShowFab.subText = getString(showFabChangeMode.nameResource)
 
@@ -164,6 +166,12 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
 
     private fun setupGroupNotesWithoutNotebookListener() = binding.settingGroupNotesWithoutNotebook.setOnClickListener {
         showPreferenceDialog(R.string.preferences_group_notes_without_notebook, appPreferences.groupNotesWithoutNotebook) { selected ->
+            model.setPreference(selected)
+        }
+    }
+
+    private fun setupMoveCheckedItemsListener() = binding.settingMoveCheckedItems.setOnClickListener {
+        showPreferenceDialog(R.string.preferences_move_checked_items, appPreferences.moveCheckedItems) { selected ->
             model.setPreference(selected)
         }
     }
