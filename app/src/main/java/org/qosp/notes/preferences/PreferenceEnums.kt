@@ -1,5 +1,6 @@
 package org.qosp.notes.preferences
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import me.msoul.datastore.EnumPreference
 import me.msoul.datastore.key
@@ -25,15 +26,16 @@ enum class DarkThemeMode(override val nameResource: Int, val styleResource: Int?
 enum class ColorScheme(
     override val nameResource: Int,
     val styleResource: Int,
-) : HasNameResource, HasApiLevelRequirement, EnumPreference by key("color_scheme") {
+) : HasNameResource, HasSupportRequirement, EnumPreference by key("color_scheme") {
     BLUE(R.string.preferences_color_scheme_blue, R.style.Blue) { override val isDefault = true },
     GREEN(R.string.preferences_color_scheme_green, R.style.Green),
     PINK(R.string.preferences_color_scheme_pink, R.style.Pink),
     YELLOW(R.string.preferences_color_scheme_orange, R.style.Orange),
     RED(R.string.preferences_color_scheme_purple, R.style.Purple),
     SYSTEM(R.string.preferences_color_scheme_system, R.style.System) {
-        override val apiLevelRequired: Int
-            get() = 31
+        override fun isSupported(): Boolean {
+            return Build.VERSION.SDK_INT >= 31
+        }
     },
 }
 

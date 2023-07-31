@@ -4,7 +4,6 @@ interface HasNameResource {
     val nameResource: Int
 }
 
-interface HasApiLevelRequirement {
-    val apiLevelRequired: Int
-        get() = 0
+interface HasSupportRequirement {
+    fun isSupported() = true
 }
