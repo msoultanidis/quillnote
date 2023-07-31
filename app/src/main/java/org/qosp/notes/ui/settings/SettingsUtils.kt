@@ -1,9 +1,11 @@
 package org.qosp.notes.ui.settings
 
+import android.os.Build
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import me.msoul.datastore.EnumPreference
 import org.qosp.notes.R
+import org.qosp.notes.preferences.HasApiLevelRequirement
 import org.qosp.notes.preferences.HasNameResource
 
 inline fun <reified T> Fragment.showPreferenceDialog(
@@ -16,6 +18,9 @@ inline fun <reified T> Fragment.showPreferenceDialog(
     val enumValues = enumValues<T>()
     val selectedIndex = enumValues.indexOf(selected)
     val items = items ?: enumValues
+        .filter {
+            !(it is HasApiLevelRequirement && it.apiLevelRequired >= Build.VERSION.SDK_INT)
+        }
         .map {
             if (it is HasNameResource) requireContext().getString(it.nameResource) else ""
         }

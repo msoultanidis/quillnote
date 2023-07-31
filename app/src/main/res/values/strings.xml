@@ -34,6 +34,7 @@
     <string name="preferences_color_scheme_purple">Purple</string>
     <string name="preferences_color_scheme_yellow">Yellow</string>
     <string name="preferences_color_scheme_red">Red</string>
+    <string name="preferences_color_scheme_system">Follow system</string>
 
     <string name="preferences_sort_method">Sort by</string>
     <string name="preferences_sort_method_title_asc">Title (ascending)</string>
