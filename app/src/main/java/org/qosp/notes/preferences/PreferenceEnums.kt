@@ -1,5 +1,6 @@
 package org.qosp.notes.preferences
 
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import me.msoul.datastore.EnumPreference
 import me.msoul.datastore.key
@@ -22,7 +23,6 @@ enum class DarkThemeMode(override val nameResource: Int, val styleResource: Int?
     STANDARD(R.string.preferences_theme_dark_mode_standard, null) { override val isDefault = true },
     BLACK(R.string.preferences_theme_dark_mode_black, R.style.DarkBlack),
 }
-
 enum class ColorScheme(
     override val nameResource: Int,
     val styleResource: Int,
@@ -32,6 +32,7 @@ enum class ColorScheme(
     PINK(R.string.preferences_color_scheme_pink, R.style.Pink),
     YELLOW(R.string.preferences_color_scheme_orange, R.style.Orange),
     RED(R.string.preferences_color_scheme_purple, R.style.Purple),
+    SYSTEM(R.string.preferences_color_scheme_system, R.style.System)
 }
 
 enum class SortMethod(override val nameResource: Int) : HasNameResource, EnumPreference by key("sort_method") {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="System">
+        <item name="colorPrimary">@color/systemPrimary</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorSecondary">@color/systemSecondary</item>
+
+        <item name="colorDrawerHeaderBackground">@color/systemDrawerHeaderBackground</item>
+        <item name="colorPrimaryTranscluent">@color/systemDrawerHeaderBackground</item>
+
+    </style>
+</resources>
