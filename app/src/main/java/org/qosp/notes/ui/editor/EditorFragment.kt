@@ -1027,7 +1027,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         )
         tasks[position] = newTask
 
-        if (oldTask.isDone != newTask.isDone) {
+        if (oldTask.isDone != newTask.isDone && model.moveCheckedItems) {
             if (newTask.isDone) {
                 // Move to very end
                 tasks.removeAt(position)
