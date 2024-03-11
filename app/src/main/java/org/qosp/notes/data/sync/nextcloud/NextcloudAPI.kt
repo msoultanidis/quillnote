@@ -91,7 +91,7 @@ suspend fun NextcloudAPI.updateNote(note: NextcloudNote, etag: String, config: N
     return updateNoteAPI(
         note = note,
         url = config.remoteAddress + baseURL + "notes/${note.id}",
-        etag = etag,
+        etag = "\"$etag\"",
         auth = config.credentials,
     )
 }

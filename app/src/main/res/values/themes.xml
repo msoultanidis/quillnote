@@ -8,9 +8,15 @@
         <item name="colorOutline">#1E000000</item>
         <item name="colorTextOverlay">#99000000</item>
 
-        <item name="android:navigationBarColor">#121212</item>
-
         <item name="colorBottomAppBarBackground">#FFFFFF</item>
+
+        <item name="android:navigationBarColor">
+            @android:color/transparent
+        </item>
+
+        <item name="android:statusBarColor">
+            @android:color/transparent
+        </item>
 
         <!-- Navigation -->
         <item name="colorDrawerBackground">#FFFFFF</item>
@@ -37,6 +43,8 @@
         <item name="colorNoteOrange">#FFAB91</item>
         <item name="colorNoteYellow">#FFF59D</item>
 
+        <item name="colorNoteTextHighlight">#96FFFF00</item>
+
         <item name="popupTheme">@style/Widget.Custom.PopupMenu</item>
         <item name="materialAlertDialogTheme">@style/DialogTheme</item>
     </style>
@@ -54,7 +62,10 @@
         <item name="colorNoteDefault">#000</item>
         <item name="colorDrawerBackground">#191919</item>
         <item name="colorBottomAppBarBackground">#121212</item>
-        <item name="android:navigationBarColor">#090909</item>
+<!--        <item name="android:navigationBarColor">#090909</item>-->
+        <item name="android:navigationBarColor">
+            @android:color/transparent
+        </item>
 
     </style>
 

@@ -84,6 +84,9 @@
     <string name="preferences_background_sync_enabled">Attivato</string>
     <string name="preferences_background_sync_disabled">Disattivato</string>
     <string name="preferences_new_notes_synchronizable">Sincro per nuove note</string>
+    <string name="preferences_dark_theme_mode">Modalità tema scuro</string>
+    <string name="preferences_theme_dark_mode_standard">Standard</string>
+    <string name="preferences_theme_dark_mode_black">Nero</string>
 
 
     <!-- About -->
@@ -128,6 +131,8 @@
     <string name="action_move_to">Muovi…</string>
     <string name="action_duplicate">Duplica</string>
     <string name="action_select_more">Seleziona…</string>
+    <string name="action_compact_preview">Anteprima compatta</string>
+    <string name="action_full_preview">Anteprima completa</string>
 
 
     <!-- Attachments -->
@@ -163,6 +168,7 @@
     <string name="indicator_deleted_note_cannot_be_edited">Le note nel cestino non si possono modificare.</string>
     <string name="indicator_deleted_empty">Le tue note cestinate appariranno qui per %1$d giorni.</string>
     <string name="indicator_bin_disabled">Note impostate per essere cancellate subito.\nPuoi cambiarlo in Impostazioni.</string>
+    <string name="indicator_bin_forever">Le note sono impostate per non essere mai cancellate.\nPuoi modificarlo in Impostazioni.</string>
     <string name="indicator_deleted_notes_permanently">Note cancellate.</string>
     <string name="indicator_deleted_note_permanently">Nota cancellata.</string>
 
@@ -206,6 +212,7 @@
     <string name="action_insert_bold_text">Inserisci markdown grassetto</string>
     <string name="action_insert_italics">Inserisci markdown corsivo</string>
     <string name="action_insert_strikethrough">Inserisci markdown sottolineato</string>
+    <string name="action_insert_highlight">Insert highlight markdown</string>
     <string name="action_insert_heading">Inserisci markdown titolo</string>
     <string name="action_insert_quote">Inserisci markdown quotazione</string>
     <string name="action_insert_code">Inserisci markdown codice</string>
@@ -264,6 +271,7 @@
     <!-- App shortcuts -->
     <string name="shortcut_take_note">Prendi una nota</string>
     <string name="shortcut_make_list">Fai una lista</string>
+  <string name="never">Mai</string>
 
     <plurals name="more_items">
         <item quantity="one">+%d oggetto</item>
@@ -284,4 +292,5 @@
         <item quantity="one">Selezionata %d etichetta</item>
         <item quantity="other">Selezionate %d etichette</item>
     </plurals>
+    <string name="preferences_color_scheme_system">Segui sistema</string>
 </resources>

@@ -135,6 +135,7 @@
     <string name="indicator_deleted_note_cannot_be_edited">Οι σημειώσεις στον κάδο μπορούν μόνο να προβληθούν.</string>
     <string name="indicator_deleted_empty">Οι διαγραμμένες σας σημειώσεις θα εμφανίζονται εδώ για %1$d μέρες.</string>
     <string name="indicator_bin_disabled">Έχετε επιλέξει οι σημειώσεις να διαγράφονται οριστικά.\nΜπορείτε να το αλλάξετε αυτό στις ρυθμίσεις.</string>
+    <string name="indicator_bin_forever">Οι σημειώσεις έχουν ρυθμιστεί να μην διαγράφονται ποτέ.\nΜπορείτε να το αλλάξετε στις Ρυθμίσεις.</string>
     <string name="indicator_deleted_notes_permanently">Σημειώσεις διαγράφηκαν οριστικά.</string>
     <string name="indicator_deleted_note_permanently">Η σημείωση διαγράφηκε οριστικά.</string>
     <string name="reminders">Υπενθυμίσεις</string>
@@ -166,6 +167,7 @@
     <string name="action_insert_bold_text">Εισαγωγή έντονου markdown</string>
     <string name="action_insert_italics">Εισαγωγή italics markdown</string>
     <string name="action_insert_strikethrough">Εισαγωγή strikethrough markdown</string>
+    <string name="action_insert_highlight">Εισαγωγή markdown επισήμανσης</string>
     <string name="action_insert_heading">Εισαγωγή markdown επικεφαλίδας</string>
     <string name="action_insert_quote">Εισαγωγή markdown παράθεσης</string>
     <string name="action_insert_code">Εισαγωγή markdown κώδικα</string>
@@ -219,6 +221,9 @@
     <string name="preferences_dark_theme_mode">Απόχρωση σκούρου θέματος</string>
     <string name="preferences_theme_dark_mode_standard">Κανονική</string>
     <string name="preferences_theme_dark_mode_black">Μάυρη</string>
+  <string name="never">Ποτέ</string>
+    <string name="action_compact_preview">Συμπαγής προεπισκόπηση</string>
+    <string name="action_full_preview">Πλήρης προεπισκόπηση</string>
 
     <plurals name="more_items">
         <item quantity="one">+%d στοιχείο</item>
@@ -239,4 +244,5 @@
         <item quantity="one">Επιλέχθηκε %d ετικέτα</item>
         <item quantity="other">Επιλέχθηκαν %d ετικέτες</item>
     </plurals>
+    <string name="preferences_color_scheme_system">Ρύθμιση συστήματος</string>
 </resources>

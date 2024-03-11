@@ -15,7 +15,7 @@ fun ActivityResultLauncher<None>.launch() {
 
 object None
 
-object ChooseFilesContract : ActivityResultContract<None, List<Uri>>() {
+object ChooseFilesContract : ActivityResultContract<None?, List<Uri>>() {
     override fun createIntent(context: Context, input: None?): Intent {
         return Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -35,12 +35,12 @@ object ChooseFilesContract : ActivityResultContract<None, List<Uri>>() {
     }
 }
 
-object ExportNotesContract : ActivityResultContract<None, Uri?>() {
+object ExportNotesContract : ActivityResultContract<None?, Uri?>() {
     override fun createIntent(context: Context, input: None?): Intent {
         return Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "application/zip"
-            putExtra(Intent.EXTRA_TITLE, "quillnote_backup_${Instant.now().epochSecond}.zip")
+            putExtra(Intent.EXTRA_TITLE, "quillpad_backup_${Instant.now().epochSecond}.zip")
         }
     }
 
@@ -49,7 +49,7 @@ object ExportNotesContract : ActivityResultContract<None, Uri?>() {
     }
 }
 
-object RestoreNotesContract : ActivityResultContract<None, Uri?>() {
+object RestoreNotesContract : ActivityResultContract<None?, Uri?>() {
     override fun createIntent(context: Context, input: None?): Intent {
         return Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)

@@ -137,6 +137,18 @@ class ActivityViewModel @Inject constructor(
         )
     }
 
+    fun compactPreviewNotes(vararg notes: Note) = update(*notes) { note ->
+        note.copy(
+            isCompactPreview = true,
+        )
+    }
+
+    fun fullPreviewNotes(vararg notes: Note) = update(*notes) { note ->
+        note.copy(
+            isCompactPreview = false,
+        )
+    }
+
     fun moveNotes(notebookId: Long?, vararg notes: Note) = update(*notes) { note ->
         note.copy(
             notebookId = notebookId,
@@ -153,6 +165,18 @@ class ActivityViewModel @Inject constructor(
     fun makeNotesLocal(vararg notes: Note) = update(*notes) { note ->
         note.copy(
             isLocalOnly = true,
+        )
+    }
+
+    fun makeNotesFullPreview(vararg notes: Note) = update(*notes) { note ->
+        note.copy(
+            isCompactPreview = false,
+        )
+    }
+
+    fun makeNotesCompactPreview(vararg notes: Note) = update(*notes) { note ->
+        note.copy(
+            isCompactPreview = true,
         )
     }
 

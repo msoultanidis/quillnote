@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -21,6 +22,9 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         runBlocking {
             val (colorScheme, themeMode, darkThemeModeStyle) = withContext(Dispatchers.IO) {
                 preferenceRepository
@@ -44,11 +48,15 @@ open class BaseActivity : AppCompatActivity() {
             val isAutoDark =
                 themeMode == ThemeMode.SYSTEM.mode && (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 
+            // Check which theme should be used (light, dark, black) and set navbar color accordingly
+            // if dark
             if (themeMode == ThemeMode.DARK.mode || isAutoDark) {
+                // if black
                 darkThemeModeStyle?.let {
                     theme.applyStyle(darkThemeModeStyle, true)
                 }
             }
+
         }
     }
 }

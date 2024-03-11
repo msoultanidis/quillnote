@@ -27,17 +27,20 @@
             android:icon="@drawable/ic_quote"
             app:showAsAction="always"/>
     <item
+            android:id="@+id/action_insert_highlight"
+            android:icon="@drawable/ic_highlight"
+            android:title="@string/action_insert_highlight"
+            app:showAsAction="always" />
+    <item
             android:id="@+id/action_insert_code"
             android:title="@string/action_insert_code"
             android:icon="@drawable/ic_code"
             app:showAsAction="always"/>
-
     <item
             android:id="@+id/action_insert_link"
             android:title="@string/action_insert_link"
             android:icon="@drawable/ic_link"
             app:showAsAction="always"/>
-
     <item
             android:id="@+id/action_insert_table"
             android:title="@string/action_insert_table"
@@ -53,7 +56,6 @@
             android:title=""
             android:icon="@drawable/ic_box_checked_outline"
             app:showAsAction="always"/>
-
     <item
             android:id="@+id/action_scroll_to_top"
             android:icon="@drawable/ic_up"

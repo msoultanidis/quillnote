@@ -27,12 +27,7 @@ import org.qosp.notes.data.model.Notebook
 import org.qosp.notes.data.repo.NoteRepository
 import org.qosp.notes.data.repo.NotebookRepository
 import org.qosp.notes.data.sync.core.SyncManager
-import org.qosp.notes.preferences.DateFormat
-import org.qosp.notes.preferences.NewNotesSyncable
-import org.qosp.notes.preferences.OpenMediaIn
-import org.qosp.notes.preferences.PreferenceRepository
-import org.qosp.notes.preferences.ShowDate
-import org.qosp.notes.preferences.TimeFormat
+import org.qosp.notes.preferences.*
 import java.time.Instant
 import javax.inject.Inject
 
@@ -46,6 +41,7 @@ class EditorViewModel @Inject constructor(
 
     var inEditMode: Boolean = false
     var isNotInitialized = true
+    var moveCheckedItems: Boolean = true
 
     private var syncJob: Job? = null
     private val noteIdFlow: MutableStateFlow<Long?> = MutableStateFlow(null)
@@ -66,6 +62,8 @@ class EditorViewModel @Inject constructor(
                         dateTimeFormats = prefs.dateFormat to prefs.timeFormat,
                         openMediaInternally = prefs.openMediaIn == OpenMediaIn.INTERNAL,
                         showDates = prefs.showDate == ShowDate.YES,
+                        editorFontSize = prefs.editorFontSize.fontSize,
+                        showFabChangeMode = prefs.showFabChangeMode == ShowFabChangeMode.FAB,
                         isInitialized = true,
                     )
                 }
@@ -108,6 +106,7 @@ class EditorViewModel @Inject constructor(
             noteIdFlow.emit(id)
 
             isNotInitialized = false
+            moveCheckedItems = preferenceRepository.get<MoveCheckedItems>().first() == MoveCheckedItems.YES
         }
     }
 
@@ -195,6 +194,9 @@ class EditorViewModel @Inject constructor(
         val dateTimeFormats: Pair<DateFormat, TimeFormat> = defaultOf<DateFormat>() to defaultOf<TimeFormat>(),
         val openMediaInternally: Boolean = true,
         val showDates: Boolean = true,
+        val editorFontSize: Int = -1, // -1: not customised, default font size
+        val showFabChangeMode: Boolean = true,
         val isInitialized: Boolean = false,
+        val moveCheckedItems: Boolean = true,
     )
 }
