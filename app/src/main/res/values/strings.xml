@@ -42,6 +42,16 @@
     <string name="preferences_layout_mode_grid">Grid</string>
     <string name="preferences_layout_mode_list">List</string>
 
+    <!-- Preferences / View -->
+    <string name="preferences_header_view">View</string>
+
+    <!-- Preferences / View / Notebook -->
+    <string name="preferences_header_view_notebook">Notebook</string>
+
+    <string name="preferences_layout_mode">Layout mode</string>
+    <string name="preferences_layout_mode_grid">Grid</string>
+    <string name="preferences_layout_mode_list">List</string>
+
     <string name="preferences_sort_method">Sort by</string>
     <string name="preferences_sort_method_title_asc">Title (ascending)</string>
     <string name="preferences_sort_method_title_desc">Title (descending)</string>
