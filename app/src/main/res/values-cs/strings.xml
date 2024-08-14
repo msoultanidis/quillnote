@@ -310,33 +310,25 @@
 
 	<plurals name="more_items">
     	<item quantity="one">+%d položka</item>
-    	<item quantity="two">+%d položky</item>
-   	 <item quantity="three">+%d položky</item>
-   	 <item quantity="four">+%d položky</item>
-   	 <item quantity="other">+%d položek</item>
+    	<item quantity="few">+%d položky</item>
+   	    <item quantity="many">+%d položek</item>
 	</plurals>
 
 	<plurals name="selected_notes">
     	<item quantity="one">Označena %d poznámka</item>
-   	 <item quantity="two">Označeny %d poznámky</item>
-   	 <item quantity="three">Označeny %d poznámky</item>
-   	 <item quantity="four">Označeny %d poznámky</item>
-    	<item quantity="other">Označeno %d poznámek</item>
+   	    <item quantity="few">Označeny %d poznámky</item>
+    	<item quantity="many">Označeno %d poznámek</item>
 	</plurals>
 
 	<plurals name="selected_notebooks">
     	<item quantity="one">Označen %d zápisník</item>
-    	<item quantity="two">Označeny %d zápisníky</item>
-   	 <item quantity="three">Označeny %d zápisníky</item>
-   	 <item quantity="four">Označeny %d zápisníky</item>
-    	<item quantity="other">Označeno %d zápisníků</item>
+   	    <item quantity="few">Označeny %d zápisníky</item>
+    	<item quantity="many">Označeno %d zápisníků</item>
 	</plurals>
 
 	<plurals name="selected_tags">
     	<item quantity="one">Označen %d štítek</item>
-    	<item quantity="two">Označeny %d štítky</item>
-   	 <item quantity="three">Označeny %d štítky</item>
-   	 <item quantity="four">Označeny %d štítky</item>
-   	 <item quantity="other">Označeno %d štítků</item>
+    	<item quantity="few">Označeny %d štítky</item>
+   	    <item quantity="many">Označeno %d štítků</item>
 	</plurals>
 </resources>
