@@ -22,10 +22,6 @@
     <string name="preferences_theme_dark_mode_standard">标准</string>
     <string name="preferences_theme_dark_mode_black">暗黑</string>
     
-    <string name="preferences_header_view">视图</string>
-    <string name="preferences_layout_mode">布局模式</string>
-    <string name="preferences_layout_mode_grid">网格</string>
-    <string name="preferences_layout_mode_list">列表</string>
 
     <string name="preferences_color_scheme">配色方案</string>
     <string name="preferences_color_scheme_blue">蓝色</string>
@@ -325,5 +321,4 @@
         <item quantity="one">选定的 %d 个标签</item>
         <item quantity="other">选定的 %d 个标签</item>
     </plurals>
-    <string name="preferences_color_scheme_system">跟随系统</string>
 </resources>
