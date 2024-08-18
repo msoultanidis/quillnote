@@ -11,21 +11,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.qosp.notes.R
 import org.qosp.notes.databinding.FragmentSettingsBinding
-import org.qosp.notes.preferences.AppPreferences
-import org.qosp.notes.preferences.CloudService
-import org.qosp.notes.preferences.DarkThemeMode
-import org.qosp.notes.preferences.DateFormat
-import org.qosp.notes.preferences.LayoutMode
-import org.qosp.notes.preferences.ThemeMode
-import org.qosp.notes.preferences.TimeFormat
+import org.qosp.notes.preferences.*
 import org.qosp.notes.ui.MainActivity
 import org.qosp.notes.ui.common.BaseFragment
-import org.qosp.notes.ui.utils.RestoreNotesContract
-import org.qosp.notes.ui.utils.collect
-import org.qosp.notes.ui.utils.launch
-import org.qosp.notes.ui.utils.liftAppBarOnScroll
-import org.qosp.notes.ui.utils.navigateSafely
-import org.qosp.notes.ui.utils.viewBinding
+import org.qosp.notes.ui.utils.*
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -57,10 +46,13 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
         setupLayoutModeListener()
         setupSortMethodListener()
         setupGroupNotesWithoutNotebookListener()
+        setupMoveCheckedItemsListener()
         setupOpenMediaInListener()
         setupNoteDeletionTimeListener()
         setupBackupStrategyListener()
         setupShowDateListener()
+        setupShowFontSizeListener()
+        setupShowFabChangeModeListener()
         setupDateFormatListener()
         setupTimeFormatListener()
         setupSyncSettingsListener()
@@ -70,11 +62,11 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
             requireContext().resources.getDimension(R.dimen.app_bar_elevation)
         )
 
-        binding.settingRestoreNotes.setOnClickListener { loadBackupLauncher.launch() }
+        binding.settingRestoreNotes.setOnClickListener { loadBackupLauncher.launch(null) }
 
         binding.settingBackupNotes.setOnClickListener {
             activityModel.notesToBackup = null
-            exportNotesLauncher.launch()
+            exportNotesLauncher.launch(null)
         }
     }
 
@@ -104,7 +96,10 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
                 binding.settingNoteDeletion.subText = getString(noteDeletionTime.nameResource)
 
                 binding.settingGroupNotesWithoutNotebook.subText = getString(groupNotesWithoutNotebook.nameResource)
+                binding.settingMoveCheckedItems.subText = getString(moveCheckedItems.nameResource)
                 binding.settingShowDate.subText = getString(showDate.nameResource)
+                binding.settingFontSize.subText = getString(editorFontSize.nameResource)
+                binding.settingShowFab.subText = getString(showFabChangeMode.nameResource)
 
                 with(DateTimeFormatter.ofPattern(getString(dateFormat.patternResource))) {
                     binding.settingDateFormat.subText = format(LocalDate.now())
@@ -177,6 +172,12 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
         }
     }
 
+    private fun setupMoveCheckedItemsListener() = binding.settingMoveCheckedItems.setOnClickListener {
+        showPreferenceDialog(R.string.preferences_move_checked_items, appPreferences.moveCheckedItems) { selected ->
+            model.setPreference(selected)
+        }
+    }
+
     private fun setupOpenMediaInListener() = binding.settingOpenMedia.setOnClickListener {
         showPreferenceDialog(R.string.preferences_open_media_in, appPreferences.openMediaIn) { selected ->
             model.setPreference(selected)
@@ -191,6 +192,18 @@ class SettingsFragment : BaseFragment(resId = R.layout.fragment_settings) {
 
     private fun setupShowDateListener() = binding.settingShowDate.setOnClickListener {
         showPreferenceDialog(R.string.preferences_show_date, appPreferences.showDate) { selected ->
+            model.setPreference(selected)
+        }
+    }
+
+    private fun setupShowFontSizeListener() = binding.settingFontSize.setOnClickListener {
+        showPreferenceDialog(R.string.preferences_font_size, appPreferences.editorFontSize) { selected ->
+            model.setPreference(selected)
+        }
+    }
+
+    private fun setupShowFabChangeModeListener() = binding.settingShowFab.setOnClickListener {
+        showPreferenceDialog(R.string.preferences_show_fab_change_mode, appPreferences.showFabChangeMode) { selected ->
             model.setPreference(selected)
         }
     }

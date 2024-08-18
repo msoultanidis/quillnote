@@ -42,9 +42,13 @@
     <string name="preferences_show_date">Afficher la date de création et modification</string>
     <string name="preferences_date_format">Format de la date</string>
     <string name="preferences_time_format">Format de l\'heure</string>
+    <string name="preferences_show_fab_change_mode">Modifiez / Affichez la position du bouton de note</string>
+    <string name="preferences_fab">Bouton flottant</string>
+     <string name="preferences_top_bar">Barre supérieure</string>
 
     <string name="preferences_header_other">Autre</string>
     <string name="preferences_group_notes_without_notebook">Grouper les notes qui ne sont pas dans un carnet</string>
+    <string name="preferences_move_checked_items">Déplacer les tâches (dé)cochées dans les listes</string>
     <string name="preferences_open_media_in">Ouvrir les médias dans</string>
     <string name="preferences_open_media_in_internal">Lecteur interne</string>
     <string name="preferences_open_media_in_external">Lecteur externe</string>
@@ -84,6 +88,9 @@
     <string name="preferences_background_sync_enabled">Activé</string>
     <string name="preferences_background_sync_disabled">Désactivé</string>
     <string name="preferences_new_notes_synchronizable">Synchroniser les nouvelles notes</string>
+    <string name="preferences_dark_theme_mode">Mode thème sombre</string>
+    <string name="preferences_theme_dark_mode_standard">Standard</string>
+    <string name="preferences_theme_dark_mode_black">Noire</string>
 
 
     <!-- About -->
@@ -127,6 +134,8 @@
     <string name="action_move_to">Déplacer vers…</string>
     <string name="action_duplicate">Dupliquer</string>
     <string name="action_select_more">Sélectionner plus</string>
+    <string name="action_compact_preview">Aperçu compact</string>
+    <string name="action_full_preview">Aperçu complet</string>
 
 
     <!-- Attachments -->
@@ -162,6 +171,7 @@
     <string name="indicator_deleted_note_cannot_be_edited">Les notes dans la corbeille ne peuvent être modifiées.</string>
     <string name="indicator_deleted_empty">Vos notes supprimées apparaîtront ici pendant %1$d jours.</string>
     <string name="indicator_bin_disabled">Les notes sont configurées pour être immédiatement supprimées.\nVous pouvez changer cela dans les Paramètres..</string>
+    <string name="indicator_bin_forever">Les notes sont configurées pour ne jamais être supprimées.\nVous pouvez modifier cela dans Paramètres.</string>
     <string name="indicator_deleted_notes_permanently">Les notes ont été définitivement supprimées.</string>
     <string name="indicator_deleted_note_permanently">La note a été définitvement supprimée.</string>
 
@@ -205,6 +215,7 @@
     <string name="action_insert_bold_text">Insérer le markdown de mise en gras</string>
     <string name="action_insert_italics">Insérer le markdown de mise en italique</string>
     <string name="action_insert_strikethrough">Insérer le markdown pour barrer le texte</string>
+    <string name="action_insert_highlight">Insérer le markdown en surbrillance</string>
     <string name="action_insert_heading">Insérer le markdown d\'en-tête</string>
     <string name="action_insert_quote">Insérer le markdown de mise en citation</string>
     <string name="action_insert_code">Insérer le markdown de formatage de code</string>
@@ -263,6 +274,7 @@
     <!-- App shortcuts -->
     <string name="shortcut_take_note">Prendre une note</string>
     <string name="shortcut_make_list">Créer une liste</string>
+  <string name="never">Jamais</string>
 
     <plurals name="more_items">
         <item quantity="one">+%d élément</item>
@@ -283,4 +295,8 @@
         <item quantity="one">%d étiquette sélectionnée</item>
         <item quantity="other">%d étiquettes sélectionnées</item>
     </plurals>
+    <string name="preferences_color_scheme_system">Thème du système</string>
+    <string name="action_disable_screen_always_on">Désactiver l\'écran toujours allumé</string>
+    <string name="action_enable_screen_always_on">Activer l\'écran toujours allumé</string>
+    <string name="action_screen_always_on">Écran toujours allumé</string>
 </resources>

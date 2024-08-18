@@ -1,31 +1,57 @@
 plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    id "kotlin-kapt"
-    id "androidx.navigation.safeargs"
-    id "kotlinx-serialization"
-    id "kotlin-parcelize"
-    id "dagger.hilt.android.plugin"
+    alias libs.plugins.androidApplication
+    alias libs.plugins.kapt
+    alias libs.plugins.kotlinAndroid
+    alias libs.plugins.kotlinParcelize
+    alias libs.plugins.kotlinSerialization
+    alias libs.plugins.ksp
+    alias libs.plugins.navigationSafeArgs
+    alias libs.plugins.hiltAndroid
 }
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "30.0.3"
-
+    compileSdk 34
+    buildToolsVersion = "30.0.3"
+    namespace 'org.qosp.notes'
     defaultConfig {
-        applicationId "org.qosp.notes"
-        minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 8
-        versionName "1.4.3"
+        applicationId "io.github.quillpad"
+        minSdkVersion 24
+        targetSdkVersion 34
+        versionCode 25
+        versionName "1.4.18"
 
         testInstrumentationRunner "org.qosp.notes.TestRunner"
+
+        // export schema
+        // https://stackoverflow.com/a/44645943/4594587
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas".toString())
+        }
+    }
+
+    if (project.hasProperty("keystore")) {
+        signingConfigs {
+            release {
+                def keystoreFileArg = project.property("keystore").toString()
+                def storePassArg = project.property("storepass").toString()
+                def keyName = project.property("keyalias").toString()
+                def keypassArg = project.property("keypass").toString()
+                storeFile file(keystoreFileArg)
+                storePassword storePassArg
+                keyAlias keyName
+                keyPassword keypassArg
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
+            crunchPngs false
+            if (project.hasProperty("keystore")) {
+                signingConfig signingConfigs.release
+            }
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -43,13 +69,13 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11
     }
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     buildFeatures {
@@ -62,6 +88,12 @@ android {
             option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
         }
     }
+
+    sourceSets {
+        // Adds exported schema location as test app assets.
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
+
 }
 
 repositories {
@@ -70,90 +102,73 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
+    implementation libs.monitor
+    implementation libs.junit.ktx
     testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.1.3"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
+    androidTestImplementation "androidx.test.ext:junit:1.1.4"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.0"
+    coreLibraryDesugaring libs.coreLibraryDesugaring
 
+    implementation libs.okhttp
     // AndroidX
-    implementation "androidx.core:core-ktx:1.7.0"
-    implementation "androidx.appcompat:appcompat:1.4.1"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.3"
-    implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
-    implementation "androidx.fragment:fragment-ktx:1.4.1"
-    implementation "androidx.palette:palette-ktx:1.0.0"
-    implementation "androidx.media:media:1.5.0"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation libs.bundles.kotlin.androidX
 
-    // Navigation Component
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation libs.bundles.kotlin.deps
 
     // Material Components
-    implementation "com.google.android.material:material:$material_version"
+    implementation libs.material
 
     // Room
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    testImplementation "androidx.room:room-testing:$room_version"
+    ksp libs.roomCompiler
+    implementation libs.roomRuntime
+    implementation libs.roomKtx
+    testImplementation libs.roomTesting
+    androidTestImplementation libs.roomTesting
 
     // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
+    implementation libs.bundles.kotlin.lifecycle
 
     // Security
-    implementation "androidx.security:security-crypto:1.1.0-alpha03"
+    implementation libs.securityCrypto
 
     // Flow Preferences
-    implementation "com.github.tfcporciuncula.flow-preferences:flow-preferences:1.4.0"
+    implementation libs.flowPreferences
 
     // DataStore Preferences
-    implementation "androidx.datastore:datastore-preferences:$datastore_version"
-    implementation "me.msoul:datastoreext:1.0.0"
+    implementation libs.datastorePreferences
+    implementation libs.datastoreext
 
     // Markwon
-    implementation "io.noties.markwon:core:$markwon_version"
-    implementation "io.noties.markwon:editor:$markwon_version"
-    implementation "io.noties.markwon:linkify:$markwon_version"
-    implementation "io.noties.markwon:ext-strikethrough:$markwon_version"
-    implementation "io.noties.markwon:ext-tables:$markwon_version"
-    implementation "io.noties.markwon:ext-tasklist:$markwon_version"
-    implementation "me.saket:better-link-movement-method:2.2.0"
+    implementation libs.bundles.markwon
 
     // Work Manager
-    implementation "androidx.work:work-runtime-ktx:$work_version"
-    androidTestImplementation "androidx.work:work-testing:$work_version"
+    implementation libs.workRuntimeKtx
+    androidTestImplementation libs.workTesting
 
     // Coil
-    implementation "io.coil-kt:coil:$coil_version"
-    implementation "io.coil-kt:coil-video:$coil_version"
-    implementation "io.coil-kt:coil-gif:$coil_version"
+    implementation libs.coil
+    implementation libs.coilVideo
+    implementation libs.coilGif
 
     // PhotoView
-    implementation "com.github.chrisbanes:PhotoView:$photoview_version"
+    implementation libs.photoview
 
     // Hilt
-    implementation "androidx.hilt:hilt-work:1.0.0"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
-    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
-    kapt "androidx.hilt:hilt-compiler:1.0.0"
+    implementation libs.androidxHiltWork
+    implementation libs.hiltAndroid
+    androidTestImplementation libs.hiltAndroidTesting
+    kaptAndroidTest libs.hiltAndroidCompiler
+    kapt libs.hiltCompiler
+    kapt libs.androidxHiltCompiler
 
     // ExoPlayer
-    implementation "com.google.android.exoplayer:exoplayer-core:$exoplayer_version"
-    implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayer_version"
+    implementation libs.exoplayerCore
+    implementation libs.exoplayerUi
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+    implementation libs.retrofit
+    implementation libs.retrofit2Convertor
 
     // LeakCanary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+    debugImplementation libs.leakcanaryAndroid
 }

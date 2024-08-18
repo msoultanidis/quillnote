@@ -79,6 +79,9 @@
     <string name="preferences_background_sync_enabled">Habilitada</string>
     <string name="preferences_background_sync_disabled">Deshabilitada</string>
     <string name="preferences_new_notes_synchronizable">Sincronizar notas nuevas</string>
+    <string name="preferences_dark_theme_mode">Modo de tema oscuro</string>
+    <string name="preferences_theme_dark_mode_standard">Estándar</string>
+    <string name="preferences_theme_dark_mode_black">Negro</string>
 
     <!-- About -->
     <string name="about_version">Versión</string>
@@ -120,6 +123,8 @@
     <string name="action_move_to">Mover a…</string>
     <string name="action_duplicate">Duplicar</string>
     <string name="action_select_more">Seleccionar más…</string>
+    <string name="action_compact_preview">Vista previa compacta</string>
+    <string name="action_full_preview">Vista previa completa</string>
 
     <!-- Attachments -->
     <string name="attachments_edit_description">Editar descripción</string>
@@ -151,6 +156,7 @@
     <string name="indicator_deleted_note_cannot_be_edited">Las notas de la papelera no se pueden editar.</string>
     <string name="indicator_deleted_empty">Las notas eliminadas se mostrarán aquí durante %1$d días.</string>
     <string name="indicator_bin_disabled">Las notas se eliminarán al instante.\nPuedes cambiar esto en los ajustes.</string>
+    <string name="indicator_bin_forever">Las notas están configuradas para que nunca se eliminen.\nPuede cambiar esto en Configuración.</string>
     <string name="indicator_deleted_notes_permanently">Notas eliminadas permanentemente.</string>
     <string name="indicator_deleted_note_permanently">Nota eliminada permanentemente.</string>
 
@@ -190,6 +196,7 @@
     <string name="action_insert_bold_text">Insertar formato negrita</string>
     <string name="action_insert_italics">Insertar formato cursiva</string>
     <string name="action_insert_strikethrough">Insertar formato tachado</string>
+    <string name="action_insert_highlight">Insertar descuento destacado</string>
     <string name="action_insert_heading">Insertar formato cabecera</string>
     <string name="action_insert_quote">Insertar formato de cita</string>
     <string name="action_insert_code">Insertar formato de código</string>
@@ -247,7 +254,8 @@
     <!-- App shortcuts -->
     <string name="shortcut_take_note">Tomar nota</string>
     <string name="shortcut_make_list">Crear lista</string>
-    <plurals name="more_items">
+  <string name="never">Nunca</string>
+  <plurals name="more_items">
         <item quantity="one">+%d elemento</item>
         <item quantity="other">+%d elementos</item>
     </plurals>
@@ -263,5 +271,6 @@
         <item quantity="one">%d etiqueta seleccionada</item>
         <item quantity="other">%d etiquetas seleccionadas</item>
     </plurals>
+    <string name="preferences_color_scheme_system">Del sistema</string>
 
 </resources>

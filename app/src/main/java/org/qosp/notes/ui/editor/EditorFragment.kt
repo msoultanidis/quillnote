@@ -1,18 +1,20 @@
 package org.qosp.notes.ui.editor
 
+import android.app.AlarmManager
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.view.ContextThemeWrapper
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.util.Log
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.activity.addCallback
@@ -72,11 +74,7 @@ import org.qosp.notes.ui.common.showMoveToNotebookDialog
 import org.qosp.notes.ui.editor.dialog.InsertHyperlinkDialog
 import org.qosp.notes.ui.editor.dialog.InsertImageDialog
 import org.qosp.notes.ui.editor.dialog.InsertTableDialog
-import org.qosp.notes.ui.editor.markdown.MarkdownSpan
-import org.qosp.notes.ui.editor.markdown.addListItemListener
-import org.qosp.notes.ui.editor.markdown.applyTo
-import org.qosp.notes.ui.editor.markdown.insertMarkdown
-import org.qosp.notes.ui.editor.markdown.toggleCheckmarkCurrentLine
+import org.qosp.notes.ui.editor.markdown.*
 import org.qosp.notes.ui.media.MediaActivity
 import org.qosp.notes.ui.recorder.RECORDED_ATTACHMENT
 import org.qosp.notes.ui.recorder.RECORD_CODE
@@ -85,22 +83,7 @@ import org.qosp.notes.ui.reminders.EditReminderDialog
 import org.qosp.notes.ui.tasks.TaskRecyclerListener
 import org.qosp.notes.ui.tasks.TaskViewHolder
 import org.qosp.notes.ui.tasks.TasksAdapter
-import org.qosp.notes.ui.utils.ChooseFilesContract
-import org.qosp.notes.ui.utils.TakePictureContract
-import org.qosp.notes.ui.utils.collect
-import org.qosp.notes.ui.utils.dp
-import org.qosp.notes.ui.utils.getDimensionAttribute
-import org.qosp.notes.ui.utils.getDrawableCompat
-import org.qosp.notes.ui.utils.hideKeyboard
-import org.qosp.notes.ui.utils.launch
-import org.qosp.notes.ui.utils.liftAppBarOnScroll
-import org.qosp.notes.ui.utils.navigateSafely
-import org.qosp.notes.ui.utils.requestFocusAndKeyboard
-import org.qosp.notes.ui.utils.resId
-import org.qosp.notes.ui.utils.resolveAttribute
-import org.qosp.notes.ui.utils.shareAttachment
-import org.qosp.notes.ui.utils.shareNote
-import org.qosp.notes.ui.utils.viewBinding
+import org.qosp.notes.ui.utils.*
 import org.qosp.notes.ui.utils.views.BottomSheet
 import java.time.Instant
 import java.time.LocalDateTime
@@ -209,6 +192,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                     }
                 }
+
                 ACTION_STATE_SWIPE -> {
                     val newDx = dX / 3
                     val p = Paint().apply { color = context?.resolveAttribute(R.attr.colorTaskSwipe) ?: Color.RED }
@@ -338,6 +322,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.editor_top, menu)
         this.mainMenu = menu
@@ -347,70 +332,95 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         data.note?.let { note ->
             when (item.itemId) {
                 R.id.action_convert_note -> {
                     if (note.isList) model.toTextNote() else model.toList()
                 }
+
                 R.id.action_archive_note -> {
                     if (note.isArchived) activityModel.unarchiveNotes(note) else activityModel.archiveNotes(note)
                     sendMessage(getString(R.string.indicator_archive_note))
                     activity?.onBackPressed()
                 }
+
                 R.id.action_delete_note -> {
                     activityModel.deleteNotes(note)
                     sendMessage(getString(R.string.indicator_moved_note_to_bin))
                     activity?.onBackPressed()
                 }
+
                 R.id.action_restore_note -> {
                     activityModel.restoreNotes(note)
                     activity?.onBackPressed()
                 }
+
                 R.id.action_delete_permanently_note -> {
                     activityModel.deleteNotesPermanently(note)
                     sendMessage(getString(R.string.indicator_deleted_note_permanently))
                     activity?.onBackPressed()
                 }
+
                 R.id.action_view_tags -> {
                     findNavController().navigateSafely(
                         EditorFragmentDirections.actionEditorToTags().setNoteId(note.id)
                     )
                 }
+
                 R.id.action_view_reminders -> {
                     showRemindersDialog(note)
                 }
+
                 R.id.action_pin_note -> {
                     activityModel.pinNotes(note)
                 }
+
+                R.id.action_change_mode -> {
+                    updateEditMode(!model.inEditMode)
+                    if (model.inEditMode) requestFocusForFields(true) else view?.hideKeyboard()
+                    setupMenuItems(note, note.reminders.isNotEmpty())
+                }
+
                 R.id.action_hide_note -> {
                     if (note.isHidden) activityModel.showNotes(note) else activityModel.hideNotes(note)
                 }
+
                 R.id.action_do_not_sync -> {
                     if (note.isLocalOnly) activityModel.makeNotesSyncable(note) else activityModel.makeNotesLocal(note)
                 }
+
                 R.id.action_change_color -> {
                     showColorChangeDialog()
                 }
+
                 R.id.action_export_note -> {
                     activityModel.notesToBackup = setOf(note)
-                    exportNotesLauncher.launch()
+                    exportNotesLauncher.launch(null)
                 }
+
                 R.id.action_share -> {
                     shareNote(requireContext(), note)
                 }
+
                 R.id.action_attach_file -> {
-                    requestMediaLauncher.launch()
+                    requestMediaLauncher.launch(null)
                 }
+
                 R.id.action_take_photo -> {
                     lifecycleScope.launch {
-                        takePhotoLauncher.launch(activityModel.createImageFile())
+                        runCatching {
+                            takePhotoLauncher.launch(activityModel.createImageFile())
+                        }.getOrElse { Log.e(TAG, "Cannot launch camera app", it) }
                     }
                 }
+
                 R.id.action_record_audio -> {
                     clearFragmentResult(RECORD_CODE)
                     RecordAudioDialog().show(parentFragmentManager, null)
                 }
+
                 R.id.action_enable_disable_markdown -> {
                     if (note.isMarkdownEnabled) {
                         activityModel.disableMarkdown(note)
@@ -418,6 +428,16 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                         activityModel.enableMarkdown(note)
                     }
                 }
+
+                R.id.action_screen_always_on -> {
+                    if (note.screenAlwaysOn) {
+                        activityModel.disableScreenAlwaysOn(note)
+                    } else {
+                        activityModel.enableScreenAlwaysOn(note)
+                    }
+                    setupScreenAlwaysOn(!note.screenAlwaysOn)
+                }
+
                 else -> false
             }
         }
@@ -435,6 +455,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         itemTouchHelper.attachToRecyclerView(null)
         attachmentsAdapter.listener = null
         tasksAdapter.listener = null
+        setupScreenAlwaysOn(false)
         super.onDestroyView()
     }
 
@@ -554,6 +575,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                         jumpToNextTaskOrAdd(-1)
                         true
                     }
+
                     else -> false
                 }
             }
@@ -571,7 +593,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         editTextContent.apply {
             enableUndoRedo(this@EditorFragment)
             setRawInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-            doOnTextChanged { text, start, before, count ->
+            doOnTextChanged { text, _, _, _ ->
                 // Only listen for meaningful changes, we do not care about empty text
                 if (data.note == null) {
                     return@doOnTextChanged
@@ -579,12 +601,53 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
                 model.setNoteContent(text.toString().trim())
             }
-            setOnFocusChangeListener { v, hasFocus ->
+            setOnFocusChangeListener { _, hasFocus ->
                 contentHasFocus = hasFocus
                 setMarkdownToolbarVisibility()
             }
 
-            setOnEditorActionListener(addListItemListener)
+
+            addTextChangedListener(object : TextWatcher {
+                var changedText = ""
+                private val listRegex = Regex("^((\\s*)([\\-+*] +)).*")
+                private val checkRegex = Regex("^((\\s*)- *\\[([ x])] +).*")
+                private val numListRegex = Regex("((\\s*)([1-9][0-9]*)[.] +).*")
+                private val indentedLine = Regex("((\\s+)).*")
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    changedText = s?.substring(start, start + count).toString()
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (changedText.endsWith('\n')) {
+                        val txt = text ?: return
+                        val prevLine = txt.lines().getOrNull(currentLineIndex - 1) ?: return
+                        when {
+                            prevLine.matches(checkRegex) -> nextListLine(checkRegex, prevLine, txt, "- [ ] ")
+                            prevLine.matches(listRegex) -> nextListLine(listRegex, prevLine, txt)
+                            prevLine.matches(numListRegex) -> {
+                                val nextNum = numListRegex.find(prevLine)?.groupValues?.get(3)?.toInt()?.inc() ?: 1
+                                nextListLine(numListRegex, prevLine, txt, "$nextNum. ")
+                            }
+
+                            prevLine.matches(indentedLine) -> nextListLine(indentedLine, prevLine, txt)
+                        }
+                    }
+                }
+
+                private fun nextListLine(regex: Regex, line: String, text: Editable, suffix: String? = null) {
+                    val groups = regex.find(line)?.groupValues
+                    val matchedLine = groups?.getOrNull(1) ?: ""
+                    if (matchedLine == line) {
+                        text.delete(currentLineStartPos - line.length - 1, currentLineStartPos - 1)
+                    } else {
+                        val indent = groups?.getOrNull(2) ?: ""
+                        text.insert(currentLineStartPos, "$indent${suffix ?: groups?.getOrNull(3) ?: ""}")
+                    }
+                }
+            })
 
             setOnCanUndoRedoListener { canUndo, canRedo ->
                 binding.bottomToolbar.menu?.run {
@@ -615,8 +678,18 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             isVisible = !note.isDeleted
         }
 
+        findItem(R.id.action_change_mode)?.apply {
+            // if view/edit mode FAB isn't displayed (user pref) show it in the top menu
+            if (!data.showFabChangeMode) {
+                setIcon(if (model.inEditMode) R.drawable.ic_show else R.drawable.ic_pencil)
+
+                isVisible = !note.isDeleted && !hasNoteEmptyContent(note)
+            }
+        }
+
         findItem(R.id.action_pin_note)?.apply {
             setIcon(if (note.isPinned) R.drawable.ic_pin_filled else R.drawable.ic_pin)
+            setTitle(if (note.isPinned) R.string.action_unpin else R.string.action_pin)
             isVisible = !note.isDeleted
         }
 
@@ -645,6 +718,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             isChecked = note.isLocalOnly
             isVisible = !note.isDeleted
         }
+
+        findItem(R.id.action_screen_always_on)?.apply {
+            isChecked = note.screenAlwaysOn
+            isVisible = !note.isDeleted
+        }
     }
 
     private fun observeData() = with(binding) {
@@ -660,6 +738,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             val isConverted = data.note.isList != isList
             val isMarkdownEnabled = data.note.isMarkdownEnabled
             val (dateFormat, timeFormat) = data.dateTimeFormats
+            val screenAlwaysOn = data.note.screenAlwaysOn
 
             isList = data.note.isList
             isNoteDeleted = data.note.isDeleted
@@ -670,8 +749,25 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 disableMarkdownTextWatcher()
             }
 
+            setupScreenAlwaysOn(screenAlwaysOn)
+
             // Update Title and Content only the first the since they are EditTexts
             if (isFirstLoad) {
+
+                // apply font size preference
+                if (data.editorFontSize != -1) { // is customised
+                    val fontSizeFloat = data.editorFontSize.toFloat()
+
+                    textViewTitlePreview.textSize = fontSizeFloat
+                    textViewContentPreview.textSize = fontSizeFloat
+
+                    editTextTitle.textSize = fontSizeFloat
+                    editTextContent.textSize = fontSizeFloat
+
+                    if (isList) {
+                        tasksAdapter.setFontSize(fontSizeFloat)
+                    }
+                }
 
                 editTextTitle.withoutTextWatchers {
                     setText(data.note.title)
@@ -697,6 +793,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
             // We only want to update the task list when the user converts the note from text to list
             if (isConverted) {
+
+                if (data.editorFontSize != -1) {
+                    tasksAdapter.setFontSize(data.editorFontSize.toFloat())
+                }
+
                 tasksAdapter.tasks.clear()
                 tasksAdapter.notifyDataSetChanged()
                 tasksAdapter.submitList(data.note.taskList)
@@ -756,7 +857,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
             textViewDate.isVisible = data.showDates
             if (formatter != null && data.showDates) {
                 textViewDate.text =
-                    getString(R.string.indicator_note_date, creationDate.format(formatter), modifiedDate.format(formatter))
+                    getString(
+                        R.string.indicator_note_date,
+                        creationDate.format(formatter),
+                        modifiedDate.format(formatter)
+                    )
             }
 
             // We want to start the transition only when everything is loaded
@@ -809,6 +914,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 R.id.action_insert_code -> MarkdownSpan.CODE
                 R.id.action_insert_quote -> MarkdownSpan.QUOTE
                 R.id.action_insert_heading -> MarkdownSpan.HEADING
+                R.id.action_insert_highlight -> MarkdownSpan.HIGHLIGHT
                 R.id.action_insert_link -> {
                     clearFragmentResult(MARKDOWN_DIALOG_RESULT)
                     InsertHyperlinkDialog
@@ -816,6 +922,7 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                         .show(parentFragmentManager, null)
                     null
                 }
+
                 R.id.action_insert_image -> {
                     clearFragmentResult(MARKDOWN_DIALOG_RESULT)
                     InsertImageDialog
@@ -823,33 +930,43 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                         .show(parentFragmentManager, null)
                     null
                 }
+
                 R.id.action_insert_table -> {
                     clearFragmentResult(MARKDOWN_DIALOG_RESULT)
                     InsertTableDialog().show(parentFragmentManager, null)
                     null
                 }
+
                 R.id.action_toggle_check_line -> {
                     editTextContent.toggleCheckmarkCurrentLine()
                     null
                 }
+
                 R.id.action_scroll_to_top -> {
                     scrollView.smoothScrollTo(0, 0)
                     editTextContent.setSelection(0)
                     null
                 }
+
                 R.id.action_scroll_to_bottom -> {
-                    scrollView.smoothScrollTo(0, editTextContent.bottom + editTextContent.paddingBottom + editTextContent.marginBottom)
+                    scrollView.smoothScrollTo(
+                        0,
+                        editTextContent.bottom + editTextContent.paddingBottom + editTextContent.marginBottom
+                    )
                     editTextContent.setSelection(editTextContent.length())
                     null
                 }
+
                 R.id.action_undo -> {
                     editTextContent.undo()
                     null
                 }
+
                 R.id.action_redo -> {
                     editTextContent.redo()
                     null
                 }
+
                 else -> return@setOnMenuItemClickListener false
             }
             editTextContent.insertMarkdown(span ?: return@setOnMenuItemClickListener false)
@@ -861,7 +978,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         }
 
         actionAddTask.setOnClickListener {
-            addTask()
+            var addTaskIndex = tasksAdapter.tasks.size;
+            if (model.moveCheckedItems)
+                addTaskIndex = tasksAdapter.tasks.indexOfLast { !it.isDone } + 1;
+
+            addTask(addTaskIndex);
         }
     }
 
@@ -900,6 +1021,14 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
             editTextContent.isMarkdownEnabled = false
             setMarkdownToolbarVisibility()
+        }
+    }
+
+    private fun setupScreenAlwaysOn(enable: Boolean) {
+        if (enable) {
+            activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
     }
 
@@ -945,17 +1074,37 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
     }
 
     private fun updateTask(position: Int, content: String? = null, isDone: Boolean? = null) {
-        tasksAdapter.tasks = tasksAdapter.tasks
-            .mapIndexed { index, task ->
-                when (index) {
-                    position -> task.copy(
-                        content = content ?: task.content,
-                        isDone = isDone ?: task.isDone
-                    )
-                    else -> task
+        val tasks = tasksAdapter.tasks
+        val oldTask = tasks[position]
+        val newTask = tasks[position].copy(
+            content = content ?: oldTask.content,
+            isDone = isDone ?: oldTask.isDone
+        )
+        tasks[position] = newTask
+
+        if (oldTask.isDone != newTask.isDone && model.moveCheckedItems) {
+            if (newTask.isDone) {
+                // Move to very end
+                tasks.removeAt(position)
+                tasks.add(newTask)
+
+                tasksAdapter.notifyItemMoved(position, tasks.indexOf(newTask))
+                tasksAdapter.notifyItemRangeChanged(position, tasks.size - position)
+            } else {
+                // Move to after last open task or to very beginning if all tasks are done
+                val newPosition = tasks.indexOfLast { it.id != newTask.id && !it.isDone } + 1
+
+                // Only move upwards; don't move further down
+                if (newPosition < position) {
+                    tasks.removeAt(position)
+                    tasks.add(newPosition, newTask)
+
+                    tasksAdapter.notifyItemMoved(position, newPosition)
+                    tasksAdapter.notifyItemRangeChanged(newPosition, position - newPosition + 1)
                 }
             }
-            .toMutableList()
+        }
+
         model.updateTaskList(tasksAdapter.tasks)
     }
 
@@ -963,7 +1112,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         val selected = NoteColor.values().indexOf(data.note?.color).coerceAtLeast(0)
         val dialog = BaseDialog.build(requireContext()) {
             setTitle(getString(R.string.action_change_color))
-            setSingleChoiceItems(NoteColor.values().map { it.localizedName }.toTypedArray(), selected) { dialog, which ->
+            setSingleChoiceItems(
+                NoteColor.values().map { it.localizedName }.toTypedArray(),
+                selected
+            ) { dialog, which ->
                 model.setColor(NoteColor.values()[which])
             }
             setPositiveButton(getString(R.string.action_done)) { dialog, which -> }
@@ -979,32 +1131,40 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                 val reminderDate = LocalDateTime.ofEpochSecond(reminder.date, 0, offset)
 
                 action(reminder.name + " (${reminderDate.format(formatter)})", R.drawable.ic_bell) {
-                    EditReminderDialog.build(note.id, reminder).show(parentFragmentManager, null)
+                    if (checkSchedulePermission()) EditReminderDialog.build(note.id, reminder)
+                        .show(parentFragmentManager, null)
                 }
             }
             action(R.string.action_new_reminder, R.drawable.ic_add) {
-                EditReminderDialog.build(note.id, null).show(parentFragmentManager, null)
+                if (checkSchedulePermission()) EditReminderDialog.build(note.id, null).show(parentFragmentManager, null)
             }
         }
     }
 
-    /** Gives the focus to the editor fields if they are empty */
-    private fun requestFocusForFields(forceFocus: Boolean = false) = with(binding) {
-        if (editTextTitle.text.isNullOrEmpty()) {
-            editTextTitle.requestFocusAndKeyboard()
-        } else {
-            if (editTextContent.text.isNullOrEmpty() || forceFocus) {
-                editTextContent.requestFocusAndKeyboard()
+    private fun checkSchedulePermission(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val alarmManager = context?.getSystemService(AlarmManager::class.java)
+            if (alarmManager?.canScheduleExactAlarms() != true) {
+                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                    data = Uri.fromParts("package", context?.packageName, null)
+                }
+                context?.startActivity(intent)
+                return false
             }
+        }
+        return true
+    }
+
+    /** Gives the focus to the note body if it is empty */
+    private fun requestFocusForFields(forceFocus: Boolean = false) = with(binding) {
+        if (editTextContent.text.isNullOrEmpty() || forceFocus) {
+            editTextContent.requestFocusAndKeyboard()
         }
     }
 
     private fun updateEditMode(inEditMode: Boolean = model.inEditMode, note: Note? = data.note) = with(binding) {
         // If the note is empty the fragment should open in edit mode by default
-        val noteHasEmptyContent = note?.title?.isBlank() == true || when (note?.isList) {
-            true -> note.taskList.isEmpty()
-            else -> note?.content?.isBlank() == true
-        }
+        val noteHasEmptyContent = hasNoteEmptyContent(note)
 
         model.inEditMode = (inEditMode || noteHasEmptyContent) && !isNoteDeleted
 
@@ -1021,10 +1181,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         textViewContentPreview.isVisible = !model.inEditMode && !isList
         editTextContent.isVisible = model.inEditMode && !isList
 
-        val shouldDisplayFAB = !isNoteDeleted && !noteHasEmptyContent
+        val shouldDisplayFAB = data.showFabChangeMode && !isNoteDeleted && !noteHasEmptyContent
         when {
             fabChangeMode.isVisible == shouldDisplayFAB -> { /* FAB is already like it should be, no reason to animate */
             }
+
             fabChangeMode.isVisible && !shouldDisplayFAB -> fabChangeMode.hide()
             else -> fabChangeMode.show()
         }
@@ -1033,17 +1194,22 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         setMarkdownToolbarVisibility(note)
     }
 
-    private val NoteColor.localizedName get() = getString(
-        when (this) {
-            NoteColor.Default -> R.string.default_string
-            NoteColor.Green -> R.string.preferences_color_scheme_green
-            NoteColor.Pink -> R.string.preferences_color_scheme_pink
-            NoteColor.Blue -> R.string.preferences_color_scheme_blue
-            NoteColor.Red -> R.string.preferences_color_scheme_red
-            NoteColor.Orange -> R.string.preferences_color_scheme_orange
-            NoteColor.Yellow -> R.string.preferences_color_scheme_yellow
-        }
-    )
+    private fun hasNoteEmptyContent(note: Note? = data.note): Boolean {
+        return note?.content?.isBlank() == true || (note?.isList == true && note.taskList.isEmpty())
+    }
+
+    private val NoteColor.localizedName
+        get() = getString(
+            when (this) {
+                NoteColor.Default -> R.string.default_string
+                NoteColor.Green -> R.string.preferences_color_scheme_green
+                NoteColor.Pink -> R.string.preferences_color_scheme_pink
+                NoteColor.Blue -> R.string.preferences_color_scheme_blue
+                NoteColor.Red -> R.string.preferences_color_scheme_red
+                NoteColor.Orange -> R.string.preferences_color_scheme_orange
+                NoteColor.Yellow -> R.string.preferences_color_scheme_yellow
+            }
+        )
 
     companion object {
         const val MARKDOWN_DIALOG_RESULT = "MARKDOWN_DIALOG_RESULT"

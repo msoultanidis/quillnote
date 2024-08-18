@@ -248,17 +248,14 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
                 }
 
                 if (model.isSyncingEnabled() && !recyclerAdapter.searchMode) {
-                    swipeRefreshLayout.isRefreshing = true
                     activityModel
                         .syncAsync()
                         .await()
                         .showToastOnCriticalError()
                 }
-
                 swipeRefreshLayout.isRefreshing = false
             }
         }
-
         postponeEnterTransition(1500L, TimeUnit.MILLISECONDS)
     }
 
@@ -339,6 +336,8 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
 
             when (item.itemId) {
                 R.id.action_pin_selected -> activityModel.pinNotes(*selectedNotes)
+                R.id.action_compact_preview_selected -> activityModel.compactPreviewNotes(*selectedNotes)
+                R.id.action_full_preview_selected -> activityModel.fullPreviewNotes(*selectedNotes)
                 R.id.action_archive_selected -> {
                     activityModel.archiveNotes(*selectedNotes)
                     sendMessage(
@@ -372,7 +371,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
                 R.id.action_move_selected -> showMoveToNotebookDialog(*selectedNotes)
                 R.id.action_export_selected -> {
                     activityModel.notesToBackup = selectedNotes.toSet()
-                    exportNotesLauncher.launch()
+                    exportNotesLauncher.launch(null)
                 }
                 R.id.action_select_all -> {
                     selectAllNotes()
@@ -487,6 +486,18 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
             action(R.string.action_hide, R.drawable.ic_hidden, condition = !note.isHidden) {
                 activityModel.hideNotes(note)
             }
+            action(R.string.action_compact_preview, R.drawable.ic_preview, condition = !note.isCompactPreview) {
+                activityModel.makeNotesCompactPreview(note)
+            }
+            action(R.string.action_full_preview, R.drawable.ic_preview, condition = note.isCompactPreview) {
+                activityModel.makeNotesFullPreview(note)
+            }
+            action(R.string.action_disable_screen_always_on, R.drawable.ic_pin, condition = !note.isDeleted && note.screenAlwaysOn) {
+                activityModel.disableScreenAlwaysOn(note)
+            }
+            action(R.string.action_enable_screen_always_on, R.drawable.ic_pin, condition = !note.isDeleted && !note.screenAlwaysOn) {
+                activityModel.enableScreenAlwaysOn(note)
+            }
             action(R.string.action_disable_markdown, R.drawable.ic_markdown, condition = !note.isDeleted && note.isMarkdownEnabled) {
                 activityModel.disableMarkdown(note)
             }
@@ -498,7 +509,7 @@ abstract class AbstractNotesFragment(@LayoutRes resId: Int) : BaseFragment(resId
             }
             action(R.string.action_export, R.drawable.ic_export_note) {
                 activityModel.notesToBackup = setOf(note)
-                exportNotesLauncher.launch()
+                exportNotesLauncher.launch(null)
             }
             action(R.string.action_share, R.drawable.ic_share) {
                 shareNote(requireContext(), note)

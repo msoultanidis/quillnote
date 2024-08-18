@@ -34,6 +34,8 @@ data class NoteEntity(
     val isHidden: Boolean,
     val isMarkdownEnabled: Boolean,
     val isLocalOnly: Boolean,
+    val isCompactPreview: Boolean,
+    val screenAlwaysOn: Boolean,
     val creationDate: Long,
     val modifiedDate: Long,
     val deletionDate: Long?,
@@ -58,6 +60,8 @@ data class Note(
     val isHidden: Boolean = false,
     val isMarkdownEnabled: Boolean = true,
     val isLocalOnly: Boolean = false,
+    val isCompactPreview: Boolean = false,
+    val screenAlwaysOn: Boolean = false,
     val creationDate: Long = Instant.now().epochSecond,
     val modifiedDate: Long = Instant.now().epochSecond,
     val deletionDate: Long? = null,
@@ -84,7 +88,8 @@ data class Note(
 ) : Parcelable {
 
     fun isEmpty(): Boolean {
-        val baseCondition = title.isBlank() && attachments.isEmpty() && reminders.isEmpty() && tags.isEmpty()
+        val baseCondition =
+            title.isBlank() && attachments.isEmpty() && reminders.isEmpty() && tags.isEmpty()
         return when {
             isList -> baseCondition && taskList.isEmpty()
             else -> baseCondition && content.isBlank()
@@ -99,13 +104,33 @@ data class Note(
             .map { NoteTask(nextId++, it.trim(), false) }
     }
 
+    fun mdToTaskList(content: String): List<NoteTask> {
+        val regex = Regex("^\\s*- \\[([ xX])](.*)$")
+        val tasks = mutableListOf<NoteTask>()
+        content.lines().forEachIndexed { index, line ->
+            val result = regex.find(line)
+            val task = result?.let {
+                val checked = it.groupValues[1].lowercase() == "x"
+                NoteTask(id = index.toLong(), content = it.groupValues[2].trim(), isDone = checked)
+            } ?: tasks.removeLastOrNull()?.let { t -> t.copy(content = t.content + line.trim()) }
+            task?.let { tasks.add(it) }
+        }
+        return tasks.toList()
+    }
+
+    fun taskListToMd(): String {
+        return taskList.joinToString("\n") {
+            val prefix = if (it.isDone) "- [x]" else "- [ ]"
+            "$prefix ${it.content.trim()}"
+        }
+    }
+
     fun taskListToString(withCheckmarks: Boolean = false): String {
         return taskList.joinToString("\n") {
             val prefix = when {
                 withCheckmarks -> if (it.isDone) "☑ " else "☐ "
                 else -> ""
             }
-
             "$prefix${it.content.trim()}"
         }
     }
@@ -121,6 +146,8 @@ data class Note(
         isHidden = isHidden,
         isMarkdownEnabled = isMarkdownEnabled,
         isLocalOnly = isLocalOnly,
+        isCompactPreview = isCompactPreview,
+        screenAlwaysOn = screenAlwaysOn,
         creationDate = creationDate,
         modifiedDate = modifiedDate,
         deletionDate = deletionDate,

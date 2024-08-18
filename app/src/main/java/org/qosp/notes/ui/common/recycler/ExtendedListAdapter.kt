@@ -155,8 +155,9 @@ abstract class ExtendedListAdapter<T, VH : RecyclerView.ViewHolder?>(
     }
 
     private fun updateSelectedIds(newList: List<T>) {
-        val newListIds = newList.mapIndexed { index, _ -> getItemId(index) }
-        _selectedItemIds.removeIf { it !in newListIds }
+        val newListIds = List(newList.size) { index -> getItemId(index) }
+        val toRemove = _selectedItemIds.filter { it !in newListIds }
+        _selectedItemIds.removeAll(toRemove)
         onSelectionChanged()
     }
 
@@ -172,7 +173,7 @@ abstract class ExtendedListAdapter<T, VH : RecyclerView.ViewHolder?>(
     }
 
     @CallSuper
-    override fun onBindViewHolder(holder: VH, position: Int) {
+    override fun onBindViewHolder(holder: VH & Any, position: Int) {
         if (isSelectionEnabled) onItemSelectedStatusChanged(getItemId(position), holder)
     }
 

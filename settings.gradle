@@ -1,2 +1,12 @@
+// Apply the Gradle version catalog
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url "https://www.jitpack.io" }
+    }
+}
+
 include ':app'
-rootProject.name = "Notes"
+rootProject.name = "quillpad"

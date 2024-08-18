@@ -2,6 +2,7 @@ package org.qosp.notes.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -113,6 +114,7 @@ open class MainFragment : AbstractNotesFragment(R.layout.fragment_main) {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_top, menu)
@@ -122,6 +124,7 @@ open class MainFragment : AbstractNotesFragment(R.layout.fragment_main) {
         selectSortMethodItem()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_search -> findNavController().navigateSafely(actionToSearch())
@@ -250,12 +253,14 @@ open class MainFragment : AbstractNotesFragment(R.layout.fragment_main) {
                     true
                 }
                 R.id.action_attach_file -> {
-                    chooseFileLauncher.launch()
+                    chooseFileLauncher.launch(null)
                     true
                 }
                 R.id.action_take_photo -> {
                     lifecycleScope.launch {
-                        takePhotoLauncher.launch(activityModel.createImageFile())
+                        runCatching {
+                            takePhotoLauncher.launch(activityModel.createImageFile())
+                        }.getOrElse { Log.e(TAG, "Cannot launch camera app", it) }
                     }
                     true
                 }

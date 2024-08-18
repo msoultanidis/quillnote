@@ -1,8 +1,5 @@
 package org.qosp.notes.ui.editor.markdown
 
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import org.qosp.notes.ui.utils.views.ExtendedEditText
 
 enum class MarkdownSpan(val value: String) {
@@ -12,6 +9,7 @@ enum class MarkdownSpan(val value: String) {
     CODE("`"),
     QUOTE(">"),
     HEADING("#"),
+    HIGHLIGHT("=="),
 }
 
 fun ExtendedEditText.insertMarkdown(markdownSpan: MarkdownSpan) {
@@ -61,14 +59,16 @@ fun ExtendedEditText.toggleCheckmarkCurrentLine() {
     val oldLength = line.length
 
     line = when {
-        line.matches(Regex("-[ ]*\\[ \\][ ]+.*")) -> {
+        line.matches(Regex("- *\\[ ] +.*")) -> {
             line.replaceFirst("[ ]", "[x]").trimEnd() + " " // There's a strange bug which causes
             // text to be duplicated after pressing Enter
             // .trimEnd() + " " seems to be fixing it
         }
-        line.matches(Regex("-[ ]*\\[x\\][ ]+.*")) -> {
+
+        line.matches(Regex("- *\\[x] +.*")) -> {
             line.replaceFirst("[x]", "[ ]").trimEnd() + " "
         }
+
         else -> "- [ ] $line"
     }
 
@@ -96,24 +96,3 @@ fun tableMarkdown(rows: Int, columns: Int): String {
     }
     return markdown
 }
-
-val ExtendedEditText.addListItemListener: TextView.OnEditorActionListener
-    get() = TextView.OnEditorActionListener { v: TextView, actionId: Int, event: KeyEvent ->
-        if (actionId == EditorInfo.TYPE_NULL && event.action == KeyEvent.ACTION_DOWN) {
-            val text = text ?: return@OnEditorActionListener true
-            text.insert(selectionStart, "\n")
-
-            val previousLine = text.lines().getOrNull(currentLineIndex - 1) ?: return@OnEditorActionListener true
-
-            when {
-                previousLine.matches(Regex("-[ ]*\\[( |x)\\][ ]+.*")) -> text.insert(currentLineStartPos, "- [ ] ")
-                previousLine.matches(Regex("-[ ]+.*")) -> text.insert(currentLineStartPos, "- ")
-                previousLine.matches(Regex("[1-9]+[0-9]*[.][ ]+.*")) -> {
-                    val inc = Regex("[1-9]+[0-9]*").findAll(previousLine).first().value.toInt().inc()
-                    text.insert(currentLineStartPos, "$inc. ")
-                }
-            }
-        }
-
-        true
-    }
