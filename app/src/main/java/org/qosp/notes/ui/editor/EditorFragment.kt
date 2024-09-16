@@ -438,6 +438,11 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
                     setupScreenAlwaysOn(!note.screenAlwaysOn)
                 }
 
+                R.id.action_uncheck_all_tasks -> {
+                    uncheckAllTasks()
+                    true
+                }
+
                 else -> false
             }
         }
@@ -722,6 +727,10 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
         findItem(R.id.action_screen_always_on)?.apply {
             isChecked = note.screenAlwaysOn
             isVisible = !note.isDeleted
+        }
+
+        findItem(R.id.action_uncheck_all_tasks)?.apply {
+            isVisible = note.isList && !note.isDeleted
         }
     }
 
@@ -1196,6 +1205,15 @@ class EditorFragment : BaseFragment(R.layout.fragment_editor) {
 
     private fun hasNoteEmptyContent(note: Note? = data.note): Boolean {
         return note?.content?.isBlank() == true || (note?.isList == true && note.taskList.isEmpty())
+    }
+
+    private fun uncheckAllTasks() {
+        val updatedTasks = tasksAdapter.tasks.map { task ->
+            task.copy(isDone = false)
+        }
+        tasksAdapter.submitList(updatedTasks)
+
+        model.updateTaskList(updatedTasks)
     }
 
     private val NoteColor.localizedName
